@@ -18,22 +18,28 @@ public class SettingFrame {
 	Module module;
 
 	ArrayList<SettingButton> settingButtons;
+	KeybindButton kbButton;
 
-	public SettingFrame(Module m, int x, int y) {
+	Color kbColor;
+
+	public SettingFrame(Module m, int x, int y, Color kbColor) {
 		this.x = x;
 		this.y = y;
 		this.width = 400;
 		this.height = 0;
 		this.module = m;
+		this.kbColor = kbColor;
 
 		settingButtons = new ArrayList<>();
 		int offsetY = 14;
-		if (Main.settingManager.getSettingsByMod(m) != null)
-			// TODO add keybind editor initialized here
+		kbButton = new KeybindButton(module, m.getKey(), x, y + offsetY, this, this.kbColor);
+		offsetY += 28;// keybind button space
+		if (Main.settingManager.getSettingsByMod(m) != null) {
 			for (Setting s : Main.settingManager.getSettingsByMod(m)) {
 				settingButtons.add(new SettingButton(module, s, x, y + offsetY, this));
 				offsetY += 28;
 			}
+		}
 
 		this.height = offsetY;
 	}
@@ -69,6 +75,7 @@ public class SettingFrame {
 
 		int moduleNameColor = new Color(255, 255, 255).getRGB();
 		mc.fontRenderer.drawString(module.getName(), x + 2, y + 2, moduleNameColor);
+		kbButton.draw(mouseX, mouseY);
 		for (SettingButton s : settingButtons) {
 			s.draw(mouseX, mouseY);
 		}
@@ -78,6 +85,6 @@ public class SettingFrame {
 		for (SettingButton s : settingButtons) {
 			s.onClick(x, y, button);
 		}
+		kbButton.onClick(x, y, button);
 	}
-
 }

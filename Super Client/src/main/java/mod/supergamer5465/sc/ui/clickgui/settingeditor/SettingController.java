@@ -1,5 +1,6 @@
 package mod.supergamer5465.sc.ui.clickgui.settingeditor;
 
+import java.awt.Color;
 import java.io.IOException;
 
 import mod.supergamer5465.sc.module.Module;
@@ -21,7 +22,15 @@ public class SettingController extends GuiScreen {
 			}
 		}
 
-		frame = new SettingFrame(module, 20, 20);
+		frame = new SettingFrame(module, 20, 20, new Color(255, 255, 255));
+	}
+
+	public void refresh(boolean kbClicked) {
+		if (kbClicked) {
+			frame = new SettingFrame(module, 20, 20, new Color(255, 0, 0));
+		} else {
+			frame = new SettingFrame(module, 20, 20, new Color(255, 255, 255));
+		}
 	}
 
 	@Override
@@ -46,4 +55,12 @@ public class SettingController extends GuiScreen {
 		}
 	}
 
+	@Override
+	protected void mouseClicked(int mouseX, int mouseY, int mouseButton) throws IOException {
+		super.mouseClicked(mouseX, mouseY, mouseButton);
+
+		if (mouseButton == 0) {
+			frame.onClick(mouseX, mouseY, mouseButton);
+		}
+	}
 }

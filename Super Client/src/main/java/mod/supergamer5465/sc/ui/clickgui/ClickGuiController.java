@@ -11,6 +11,8 @@ public class ClickGuiController extends GuiScreen {
 
 	public static ClickGuiController INSTANCE = new ClickGuiController();
 
+	public SettingController settingController;
+
 	static ArrayList<ClickGuiFrame> frames;
 
 	public ClickGuiController() {
@@ -50,7 +52,7 @@ public class ClickGuiController extends GuiScreen {
 		}
 
 		if (mouseButton == 1) {
-			SettingController settingController = new SettingController(mouseX, mouseY);
+			settingController = new SettingController(mouseX, mouseY);
 			mc.displayGuiScreen(settingController);
 		}
 	}

@@ -24,6 +24,7 @@ import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.gameevent.InputEvent.KeyInputEvent;
+import net.minecraftforge.fml.common.gameevent.TickEvent;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
@@ -78,21 +79,38 @@ public class Main {
 			if (Keyboard.isCreated()) {
 				if (Keyboard.getEventKeyState()) {
 					int keyCode = Keyboard.getEventKey();
-					if (keyCode == Keyboard.KEY_PERIOD) {
-						mc.displayGuiScreen(new GuiChat("."));
-						return;
-					}
 					if (keyCode <= 0)
 						return;
 					for (Module m : moduleManager.modules) {
 						if (m.getKey() == keyCode && keyCode > 0) {
 							m.toggle();
+							return;
 						}
+					}
+					if (keyCode == Keyboard.KEY_PERIOD) {
+						mc.displayGuiScreen(new GuiChat("."));
+						return;
 					}
 				}
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
+		}
+	}
+
+	@SubscribeEvent
+	public void tickKeybind(TickEvent event) {
+		if (Client.getNextKeyPressForKeybinding) {
+			for (int i = 0; i < Keyboard.getKeyCount(); i++) {
+				if (Keyboard.isKeyDown(i)) {
+					Client.getNextKeyPressForKeybinding = false;
+					Client.keybindModule.setKey(i);
+					Client.keybindModule = null;
+					ClickGuiController.INSTANCE.settingController.refresh(false);
+					Main.config.Save();
+					return;
+				}
+			}
 		}
 	}
 
