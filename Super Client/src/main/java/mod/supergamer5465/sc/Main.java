@@ -43,6 +43,8 @@ public class Main {
 	public static SettingManager settingManager;
 	private ClickGuiController gui;
 
+	public static boolean configLoaded = false;
+
 	@Instance
 	public Main instance;
 
@@ -65,6 +67,7 @@ public class Main {
 		settingManager = new SettingManager();
 		config = new Config();
 		config.Load();
+		configLoaded = true;
 	}
 
 	@EventHandler

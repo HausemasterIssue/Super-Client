@@ -6,4 +6,5 @@ public class Setting {
 	public String name;
 	public Module parent;
 	public boolean focused;
+	public String type;
 }

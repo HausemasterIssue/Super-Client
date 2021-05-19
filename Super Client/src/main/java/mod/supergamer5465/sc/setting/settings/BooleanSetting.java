@@ -11,6 +11,7 @@ public class BooleanSetting extends Setting {
 		this.name = name;
 		this.parent = parent;
 		this.enabled = enabled;
+		this.type = "boolean";
 	}
 
 	public boolean isEnabled() {

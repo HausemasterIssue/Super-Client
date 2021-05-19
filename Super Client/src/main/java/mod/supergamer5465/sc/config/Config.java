@@ -15,8 +15,10 @@ import mod.supergamer5465.sc.Main;
 import mod.supergamer5465.sc.module.Module;
 import mod.supergamer5465.sc.setting.Setting;
 import mod.supergamer5465.sc.setting.settings.BooleanSetting;
+import mod.supergamer5465.sc.setting.settings.FloatSetting;
+import mod.supergamer5465.sc.setting.settings.IntSetting;
 import mod.supergamer5465.sc.setting.settings.ModeSetting;
-import mod.supergamer5465.sc.setting.settings.NumberSetting;
+import mod.supergamer5465.sc.setting.settings.StringSetting;
 import net.minecraft.client.Minecraft;
 
 public class Config {
@@ -53,9 +55,19 @@ public class Config {
 					save.add("setting:" + mod.getName() + ":" + setting.name + ":" + bool.isEnabled());
 				}
 
-				if (setting instanceof NumberSetting) {
-					NumberSetting numb = (NumberSetting) setting;
-					save.add("setting:" + mod.getName() + ":" + setting.name + ":" + numb.getValue());
+				if (setting instanceof IntSetting) {
+					IntSetting num = (IntSetting) setting;
+					save.add("setting:" + mod.getName() + ":" + setting.name + ":" + num.getValue());
+				}
+
+				if (setting instanceof FloatSetting) {
+					FloatSetting num = (FloatSetting) setting;
+					save.add("setting:" + mod.getName() + ":" + setting.name + ":" + num.getValue());
+				}
+
+				if (setting instanceof StringSetting) {
+					StringSetting val = (StringSetting) setting;
+					save.add("setting:" + mod.getName() + ":" + setting.name + ":" + val.getValue());
 				}
 
 				if (setting instanceof ModeSetting) {
@@ -108,8 +120,14 @@ public class Config {
 						if (setting instanceof BooleanSetting) {
 							((BooleanSetting) setting).setEnabled(Boolean.parseBoolean(args[3]));
 						}
-						if (setting instanceof NumberSetting) {
-							((NumberSetting) setting).setValue(Double.parseDouble(args[3]));
+						if (setting instanceof IntSetting) {
+							((IntSetting) setting).setValue(Integer.valueOf(args[3]));
+						}
+						if (setting instanceof FloatSetting) {
+							((FloatSetting) setting).setValue(Float.valueOf(args[3]));
+						}
+						if (setting instanceof StringSetting) {
+							((StringSetting) setting).setValue((args[3]));
 						}
 						if (setting instanceof ModeSetting) {
 							((ModeSetting) setting).setMode(args[3]);
