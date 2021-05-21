@@ -129,6 +129,15 @@ public class Main {
 		}
 	}
 
+	@SubscribeEvent
+	public void onTick(TickEvent.ClientTickEvent event) {
+		if (mc.player == null) {
+			return;
+		}
+
+		moduleManager.update();
+	}
+
 	public ClickGuiController getGui() {
 		return gui;
 	}

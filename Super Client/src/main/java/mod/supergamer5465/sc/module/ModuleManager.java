@@ -58,4 +58,12 @@ public class ModuleManager {
 		}
 		return modules;
 	}
+
+	public void update() {
+		for (Module module : modules) {
+			if (module.toggled) {
+				module.onUpdate();
+			}
+		}
+	}
 }

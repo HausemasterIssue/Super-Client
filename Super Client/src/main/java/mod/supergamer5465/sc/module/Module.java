@@ -92,4 +92,7 @@ public class Module {
 	public Category getCategory() {
 		return this.category;
 	}
+
+	public void onUpdate() {
+	}
 }
