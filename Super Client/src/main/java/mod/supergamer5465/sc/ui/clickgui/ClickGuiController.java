@@ -59,6 +59,7 @@ public class ClickGuiController extends GuiScreen {
 
 	@Override
 	public boolean doesGuiPauseGame() {
+		super.doesGuiPauseGame();
 		return false;
 	}
 }
