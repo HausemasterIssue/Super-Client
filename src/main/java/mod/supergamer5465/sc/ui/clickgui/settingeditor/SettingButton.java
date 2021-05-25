@@ -9,7 +9,6 @@ import mod.supergamer5465.sc.setting.Setting;
 import mod.supergamer5465.sc.setting.settings.BooleanSetting;
 import mod.supergamer5465.sc.setting.settings.FloatSetting;
 import mod.supergamer5465.sc.setting.settings.IntSetting;
-import mod.supergamer5465.sc.setting.settings.ListSetting;
 import mod.supergamer5465.sc.setting.settings.ModeSetting;
 import mod.supergamer5465.sc.setting.settings.StringSetting;
 import mod.supergamer5465.sc.ui.clickgui.ClickGuiController;
@@ -33,7 +32,6 @@ public class SettingButton {
 	IntSetting iSetting;
 	FloatSetting fSetting;
 	BooleanSetting bSetting;
-	ListSetting lSetting;
 	StringSetting sSetting;
 
 	public SettingButton(Module module, Setting setting, int x, int y, SettingFrame parent) {
@@ -56,8 +54,6 @@ public class SettingButton {
 			this.sSetting = (StringSetting) setting;
 		} else if (setting.type.equalsIgnoreCase("boolean")) {
 			this.bSetting = (BooleanSetting) setting;
-		} else if (setting.type.equalsIgnoreCase("list")) {
-			this.lSetting = (ListSetting) setting;
 		}
 	}
 
