@@ -5,6 +5,7 @@ import java.util.Arrays;
 import java.util.List;
 
 import mod.supergamer5465.sc.Main;
+import mod.supergamer5465.sc.event.events.ScEventRender;
 import mod.supergamer5465.sc.setting.Setting;
 import net.minecraft.client.Minecraft;
 import net.minecraftforge.common.MinecraftForge;
@@ -94,5 +95,13 @@ public class Module {
 	}
 
 	public void onUpdate() {
+	}
+
+	public void render(ScEventRender event) {
+		// 3d
+	}
+
+	public void render() {
+		// 2d
 	}
 }
