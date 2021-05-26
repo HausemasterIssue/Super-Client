@@ -1,6 +1,7 @@
 package mod.supergamer5465.sc.ui.clickgui.settingeditor;
 
 import java.awt.Color;
+import java.util.Map;
 
 import mod.supergamer5465.sc.Main;
 import mod.supergamer5465.sc.misc.StringParser;
@@ -59,20 +60,14 @@ public class SettingButton {
 
 	public void draw(int mouseX, int mouseY) {
 
-		for (GuiTextField t : SettingController.textFields) {
-			String val = "";
-			if (setting.type.equalsIgnoreCase("int")) {
-				val = Integer.toString(iSetting.value);
-			} else if (setting.type.equalsIgnoreCase("float")) {
-				val = Float.toString(fSetting.value);
-			} else if (setting.type.equalsIgnoreCase("string")) {
-				val = sSetting.value;
-			}
-
-			if (t.height == mc.fontRenderer.FONT_HEIGHT + 2
-					&& t.width == x + 2 + mc.fontRenderer.getStringWidth(setting.name + ": " + val)
-					&& t.x == x + 2 + mc.fontRenderer.getStringWidth(setting.name + ": ") && t.y == y) {
-				textField = t;
+		for (Map.Entry<GuiTextField, Module> entry : SettingController.textFields.entrySet()) {
+			GuiTextField t = entry.getKey();
+			if (entry.getValue() == module) {
+				if (t.height == mc.fontRenderer.FONT_HEIGHT + 2
+						&& t.width == 380 - mc.fontRenderer.getStringWidth(setting.name + ": ")
+						&& t.x == x + 2 + mc.fontRenderer.getStringWidth(setting.name + ": ")) {
+					textField = t;
+				}
 			}
 		}
 
@@ -87,10 +82,9 @@ public class SettingButton {
 			if (this.textField == null) {
 				this.textField = new GuiTextField(text, mc.fontRenderer,
 						x + 2 + mc.fontRenderer.getStringWidth(iSetting.name + ": "), y,
-						x + 2 + mc.fontRenderer.getStringWidth(iSetting.name + ": " + Integer.toString(iSetting.value)),
-						mc.fontRenderer.FONT_HEIGHT + 2);
+						380 - mc.fontRenderer.getStringWidth(iSetting.name + ": "), mc.fontRenderer.FONT_HEIGHT + 2);
 				textField.setEnabled(true);
-				SettingController.textFields.add(textField);
+				SettingController.textFields.put(textField, module);
 				textField.setText(Integer.toString(iSetting.value));
 			}
 			if (textField.isFocused()) {
@@ -110,10 +104,9 @@ public class SettingButton {
 			if (this.textField == null) {
 				this.textField = new GuiTextField(text, mc.fontRenderer,
 						x + 2 + mc.fontRenderer.getStringWidth(fSetting.name + ": "), y,
-						x + 2 + mc.fontRenderer.getStringWidth(fSetting.name + ": " + Float.toString(fSetting.value)),
-						mc.fontRenderer.FONT_HEIGHT + 2);
+						380 - mc.fontRenderer.getStringWidth(fSetting.name + ": "), mc.fontRenderer.FONT_HEIGHT + 2);
 				textField.setEnabled(true);
-				SettingController.textFields.add(textField);
+				SettingController.textFields.put(textField, module);
 				textField.setText(Float.toString(fSetting.value));
 			}
 			if (textField.isFocused()) {
@@ -132,10 +125,9 @@ public class SettingButton {
 			if (this.textField == null) {
 				this.textField = new GuiTextField(text, mc.fontRenderer,
 						x + 2 + mc.fontRenderer.getStringWidth(sSetting.name + ": "), y,
-						x + 2 + mc.fontRenderer.getStringWidth(sSetting.name + ": " + sSetting.value),
-						mc.fontRenderer.FONT_HEIGHT + 2);
+						380 - mc.fontRenderer.getStringWidth(sSetting.name + ": "), mc.fontRenderer.FONT_HEIGHT + 2);
 				textField.setEnabled(true);
-				SettingController.textFields.add(textField);
+				SettingController.textFields.put(textField, module);
 				textField.setText(sSetting.value);
 			}
 			if (textField.isFocused()) {
@@ -179,7 +171,8 @@ public class SettingButton {
 			}
 		} else {
 			if (textField != null && textField.isFocused())
-				this.textField.setFocused(false);
+				this.textField.setTextColor(new Color(255, 255, 255).getRGB());
+			this.textField.setFocused(false);
 			if (textField != null) {
 				this.textField.setTextColor(new Color(255, 255, 255).getRGB());
 				if (setting.type.equalsIgnoreCase("int")) {

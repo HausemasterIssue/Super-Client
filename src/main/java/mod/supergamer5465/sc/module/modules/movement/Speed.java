@@ -17,6 +17,7 @@ public class Speed extends Module {
 	ModeSetting mode = new ModeSetting("Mode", this, "strafe", new String[] { "strafe", "sprint" });
 	FloatSetting multiplier = new FloatSetting("Multiplier", this, 1f);
 	BooleanSetting inLiquid = new BooleanSetting("While In Liquids", this, true);
+	BooleanSetting jump = new BooleanSetting("Auto Jump", this, false);
 
 	public Speed() {
 		super("Speed", "Boosts the default walking speed", Category.MOVEMENT);
@@ -24,6 +25,7 @@ public class Speed extends Module {
 		this.addSetting(mode);
 		this.addSetting(multiplier);
 		this.addSetting(inLiquid);
+		this.addSetting(jump);
 
 	}
 
@@ -43,10 +45,16 @@ public class Speed extends Module {
 				return;
 
 			final float yaw = YawRotationUtility();
-			mc.player.motionX -= MathHelper.sin(yaw) * 0.2f;
-			mc.player.motionZ += MathHelper.cos(yaw) * 0.2f;
+			if (mc.player.movementInput.backKeyDown || mc.player.movementInput.forwardKeyDown
+					|| mc.player.movementInput.leftKeyDown || mc.player.movementInput.rightKeyDown) {
+				if (jump.enabled || mc.player.onGround) {
+					mc.player.motionX -= MathHelper.sin(yaw) * 0.017453292f * multiplier.value;
+					mc.player.motionZ += MathHelper.cos(yaw) * 0.017453292f * multiplier.value;
+				}
+			}
 
-			if (mc.gameSettings.keyBindJump.isKeyDown() && mc.player.onGround) {
+			if (mc.gameSettings.keyBindJump.isKeyDown() && mc.player.onGround
+					|| mc.player.onGround && jump.enabled && (mc.player.motionX != 0 || mc.player.motionZ != 0)) {
 				mc.player.motionY = 0.405f;
 			}
 		}

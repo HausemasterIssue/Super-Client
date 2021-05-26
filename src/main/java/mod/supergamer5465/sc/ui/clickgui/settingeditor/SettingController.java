@@ -2,7 +2,8 @@ package mod.supergamer5465.sc.ui.clickgui.settingeditor;
 
 import java.awt.Color;
 import java.io.IOException;
-import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 import mod.supergamer5465.sc.module.Module;
 import mod.supergamer5465.sc.ui.clickgui.ClickGuiController;
@@ -12,7 +13,7 @@ import net.minecraft.client.gui.GuiTextField;
 
 public class SettingController extends GuiScreen {
 
-	public static ArrayList<GuiTextField> textFields = new ArrayList<>();
+	public static Map<GuiTextField, Module> textFields = new HashMap<GuiTextField, Module>();
 
 	public SettingFrame frame;
 
@@ -42,8 +43,10 @@ public class SettingController extends GuiScreen {
 		super.drawScreen(mouseX, mouseY, partialTicks);
 		frame.render(mouseX, mouseY);
 
-		for (GuiTextField textField : textFields) {
-			textField.drawTextBox();
+		for (Map.Entry<GuiTextField, Module> entry : textFields.entrySet()) {
+			GuiTextField textField = entry.getKey();
+			if (entry.getValue() == frame.module)
+				textField.drawTextBox();
 		}
 	}
 
@@ -63,8 +66,10 @@ public class SettingController extends GuiScreen {
 				this.mc.setIngameFocus();
 			}
 		}
-		for (GuiTextField textField : textFields) {
-			textField.textboxKeyTyped(typedChar, keyCode);
+		for (Map.Entry<GuiTextField, Module> entry : textFields.entrySet()) {
+			GuiTextField textField = entry.getKey();
+			if (entry.getValue() == frame.module)
+				textField.textboxKeyTyped(typedChar, keyCode);
 		}
 	}
 
@@ -76,10 +81,13 @@ public class SettingController extends GuiScreen {
 			frame.onClick(mouseX, mouseY, mouseButton);
 		}
 
-		for (GuiTextField textField : textFields) {
-			if (mouseX >= textField.x && mouseX < textField.x + textField.width && mouseY >= textField.y
-					&& mouseY < textField.y + textField.height) {
-				textField.setFocused(true);
+		for (Map.Entry<GuiTextField, Module> entry : textFields.entrySet()) {
+			GuiTextField textField = entry.getKey();
+			if (entry.getValue() == frame.module) {
+				if (mouseX >= textField.x && mouseX < textField.x + textField.width && mouseY >= textField.y
+						&& mouseY < textField.y + textField.height) {
+					textField.setFocused(true);
+				}
 			}
 			textField.mouseClicked(mouseX, mouseY, mouseButton);
 		}
@@ -88,9 +96,12 @@ public class SettingController extends GuiScreen {
 	@Override
 	public void updateScreen() {
 		super.updateScreen();
-		for (GuiTextField textField : textFields) {
-			if (textField.isFocused())
-				textField.updateCursorCounter();
+		for (Map.Entry<GuiTextField, Module> entry : textFields.entrySet()) {
+			GuiTextField textField = entry.getKey();
+			if (entry.getValue() == frame.module) {
+				if (textField.isFocused())
+					textField.updateCursorCounter();
+			}
 		}
 	}
 }
