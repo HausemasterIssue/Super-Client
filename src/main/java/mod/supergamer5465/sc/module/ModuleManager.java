@@ -8,9 +8,11 @@ import org.lwjgl.opengl.GL11;
 import mod.supergamer5465.sc.event.events.ScEventRender;
 import mod.supergamer5465.sc.module.modules.client.ClickGui;
 import mod.supergamer5465.sc.module.modules.client.Hud;
+import mod.supergamer5465.sc.module.modules.movement.AutoWalk;
 import mod.supergamer5465.sc.module.modules.movement.Flight;
 import mod.supergamer5465.sc.module.modules.movement.Jesus;
 import mod.supergamer5465.sc.module.modules.movement.Speed;
+import mod.supergamer5465.sc.module.modules.utilities.AutoFish;
 import mod.supergamer5465.sc.util.RenderHelp;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.GlStateManager;
@@ -37,12 +39,14 @@ public class ModuleManager {
 		addModule(new Speed());
 		addModule(new Flight());
 		addModule(new Jesus());
+		addModule(new AutoWalk());
 
 		// player
 
 		// render
 
 		// utilities
+		addModule(new AutoFish());
 	}
 
 	public void addModule(Module m) {

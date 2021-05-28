@@ -44,8 +44,6 @@ public class Hud extends Gui {
 			if (event.getType() == RenderGameOverlayEvent.ElementType.TEXT) {
 				fr.drawStringWithShadow("Super Client " + Reference.VERSION, 2, 1, 0xa600ff);
 			}
-
-			// TODO figure out why this is not showing
 			if (event.getType() == RenderGameOverlayEvent.ElementType.TEXT) {
 				int y = 2;
 				final int[] counter = { 1 };
