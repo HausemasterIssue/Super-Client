@@ -149,7 +149,9 @@ public class SettingButton {
 	// 255, 255).getRGB());
 
 	public void onClick(int x, int y, int button) throws NullPointerException {
+
 		if (x >= this.x && x <= this.x + this.width && y >= this.y && y <= this.y + this.height) {
+
 			if (setting.type.equalsIgnoreCase("mode")) {
 				mSetting.cycle();
 				ClickGuiController.INSTANCE.settingController.refresh(false);
@@ -170,9 +172,10 @@ public class SettingButton {
 				// TODO figure this out
 			}
 		} else {
-			if (textField != null && textField.isFocused())
+			if (textField != null && textField.isFocused()) {
 				this.textField.setTextColor(new Color(255, 255, 255).getRGB());
-			this.textField.setFocused(false);
+				this.textField.setFocused(false);
+			}
 			if (textField != null) {
 				this.textField.setTextColor(new Color(255, 255, 255).getRGB());
 				if (setting.type.equalsIgnoreCase("int")) {

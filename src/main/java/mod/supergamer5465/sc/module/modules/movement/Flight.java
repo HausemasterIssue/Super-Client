@@ -2,6 +2,7 @@ package mod.supergamer5465.sc.module.modules.movement;
 
 import mod.supergamer5465.sc.module.Category;
 import mod.supergamer5465.sc.module.Module;
+import mod.supergamer5465.sc.setting.settings.BooleanSetting;
 import mod.supergamer5465.sc.setting.settings.FloatSetting;
 import net.minecraft.network.play.client.CPacketPlayer;
 import net.minecraft.util.math.MathHelper;
@@ -11,6 +12,7 @@ public class Flight extends Module {
 	FloatSetting hSpeed = new FloatSetting("Horizontal Speed", this, 1.0f);
 	FloatSetting vSpeed = new FloatSetting("Vertical Speed", this, 1.0f);
 	FloatSetting glide = new FloatSetting("Downward Glide Speed", this, 0.0f);
+	BooleanSetting dmg = new BooleanSetting("Packet Anti-FallDamage", this, false);
 
 	public Flight() {
 		super("Flight", "Allows flight", Category.MOVEMENT);
@@ -49,9 +51,12 @@ public class Flight extends Module {
 				|| mc.player.movementInput.leftKeyDown || mc.player.movementInput.rightKeyDown) {
 			mc.player.motionX -= MathHelper.sin(yaw) * 0.017453292f * hSpeed.value;
 			mc.player.motionZ += MathHelper.cos(yaw) * 0.017453292f * hSpeed.value;
+
 			mc.player.connection
 					.sendPacket(new CPacketPlayer.Position(mc.player.posX, mc.player.posY, mc.player.posZ, false));
 		}
+		if (dmg.enabled)
+			mc.player.fallDistance = 0;
 	}
 
 	private float YawRotationUtility() {

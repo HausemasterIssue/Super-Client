@@ -8,6 +8,7 @@ import org.lwjgl.opengl.GL11;
 import mod.supergamer5465.sc.event.events.ScEventRender;
 import mod.supergamer5465.sc.module.modules.client.ClickGui;
 import mod.supergamer5465.sc.module.modules.movement.Flight;
+import mod.supergamer5465.sc.module.modules.movement.Jesus;
 import mod.supergamer5465.sc.module.modules.movement.Speed;
 import mod.supergamer5465.sc.util.RenderHelp;
 import net.minecraft.client.Minecraft;
@@ -34,6 +35,7 @@ public class ModuleManager {
 		// movement
 		addModule(new Speed());
 		addModule(new Flight());
+		addModule(new Jesus());
 
 		// player
 
