@@ -36,24 +36,27 @@ public class Hud extends Gui {
 
 	@SubscribeEvent
 	public void renderOverlay(RenderGameOverlayEvent event) {
-		Collections.sort(Main.moduleManager.modules, new ModuleComparator());
-		ScaledResolution sr = new ScaledResolution(mc);
-		FontRenderer fr = mc.fontRenderer;
+		if (Main.moduleManager.getModule("Hud").toggled) {
+			Collections.sort(Main.moduleManager.modules, new ModuleComparator());
+			ScaledResolution sr = new ScaledResolution(mc);
+			FontRenderer fr = mc.fontRenderer;
 
-		if (event.getType() == RenderGameOverlayEvent.ElementType.TEXT) {
-			fr.drawStringWithShadow("Super Client " + Reference.VERSION, 2, 1, 0xa600ff);
-		}
+			if (event.getType() == RenderGameOverlayEvent.ElementType.TEXT) {
+				fr.drawStringWithShadow("Super Client " + Reference.VERSION, 2, 1, 0xa600ff);
+			}
 
-		// TODO figure out why this is not showing
-		if (event.getType() == RenderGameOverlayEvent.ElementType.TEXT) {
-			int y = 2;
-			final int[] counter = { 1 };
-			for (Module mod : Main.moduleManager.getModuleList()) {
-				if (!mod.getName().equalsIgnoreCase("") && mod.isToggled()) {
-					fr.drawStringWithShadow(mod.getName(), sr.getScaledWidth() - fr.getStringWidth(mod.getName()) - 2,
-							y, rainbow(counter[0] * 300));
-					y += fr.FONT_HEIGHT;
-					counter[0]++;
+			// TODO figure out why this is not showing
+			if (event.getType() == RenderGameOverlayEvent.ElementType.TEXT) {
+				int y = 2;
+				final int[] counter = { 1 };
+				for (Module mod : Main.moduleManager.getModuleList()) {
+					if (!mod.getName().equalsIgnoreCase("") && mod.isToggled()) {
+						fr.drawStringWithShadow(mod.getName(),
+								sr.getScaledWidth() - fr.getStringWidth(mod.getName()) - 2, y,
+								rainbow(counter[0] * 300));
+						y += fr.FONT_HEIGHT;
+						counter[0]++;
+					}
 				}
 			}
 		}

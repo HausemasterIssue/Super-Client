@@ -7,6 +7,7 @@ import org.lwjgl.opengl.GL11;
 
 import mod.supergamer5465.sc.event.events.ScEventRender;
 import mod.supergamer5465.sc.module.modules.client.ClickGui;
+import mod.supergamer5465.sc.module.modules.client.Hud;
 import mod.supergamer5465.sc.module.modules.movement.Flight;
 import mod.supergamer5465.sc.module.modules.movement.Jesus;
 import mod.supergamer5465.sc.module.modules.movement.Speed;
@@ -26,9 +27,9 @@ public class ModuleManager {
 		modules = new ArrayList<Module>();
 		modules.clear();
 
-		addModule(new ClickGui());
-
 		// client
+		addModule(new ClickGui());
+		addModule(new Hud());
 
 		// combat
 
