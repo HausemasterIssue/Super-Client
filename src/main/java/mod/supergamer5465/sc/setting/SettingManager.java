@@ -44,4 +44,8 @@ public class SettingManager extends GuiScreen {
 		}
 		return null;
 	}
+
+	public void clearSettings() {
+		this.settings.clear();
+	}
 }

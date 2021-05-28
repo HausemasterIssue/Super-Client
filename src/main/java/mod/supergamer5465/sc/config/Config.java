@@ -117,6 +117,83 @@ public class Config {
 					Setting setting = Main.settingManager.getSettingByName(m, args[2]);
 					if (setting != null) {
 						Main.settingManager.rSetting(setting);
+					}
+				}
+			}
+		}
+		ArrayList<String> save = new ArrayList<String>();
+		for (Module mod : Main.moduleManager.getModuleList()) {
+			for (Setting setting : mod.settings) {
+				if (!Main.settingManager.getSettings().contains(setting)) {
+
+					if (setting instanceof BooleanSetting) {
+						BooleanSetting bool = (BooleanSetting) setting;
+						save.add("setting:" + mod.getName() + ":" + setting.name + ":" + bool.isEnabled());
+					}
+
+					if (setting instanceof IntSetting) {
+						IntSetting num = (IntSetting) setting;
+						save.add("setting:" + mod.getName() + ":" + setting.name + ":" + num.getValue());
+					}
+
+					if (setting instanceof FloatSetting) {
+						FloatSetting num = (FloatSetting) setting;
+						save.add("setting:" + mod.getName() + ":" + setting.name + ":" + num.getValue());
+					}
+
+					if (setting instanceof StringSetting) {
+						StringSetting val = (StringSetting) setting;
+						save.add("setting:" + mod.getName() + ":" + setting.name + ":" + val.getValue());
+					}
+
+					if (setting instanceof ModeSetting) {
+						ModeSetting mode = (ModeSetting) setting;
+						save.add("setting:" + mod.getName() + ":" + setting.name + ":" + mode.getMode());
+
+					}
+				}
+			}
+		}
+		try {
+			PrintWriter pw = new PrintWriter(this.configFile.toFile());
+			for (String str : save) {
+				pw.println(str);
+			}
+			pw.close();
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		}
+
+		Main.settingManager.clearSettings();
+
+		lines = new ArrayList<String>();
+
+		try {
+			BufferedReader reader = new BufferedReader(new FileReader(this.configFile.toFile()));
+			String line = reader.readLine();
+			while (line != null) {
+				lines.add(line);
+				line = reader.readLine();
+			}
+			reader.close();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		for (String s : lines) {
+			String[] args = s.split(":");
+			if (s.toLowerCase().startsWith("module:")) {
+				Module m = Main.moduleManager.getModule(args[1]);
+				if (m != null) {
+					m.setKey(Integer.parseInt(args[3]));
+					m.setToggled(Boolean.parseBoolean(args[2]));
+				}
+			} else if (s.toLowerCase().startsWith("setting:")) {
+				Module m = Main.moduleManager.getModule(args[1]);
+				if (m != null) {
+					Setting setting = Main.settingManager.getSettingByName(m, args[2]);
+					if (setting != null) {
+						Main.settingManager.rSetting(setting);
 						if (setting instanceof BooleanSetting) {
 							((BooleanSetting) setting).setEnabled(Boolean.parseBoolean(args[3]));
 						}
