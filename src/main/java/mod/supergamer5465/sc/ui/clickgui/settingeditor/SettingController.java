@@ -60,6 +60,10 @@ public class SettingController extends GuiScreen {
 	protected void keyTyped(char typedChar, int keyCode) throws IOException {
 		super.keyTyped(typedChar, keyCode);
 		if (keyCode == 1) {
+			for (GuiTextField t : SettingController.textFields.keySet()) {
+				t.setFocused(false);
+				t.setTextColor(new Color(255, 255, 255).getRGB());
+			}
 			this.mc.displayGuiScreen(ClickGuiController.INSTANCE);
 
 			if (this.mc.currentScreen == null) {
