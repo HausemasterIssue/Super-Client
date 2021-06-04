@@ -67,7 +67,6 @@ public class Main {
 		settingManager = new SettingManager();
 		config = new Config();
 		config.Load();
-		config.Save();
 		configLoaded = true;
 	}
 
