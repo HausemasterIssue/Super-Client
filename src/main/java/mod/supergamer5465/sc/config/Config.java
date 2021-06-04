@@ -107,9 +107,12 @@ public class Config {
 			String[] args = s.split(":");
 			if (s.toLowerCase().startsWith("module:")) {
 				Module m = Main.moduleManager.getModule(args[1]);
-				if (m != null) {
+				try {
 					m.setKey(Integer.parseInt(args[3]));
 					m.setToggled(Boolean.parseBoolean(args[2]));
+				} catch (NullPointerException e) {
+					System.out.println("Module in config file does not exist");
+					e.printStackTrace();
 				}
 			} else if (s.toLowerCase().startsWith("setting:")) {
 				Module m = Main.moduleManager.getModule(args[1]);
@@ -122,6 +125,9 @@ public class Config {
 			}
 		}
 		ArrayList<String> save = new ArrayList<String>();
+		for (String s : lines) {
+			save.add(s);
+		}
 		for (Module mod : Main.moduleManager.getModuleList()) {
 			for (Setting setting : mod.settings) {
 				if (!Main.settingManager.getSettings().contains(setting)) {
@@ -149,7 +155,6 @@ public class Config {
 					if (setting instanceof ModeSetting) {
 						ModeSetting mode = (ModeSetting) setting;
 						save.add("setting:" + mod.getName() + ":" + setting.name + ":" + mode.getMode());
-
 					}
 				}
 			}
