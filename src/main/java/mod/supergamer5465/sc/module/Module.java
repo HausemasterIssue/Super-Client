@@ -5,6 +5,7 @@ import java.util.Arrays;
 import java.util.List;
 
 import mod.supergamer5465.sc.Main;
+import mod.supergamer5465.sc.container.ScInventory;
 import mod.supergamer5465.sc.event.events.ScEventRender;
 import mod.supergamer5465.sc.setting.Setting;
 import net.minecraft.client.Minecraft;
@@ -13,6 +14,7 @@ import net.minecraftforge.common.MinecraftForge;
 public class Module {
 
 	protected Minecraft mc = Minecraft.getMinecraft();
+	protected ScInventory inv = new ScInventory();
 
 	public String name, description;
 	public int key;

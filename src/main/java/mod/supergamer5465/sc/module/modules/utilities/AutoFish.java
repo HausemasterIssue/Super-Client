@@ -13,12 +13,13 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumHand;
 
 public class AutoFish extends Module {
-	boolean isCast = false;
-	long recastTimer;
+	long recastTimer = 0;
+	long reelTimer = 0;
 
 	BooleanSetting findRod = new BooleanSetting("Hotbar Rod Finder", this, true);
-	BooleanSetting autoRepair = new BooleanSetting("Offhand Mending Repair (From Hotbar Only)", this, true);
+	BooleanSetting autoRepair = new BooleanSetting("Offhand Mending Repair", this, true);
 	IntSetting recastDelay = new IntSetting("Recast Delay (ms)", this, 5000);
+	IntSetting reelDelay = new IntSetting("Reel Delay (ms)", this, 300);
 
 	public AutoFish() {
 		super("AutoFish", "Fishes Automatically", Category.UTILITIES);
@@ -26,45 +27,68 @@ public class AutoFish extends Module {
 		addSetting(findRod);
 		addSetting(autoRepair);
 		addSetting(recastDelay);
+		addSetting(reelDelay);
 	}
 
 	@Override
 	public void onUpdate() {
+		if (autoRepair.enabled) {
+			if (!mc.player.getHeldItem(EnumHand.OFF_HAND).isItemDamaged()) {
+				for (int i = 0; i < 36; i++) {
+					ItemStack stack = mc.player.inventory.getStackInSlot(i);
+					if (stack.getItem().isDamaged(stack) && mc.player.getHeldItemMainhand() != stack) {
+						for (Map.Entry<?, ?> me : EnchantmentHelper.getEnchantments(stack).entrySet()) {
+							if (((Enchantment) me.getKey()).getName().equalsIgnoreCase("enchantment.mending")) {
+								inv.putInOffhand(stack);
+								break;
+							}
+						}
+					}
+				}
+			}
+		}
+
 		boolean reelIn = false;
 
-		if (mc.player.fishEntity != null && isCast) {
-			isCast = true;
+		if (mc.player.fishEntity != null && mc.player.fishEntity.isAddedToWorld()) {
 			double x = mc.player.fishEntity.motionX;
 			double y = mc.player.fishEntity.motionY;
 			double z = mc.player.fishEntity.motionZ;
-			if (y < -0.075 && (mc.player.fishEntity.isInWater()) && x == 0 && z == 0)
-				reelIn = true;
+			if (y < -0.075 && (mc.player.fishEntity.isInWater()) && x == 0 && z == 0) {
+				reelTimer = System.currentTimeMillis();
+				return;
+			}
 		}
+
+		if (System.currentTimeMillis() - reelDelay.value <= reelTimer && reelTimer != 0) {
+			reelIn = true;
+			reelTimer = 0;
+		}
+
 		if (reelIn) {
-			mc.player.getHeldItemMainhand().useItemRightClick(mc.world, mc.player, EnumHand.MAIN_HAND);
+			mc.playerController.processRightClick(mc.player, mc.world, EnumHand.MAIN_HAND);
 			return;
 		}
 
-		boolean cast = false;
+		boolean cast;
 
 		if (mc.player.fishEntity == null) {
-			isCast = false;
-			cast = true;
+			cast = false;
 			if (recastTimer == 0) {
 				recastTimer = System.currentTimeMillis();
 				return;
 			}
-			if (System.currentTimeMillis() - 5000 <= recastTimer) {
-				return;
-			} else {
+			if (System.currentTimeMillis() - recastDelay.value >= recastTimer) {
+				cast = true;
 				recastTimer = 0;
 			}
+		} else {
+			cast = false;
 		}
 
 		if (cast) {
 			if (mc.player.getHeldItemMainhand().getItem() instanceof ItemFishingRod) {
-				mc.player.getHeldItemMainhand().useItemRightClick(mc.world, mc.player, EnumHand.MAIN_HAND);
-				isCast = true;
+				mc.playerController.processRightClick(mc.player, mc.world, EnumHand.MAIN_HAND);
 				return;
 			} else {
 				if (findRod.enabled) {
@@ -79,24 +103,6 @@ public class AutoFish extends Module {
 					}
 				}
 				return;
-			}
-		}
-
-		if (autoRepair.enabled) {
-			System.out.println("bruh");
-			if (!mc.player.getHeldItem(EnumHand.OFF_HAND).isItemDamaged()) {
-				for (int i = 0; i < 9; i++) {
-					ItemStack stack = mc.player.inventory.getStackInSlot(i);
-					if (stack.getItem().isDamaged(stack)) {
-						for (Map.Entry<?, ?> me : EnchantmentHelper.getEnchantments(stack).entrySet()) {
-							System.out.println(((Enchantment) me.getKey()).getName());
-							if (((Enchantment) me.getKey()).getName().equalsIgnoreCase("mending")) {
-								mc.player.setHeldItem(EnumHand.OFF_HAND, stack);
-								break;
-							}
-						}
-					}
-				}
 			}
 		}
 	}
