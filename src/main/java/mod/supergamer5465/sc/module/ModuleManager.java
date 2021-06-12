@@ -12,6 +12,7 @@ import mod.supergamer5465.sc.module.modules.movement.AutoWalk;
 import mod.supergamer5465.sc.module.modules.movement.Flight;
 import mod.supergamer5465.sc.module.modules.movement.Jesus;
 import mod.supergamer5465.sc.module.modules.movement.Speed;
+import mod.supergamer5465.sc.module.modules.render.EntityTracers;
 import mod.supergamer5465.sc.module.modules.utilities.AutoFish;
 import mod.supergamer5465.sc.util.RenderHelp;
 import net.minecraft.client.Minecraft;
@@ -44,6 +45,7 @@ public class ModuleManager {
 		// player
 
 		// render
+		addModule(new EntityTracers());
 
 		// utilities
 		addModule(new AutoFish());
