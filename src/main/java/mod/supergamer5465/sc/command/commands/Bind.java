@@ -39,8 +39,10 @@ public class Bind extends Command {
 		}
 		if (args[0].equalsIgnoreCase("clear")) {
 			for (Module m : Main.moduleManager.getModuleList()) {
-				m.setKey(Keyboard.CHAR_NONE);
-				Client.addChatMessage(args[1] + " keybind has been cleared");
+				if (args[1].equalsIgnoreCase(m.getName())) {
+					m.setKey(Keyboard.CHAR_NONE);
+					Client.addChatMessage(args[1] + " keybind has been cleared");
+				}
 			}
 		}
 		if (args[0].equalsIgnoreCase("get")) {

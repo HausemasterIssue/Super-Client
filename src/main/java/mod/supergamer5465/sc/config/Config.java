@@ -15,6 +15,7 @@ import mod.supergamer5465.sc.Main;
 import mod.supergamer5465.sc.module.Module;
 import mod.supergamer5465.sc.setting.Setting;
 import mod.supergamer5465.sc.setting.settings.BooleanSetting;
+import mod.supergamer5465.sc.setting.settings.ColorSetting;
 import mod.supergamer5465.sc.setting.settings.FloatSetting;
 import mod.supergamer5465.sc.setting.settings.IntSetting;
 import mod.supergamer5465.sc.setting.settings.ModeSetting;
@@ -73,6 +74,12 @@ public class Config {
 				if (setting instanceof ModeSetting) {
 					ModeSetting mode = (ModeSetting) setting;
 					save.add("setting:" + mod.getName() + ":" + setting.name + ":" + mode.getMode());
+				}
+
+				if (setting instanceof ColorSetting) {
+					ColorSetting col = (ColorSetting) setting;
+					save.add("setting:" + mod.getName() + ":" + setting.name + ":" + col.red + "," + col.green + ","
+							+ col.blue);
 				}
 			}
 		}
@@ -156,6 +163,11 @@ public class Config {
 						ModeSetting mode = (ModeSetting) setting;
 						save.add("setting:" + mod.getName() + ":" + setting.name + ":" + mode.getMode());
 					}
+					if (setting instanceof ColorSetting) {
+						ColorSetting col = (ColorSetting) setting;
+						save.add("setting:" + mod.getName() + ":" + setting.name + ":" + col.red + "," + col.green + ","
+								+ col.blue);
+					}
 				}
 			}
 		}
@@ -213,6 +225,11 @@ public class Config {
 						}
 						if (setting instanceof ModeSetting) {
 							((ModeSetting) setting).setMode(args[3]);
+						}
+						if (setting instanceof ColorSetting) {
+							((ColorSetting) setting).red = Integer.valueOf(args[3].split(",")[0]);
+							((ColorSetting) setting).green = Integer.valueOf(args[3].split(",")[1]);
+							((ColorSetting) setting).blue = Integer.valueOf(args[3].split(",")[2]);
 						}
 					}
 				}

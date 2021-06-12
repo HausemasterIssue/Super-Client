@@ -1,13 +1,15 @@
 package mod.supergamer5465.sc.ui.clickgui.settingeditor;
 
 import java.awt.Color;
+import java.util.AbstractMap;
 import java.util.Map;
+import java.util.Map.Entry;
 
-import mod.supergamer5465.sc.Main;
 import mod.supergamer5465.sc.misc.StringParser;
 import mod.supergamer5465.sc.module.Module;
 import mod.supergamer5465.sc.setting.Setting;
 import mod.supergamer5465.sc.setting.settings.BooleanSetting;
+import mod.supergamer5465.sc.setting.settings.ColorSetting;
 import mod.supergamer5465.sc.setting.settings.FloatSetting;
 import mod.supergamer5465.sc.setting.settings.IntSetting;
 import mod.supergamer5465.sc.setting.settings.ModeSetting;
@@ -18,6 +20,11 @@ import net.minecraft.client.gui.GuiTextField;
 
 public class SettingButton {
 	private GuiTextField textField;
+
+	// color setting only
+	private GuiTextField cTextFieldRed;
+	private GuiTextField cTextFieldGreen;
+	private GuiTextField cTextFieldBlue;
 
 	int x, y, width, height;
 
@@ -34,6 +41,7 @@ public class SettingButton {
 	FloatSetting fSetting;
 	BooleanSetting bSetting;
 	StringSetting sSetting;
+	ColorSetting cSetting;
 
 	public SettingButton(Module module, Setting setting, int x, int y, SettingFrame parent) {
 
@@ -55,6 +63,8 @@ public class SettingButton {
 			this.sSetting = (StringSetting) setting;
 		} else if (setting.type.equalsIgnoreCase("boolean")) {
 			this.bSetting = (BooleanSetting) setting;
+		} else if (setting.type.equalsIgnoreCase("color")) {
+			this.cSetting = (ColorSetting) setting;
 		}
 	}
 
@@ -67,6 +77,30 @@ public class SettingButton {
 						&& t.width == 380 - mc.fontRenderer.getStringWidth(setting.name + ": ")
 						&& t.x == x + 2 + mc.fontRenderer.getStringWidth(setting.name + ": ")) {
 					textField = t;
+				}
+			}
+		}
+
+		for (Entry<GuiTextField[], Entry<Module, Setting>> entry : SettingController.cTextFields.entrySet()) {
+			GuiTextField[] t = entry.getKey();
+			GuiTextField r = t[0];
+			GuiTextField g = t[1];
+			GuiTextField b = t[2];
+			if (entry.getValue().getKey() == module) {
+				if (r.height == mc.fontRenderer.FONT_HEIGHT + 2
+						&& r.width == 380 - mc.fontRenderer.getStringWidth(setting.name + ": ")
+						&& r.x == x + 2 + mc.fontRenderer.getStringWidth(setting.name + ": ")) {
+					cTextFieldRed = r;
+				}
+				if (g.height == mc.fontRenderer.FONT_HEIGHT + 2
+						&& g.width == 380 - mc.fontRenderer.getStringWidth(setting.name + ": ")
+						&& g.x == x + 2 + mc.fontRenderer.getStringWidth(setting.name + ": ")) {
+					cTextFieldGreen = g;
+				}
+				if (b.height == mc.fontRenderer.FONT_HEIGHT + 2
+						&& b.width == 380 - mc.fontRenderer.getStringWidth(setting.name + ": ")
+						&& b.x == x + 2 + mc.fontRenderer.getStringWidth(setting.name + ": ")) {
+					cTextFieldBlue = b;
 				}
 			}
 		}
@@ -140,8 +174,58 @@ public class SettingButton {
 			} else {
 				mc.fontRenderer.drawString(bSetting.name, x + 2, y + 2, new Color(180, 240, 255).getRGB());
 			}
-		} else if (setting.type.equalsIgnoreCase("list")) {
-			// TODO develop
+		} else if (setting.type.equalsIgnoreCase("color")) {
+			mc.fontRenderer.drawString(cSetting.name + ": ", x + 2, y + 2,
+					new Color(cSetting.red, cSetting.green, cSetting.blue).getRGB());
+			int textRed = mc.fontRenderer.drawString(Integer.toString(cSetting.red),
+					x + 2 + mc.fontRenderer.getStringWidth(cSetting.name + ": "), y + 2, new Color(255, 0, 0).getRGB());
+			int textGreen = mc.fontRenderer.drawString(Integer.toString(cSetting.green),
+					x + 2 + mc.fontRenderer.getStringWidth(cSetting.name + ": ") + 125, y + 2,
+					new Color(0, 255, 0).getRGB());
+			int textBlue = mc.fontRenderer.drawString(Integer.toString(cSetting.blue),
+					x + 2 + mc.fontRenderer.getStringWidth(cSetting.name + ": ") + 250, y + 2,
+					new Color(0, 0, 255).getRGB());
+			if (cTextFieldRed == null && cTextFieldGreen == null && cTextFieldBlue == null) {
+				cTextFieldRed = new GuiTextField(textRed, mc.fontRenderer,
+						x + 2 + mc.fontRenderer.getStringWidth(cSetting.name + ": "), y, 50,
+						mc.fontRenderer.FONT_HEIGHT + 2);
+				cTextFieldGreen = new GuiTextField(textGreen, mc.fontRenderer,
+						x + 2 + mc.fontRenderer.getStringWidth(cSetting.name + ": ") + 125, y, 50,
+						mc.fontRenderer.FONT_HEIGHT + 2);
+				cTextFieldBlue = new GuiTextField(textBlue, mc.fontRenderer,
+						x + 2 + mc.fontRenderer.getStringWidth(cSetting.name + ": ") + 250, y, 50,
+						mc.fontRenderer.FONT_HEIGHT + 2);
+				cTextFieldRed.setTextColor(new Color(255, 0, 0).getRGB());
+				cTextFieldGreen.setTextColor(new Color(0, 255, 0).getRGB());
+				cTextFieldBlue.setTextColor(new Color(0, 0, 255).getRGB());
+				cTextFieldRed.setEnabled(true);
+				cTextFieldGreen.setEnabled(true);
+				cTextFieldBlue.setEnabled(true);
+				GuiTextField[] array = { cTextFieldRed, cTextFieldGreen, cTextFieldBlue };
+				SettingController.cTextFields.put(array, new AbstractMap.SimpleEntry<>(module, setting));
+				cTextFieldRed.setText(Integer.toString(cSetting.red));
+				cTextFieldGreen.setText(Integer.toString(cSetting.green));
+				cTextFieldBlue.setText(Integer.toString(cSetting.blue));
+
+				if (cTextFieldRed.isFocused()) {
+					if (StringParser.isInteger(cTextFieldRed.getText())
+							&& Integer.valueOf(cTextFieldRed.getText()) <= 255
+							&& Integer.valueOf(cTextFieldRed.getText()) >= 0)
+						cSetting.red = Integer.valueOf(cTextFieldRed.getText());
+				}
+				if (cTextFieldGreen.isFocused()) {
+					if (StringParser.isInteger(cTextFieldGreen.getText())
+							&& Integer.valueOf(cTextFieldGreen.getText()) <= 255
+							&& Integer.valueOf(cTextFieldGreen.getText()) >= 0)
+						cSetting.green = Integer.valueOf(cTextFieldGreen.getText());
+				}
+				if (cTextFieldBlue.isFocused()) {
+					if (StringParser.isInteger(cTextFieldBlue.getText())
+							&& Integer.valueOf(cTextFieldBlue.getText()) <= 255
+							&& Integer.valueOf(cTextFieldBlue.getText()) >= 0)
+						cSetting.blue = Integer.valueOf(cTextFieldBlue.getText());
+				}
+			}
 		}
 	}
 
@@ -162,14 +246,18 @@ public class SettingButton {
 			} else if (setting.type.equalsIgnoreCase("string")) {
 				// NOOP
 			} else if (setting.type.equalsIgnoreCase("boolean")) {
-				if (bSetting.enabled) {
-					bSetting.setEnabled(false);
-				} else {
-					bSetting.setEnabled(true);
+				// we need to thin this down a bit so it doesn't overlap with other buttons
+				if (y >= this.y - 5 && y <= this.y + this.height - 5 && x >= this.x
+						&& x <= this.x + mc.fontRenderer.getStringWidth(bSetting.name)) {
+					if (bSetting.enabled) {
+						bSetting.setEnabled(false);
+					} else {
+						bSetting.setEnabled(true);
+					}
 				}
 				ClickGuiController.INSTANCE.settingController.refresh(false);
-			} else if (setting.type.equalsIgnoreCase("list")) {
-				// TODO figure this out
+			} else if (setting.type.equalsIgnoreCase("color")) {
+				// NOOP
 			}
 		} else {
 			if (textField != null && textField.isFocused()) {
@@ -187,7 +275,63 @@ public class SettingButton {
 				}
 			}
 		}
-		Main.config.Save();
+
+		if (cTextFieldRed != null && x <= cTextFieldRed.x && x >= cTextFieldRed.x + cTextFieldRed.width && y <= this.y
+				&& y >= this.y + this.height) {
+			// NOOP
+		} else {
+			for (Entry<GuiTextField[], Entry<Module, Setting>> entry : SettingController.cTextFields.entrySet()) {
+				GuiTextField r = entry.getKey()[0];
+				GuiTextField g = entry.getKey()[1];
+				GuiTextField b = entry.getKey()[2];
+
+				if (r != this.cTextFieldRed) {
+					r.setFocused(false);
+				}
+				g.setFocused(false);
+				b.setFocused(false);
+			}
+		}
+
+		if (cTextFieldGreen != null && x <= cTextFieldGreen.x && x >= cTextFieldGreen.x + cTextFieldGreen.width
+				&& y <= this.y && y >= this.y + this.height) {
+			if (cTextFieldGreen != null) {
+				cTextFieldGreen.setFocused(false);
+				cTextFieldGreen.setText(Integer.toString(cSetting.green));
+			}
+		} else {
+			for (Entry<GuiTextField[], Entry<Module, Setting>> entry : SettingController.cTextFields.entrySet()) {
+				GuiTextField r = entry.getKey()[0];
+				GuiTextField g = entry.getKey()[1];
+				GuiTextField b = entry.getKey()[2];
+
+				r.setFocused(false);
+				if (g != this.cTextFieldGreen) {
+					g.setFocused(false);
+				}
+				b.setFocused(false);
+			}
+		}
+
+		if (cTextFieldBlue != null && x <= cTextFieldBlue.x && x >= cTextFieldBlue.x + cTextFieldBlue.width
+				&& y <= this.y && y >= this.y + this.height) {
+			if (cTextFieldBlue != null) {
+				cTextFieldBlue.setFocused(false);
+				cTextFieldBlue.setText(Integer.toString(cSetting.blue));
+			}
+		} else {
+			for (Entry<GuiTextField[], Entry<Module, Setting>> entry : SettingController.cTextFields.entrySet()) {
+				GuiTextField r = entry.getKey()[0];
+				GuiTextField g = entry.getKey()[1];
+				GuiTextField b = entry.getKey()[2];
+
+				r.setFocused(false);
+				g.setFocused(false);
+				if (b != this.cTextFieldBlue) {
+					b.setFocused(false);
+				}
+			}
+		}
 		ClickGuiController.INSTANCE.settingController.refresh(false);
 	}
 }

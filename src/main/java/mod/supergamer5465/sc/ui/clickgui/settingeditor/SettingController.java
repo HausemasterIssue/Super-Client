@@ -4,8 +4,13 @@ import java.awt.Color;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Map.Entry;
 
+import mod.supergamer5465.sc.Main;
+import mod.supergamer5465.sc.misc.StringParser;
 import mod.supergamer5465.sc.module.Module;
+import mod.supergamer5465.sc.setting.Setting;
+import mod.supergamer5465.sc.setting.settings.ColorSetting;
 import mod.supergamer5465.sc.ui.clickgui.ClickGuiController;
 import mod.supergamer5465.sc.ui.clickgui.ModuleButton;
 import net.minecraft.client.gui.GuiScreen;
@@ -14,6 +19,9 @@ import net.minecraft.client.gui.GuiTextField;
 public class SettingController extends GuiScreen {
 
 	public static Map<GuiTextField, Module> textFields = new HashMap<GuiTextField, Module>();
+
+	// color settings only
+	public static Map<GuiTextField[], Entry<Module, Setting>> cTextFields = new HashMap<GuiTextField[], Entry<Module, Setting>>();
 
 	public SettingFrame frame;
 
@@ -48,6 +56,17 @@ public class SettingController extends GuiScreen {
 			if (entry.getValue() == frame.module)
 				textField.drawTextBox();
 		}
+		for (Entry<GuiTextField[], Entry<Module, Setting>> entry : cTextFields.entrySet()) {
+			GuiTextField cTextFieldRed = entry.getKey()[0];
+			GuiTextField cTextFieldGreen = entry.getKey()[1];
+			GuiTextField cTextFieldBlue = entry.getKey()[2];
+
+			if (entry.getValue().getKey() == frame.module) {
+				cTextFieldRed.drawTextBox();
+				cTextFieldGreen.drawTextBox();
+				cTextFieldBlue.drawTextBox();
+			}
+		}
 	}
 
 	@Override
@@ -75,6 +94,17 @@ public class SettingController extends GuiScreen {
 			if (entry.getValue() == frame.module)
 				textField.textboxKeyTyped(typedChar, keyCode);
 		}
+		for (Entry<GuiTextField[], Entry<Module, Setting>> entry : cTextFields.entrySet()) {
+			GuiTextField cTextFieldRed = entry.getKey()[0];
+			GuiTextField cTextFieldGreen = entry.getKey()[1];
+			GuiTextField cTextFieldBlue = entry.getKey()[2];
+
+			if (entry.getValue().getKey() == frame.module) {
+				cTextFieldRed.textboxKeyTyped(typedChar, keyCode);
+				cTextFieldGreen.textboxKeyTyped(typedChar, keyCode);
+				cTextFieldBlue.textboxKeyTyped(typedChar, keyCode);
+			}
+		}
 	}
 
 	@Override
@@ -95,6 +125,48 @@ public class SettingController extends GuiScreen {
 			}
 			textField.mouseClicked(mouseX, mouseY, mouseButton);
 		}
+		for (Map.Entry<GuiTextField[], Entry<Module, Setting>> entry : cTextFields.entrySet()) {
+			GuiTextField cTextFieldRed = entry.getKey()[0];
+			GuiTextField cTextFieldGreen = entry.getKey()[1];
+			GuiTextField cTextFieldBlue = entry.getKey()[2];
+
+			ColorSetting cSetting = (ColorSetting) entry.getValue().getValue();
+
+			if (!StringParser.isInteger(cTextFieldRed.getText()) || Integer.valueOf(cTextFieldRed.getText()) > 255
+					|| Integer.valueOf(cTextFieldRed.getText()) < 0) {
+				cTextFieldRed.setText(Integer.toString(cSetting.red));
+			} else {
+				cSetting.red = Integer.valueOf(cTextFieldRed.getText());
+			}
+			if (!StringParser.isInteger(cTextFieldGreen.getText()) || Integer.valueOf(cTextFieldGreen.getText()) > 255
+					|| Integer.valueOf(cTextFieldGreen.getText()) < 0) {
+				cTextFieldGreen.setText(Integer.toString(cSetting.green));
+			} else {
+				cSetting.green = Integer.valueOf(cTextFieldGreen.getText());
+			}
+			if (!StringParser.isInteger(cTextFieldBlue.getText()) || Integer.valueOf(cTextFieldBlue.getText()) > 255
+					|| Integer.valueOf(cTextFieldBlue.getText()) < 0) {
+				cTextFieldBlue.setText(Integer.toString(cSetting.blue));
+			} else {
+				cSetting.blue = Integer.valueOf(cTextFieldBlue.getText());
+			}
+
+			if (entry.getValue().getKey() == frame.module) {
+				if (mouseX >= cTextFieldRed.x && mouseX < cTextFieldRed.x + cTextFieldRed.width
+						&& mouseY >= cTextFieldRed.y && mouseY < cTextFieldRed.y + cTextFieldRed.height) {
+					cTextFieldRed.setFocused(true);
+				}
+				if (mouseX >= cTextFieldGreen.x && mouseX < cTextFieldGreen.x + cTextFieldGreen.width
+						&& mouseY >= cTextFieldGreen.y && mouseY < cTextFieldGreen.y + cTextFieldGreen.height) {
+					cTextFieldGreen.setFocused(true);
+				}
+				if (mouseX >= cTextFieldBlue.x && mouseX < cTextFieldBlue.x + cTextFieldBlue.width
+						&& mouseY >= cTextFieldBlue.y && mouseY < cTextFieldBlue.y + cTextFieldBlue.height) {
+					cTextFieldBlue.setFocused(true);
+				}
+			}
+		}
+		Main.config.Save();
 	}
 
 	@Override
@@ -105,6 +177,20 @@ public class SettingController extends GuiScreen {
 			if (entry.getValue() == frame.module) {
 				if (textField.isFocused())
 					textField.updateCursorCounter();
+			}
+		}
+		for (Entry<GuiTextField[], Entry<Module, Setting>> entry : cTextFields.entrySet()) {
+			GuiTextField cTextFieldRed = entry.getKey()[0];
+			GuiTextField cTextFieldGreen = entry.getKey()[1];
+			GuiTextField cTextFieldBlue = entry.getKey()[2];
+
+			if (entry.getValue().getKey() == frame.module) {
+				if (cTextFieldRed.isFocused())
+					cTextFieldRed.updateCursorCounter();
+				if (cTextFieldGreen.isFocused())
+					cTextFieldGreen.updateCursorCounter();
+				if (cTextFieldBlue.isFocused())
+					cTextFieldBlue.updateCursorCounter();
 			}
 		}
 	}
