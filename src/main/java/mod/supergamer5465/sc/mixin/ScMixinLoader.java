@@ -5,6 +5,7 @@ import java.util.Map;
 import javax.annotation.Nullable;
 
 import org.spongepowered.asm.launch.MixinBootstrap;
+import org.spongepowered.asm.mixin.MixinEnvironment;
 import org.spongepowered.asm.mixin.Mixins;
 
 import net.minecraftforge.fml.relauncher.IFMLLoadingPlugin;
@@ -14,6 +15,8 @@ public class ScMixinLoader implements IFMLLoadingPlugin {
 		MixinBootstrap.init();
 
 		Mixins.addConfiguration("mixins.sc.json");
+
+		MixinEnvironment.getDefaultEnvironment().setObfuscationContext("searge");
 	}
 
 	@Override
