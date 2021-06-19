@@ -4,6 +4,8 @@ import org.lwjgl.input.Keyboard;
 
 import mod.supergamer5465.sc.command.CommandManager;
 import mod.supergamer5465.sc.config.Config;
+import mod.supergamer5465.sc.event.ScEventHandler;
+import mod.supergamer5465.sc.event.ScEventManager;
 import mod.supergamer5465.sc.module.Module;
 import mod.supergamer5465.sc.module.ModuleManager;
 import mod.supergamer5465.sc.proxy.CommonProxy;
@@ -41,6 +43,7 @@ public class Main {
 	public static Hud hud = new Hud();
 	public static CommandManager cmdManager;
 	public static SettingManager settingManager;
+	public static ScEventManager eventManager;
 	private ClickGuiController gui;
 
 	public static boolean configLoaded = false;
@@ -60,14 +63,20 @@ public class Main {
 		if (event.getSide() == Side.SERVER)
 			return;
 
+		ScEventHandler.INSTANCE = new ScEventHandler();
+
 		MinecraftForge.EVENT_BUS.register(instance);
 		MinecraftForge.EVENT_BUS.register(hud);
+
 		moduleManager = new ModuleManager();
 		cmdManager = new CommandManager();
 		settingManager = new SettingManager();
+		eventManager = new ScEventManager();
 		config = new Config();
 		config.Load();
 		configLoaded = true;
+
+		MinecraftForge.EVENT_BUS.register(eventManager);
 	}
 
 	@EventHandler
@@ -140,5 +149,9 @@ public class Main {
 
 	public ClickGuiController getGui() {
 		return gui;
+	}
+
+	public static ScEventHandler get_event_handler() {
+		return ScEventHandler.INSTANCE;
 	}
 }

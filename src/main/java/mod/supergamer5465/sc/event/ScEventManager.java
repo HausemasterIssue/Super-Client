@@ -36,7 +36,11 @@ public class ScEventManager {
 		if (event.isCanceled()) {
 			return;
 		}
-
+		if (mc.gameSettings.viewBobbing) {
+			mc.gameSettings.viewBobbing = false;
+			System.out.println("disabled view bobbing (because it fucking sucks)");
+			// view bobbing is gay
+		}
 		Main.moduleManager.render(event);
 	}
 

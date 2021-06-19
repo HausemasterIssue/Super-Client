@@ -1,16 +1,16 @@
 [
 {
-  "modid": "sc",
-  "name": "Super Client",
-  "description": "Client for 2b2t.org on Minecraft v1.12.2",
-  "version": "1.0.0",
-  "mcversion": "[1.12.2]",
-  "url": "https://github.com/Supergamer5465/Super-Client",
-  "updateUrl": "",
-  "authorList": ["Supergamer5465"],
-  "credits": "bruh",
-  "logoFile": "logo.png",
-  "screenshots": [],
-  "dependencies": []
+  "modid" : "sc",
+  "name" : "Super Client",
+  "description" : "Client for 2b2t.org on Minecraft v1.12.2",
+  "version" : "1.0.0",
+  "mcversion" : "[1.12.2]",
+  "url" : "https://github.com/Supergamer5465/Super-Client",
+  "updateUrl" : "",
+  "authorList" : ["Supergamer5465"],
+  "credits" : "bruh",
+  "logoFile" : "logo.png",
+  "screenshots" : [],
+  "dependencies" : []
 }
 ]

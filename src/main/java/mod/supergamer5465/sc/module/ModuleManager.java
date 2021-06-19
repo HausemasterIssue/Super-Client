@@ -8,11 +8,13 @@ import org.lwjgl.opengl.GL11;
 import mod.supergamer5465.sc.event.events.ScEventRender;
 import mod.supergamer5465.sc.module.modules.client.ClickGui;
 import mod.supergamer5465.sc.module.modules.client.Hud;
+import mod.supergamer5465.sc.module.modules.combat.KillAura;
 import mod.supergamer5465.sc.module.modules.movement.AutoWalk;
 import mod.supergamer5465.sc.module.modules.movement.Flight;
 import mod.supergamer5465.sc.module.modules.movement.Jesus;
 import mod.supergamer5465.sc.module.modules.movement.Speed;
 import mod.supergamer5465.sc.module.modules.render.EntityTracers;
+import mod.supergamer5465.sc.module.modules.render.FullBright;
 import mod.supergamer5465.sc.module.modules.utilities.AutoFish;
 import mod.supergamer5465.sc.util.RenderHelp;
 import net.minecraft.client.Minecraft;
@@ -35,6 +37,7 @@ public class ModuleManager {
 		addModule(new Hud());
 
 		// combat
+		addModule(new KillAura());
 
 		// movement
 		addModule(new Speed());
@@ -46,6 +49,7 @@ public class ModuleManager {
 
 		// render
 		addModule(new EntityTracers());
+		addModule(new FullBright());
 
 		// utilities
 		addModule(new AutoFish());
