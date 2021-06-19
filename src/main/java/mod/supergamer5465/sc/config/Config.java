@@ -27,7 +27,7 @@ public class Config {
 	private Path configFile;
 
 	public Config() {
-		modFolder = Minecraft.getMinecraft().mcDataDir.toPath().resolve("super");
+		modFolder = Minecraft.getMinecraft().gameDir.toPath().resolve("super");
 		configFile = Paths.get(modFolder.toString() + File.separator + "moduleConfig.txt");
 		try {
 			Files.createDirectories(modFolder);

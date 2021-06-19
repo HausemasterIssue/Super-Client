@@ -30,7 +30,7 @@ import net.minecraftforge.fml.common.gameevent.TickEvent;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
-//main class, contains all event handlers etc
+//main class, contains all event handlers etc.
 
 @Mod(modid = Reference.MODID, name = Reference.NAME, version = Reference.VERSION)
 @SideOnly(Side.CLIENT)

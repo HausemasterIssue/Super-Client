@@ -92,8 +92,8 @@ public class ModuleManager {
 	}
 
 	public void render(RenderWorldLastEvent event) {
-		mc.mcProfiler.startSection("super client");
-		mc.mcProfiler.startSection("setup");
+		mc.profiler.startSection("super client");
+		mc.profiler.startSection("setup");
 
 		GlStateManager.disableTexture2D();
 		GlStateManager.enableBlend();
@@ -110,19 +110,19 @@ public class ModuleManager {
 
 		event_render.reset_translation();
 
-		mc.mcProfiler.endSection();
+		mc.profiler.endSection();
 
 		for (Module m : getModuleList()) {
 			if (m.toggled) {
-				mc.mcProfiler.startSection(m.name);
+				mc.profiler.startSection(m.name);
 
 				m.render(event_render);
 
-				mc.mcProfiler.endSection();
+				mc.profiler.endSection();
 			}
 		}
 
-		mc.mcProfiler.startSection("release");
+		mc.profiler.startSection("release");
 
 		GlStateManager.glLineWidth(1f);
 
@@ -135,8 +135,8 @@ public class ModuleManager {
 
 		RenderHelp.release_gl();
 
-		mc.mcProfiler.endSection();
-		mc.mcProfiler.endSection();
+		mc.profiler.endSection();
+		mc.profiler.endSection();
 	}
 
 	public void render() {

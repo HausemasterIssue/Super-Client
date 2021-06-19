@@ -50,7 +50,7 @@ public class AutoFish extends Module {
 
 		boolean reelIn = false;
 
-		if (mc.player.fishEntity != null && mc.player.fishEntity.isAddedToWorld()) {
+		if (mc.player.fishEntity != null && mc.player.fishEntity.isEntityAlive()) {
 			double x = mc.player.fishEntity.motionX;
 			double y = mc.player.fishEntity.motionY;
 			double z = mc.player.fishEntity.motionZ;

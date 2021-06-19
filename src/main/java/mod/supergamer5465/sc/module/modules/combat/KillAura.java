@@ -78,7 +78,10 @@ public class KillAura extends Module {
 				float tick_to_hit = 20.0f - Main.get_event_handler().get_tick_rate();
 
 				// If possible hit or no.
-				boolean is_possible_attack = mc.player.getCooledAttackStrength(tps.enabled ? -tick_to_hit : 0.0f) >= 1;
+				boolean is_possible_attack = mc.player.getCooledAttackStrength(tps.enabled ? -tick_to_hit : 0.0f) >= 1;// TODO
+																														// test
+																														// tps
+																														// sync
 
 				// To hit if able.
 				if (is_possible_attack) {
