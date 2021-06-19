@@ -257,7 +257,8 @@ public class SettingButton {
 				}
 				ClickGuiController.INSTANCE.settingController.refresh(false);
 			} else if (setting.type.equalsIgnoreCase("color")) {
-				// NOOP
+				mc.fontRenderer.drawString(cSetting.name + ": ", x + 2, y + 2,
+						new Color(cSetting.red, cSetting.green, cSetting.blue).getRGB());
 			}
 		} else {
 			if (textField != null && textField.isFocused()) {

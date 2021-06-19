@@ -10,6 +10,8 @@ public class ScEventMove extends ScEventCancellable {
 	public double x, y, z;
 
 	public ScEventMove(MoverType type, double x, double y, double z) {
+		super();
+
 		this.move_type = type;
 		this.x = x;
 		this.y = y;

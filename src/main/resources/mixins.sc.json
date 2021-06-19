@@ -1,0 +1,9 @@
+{
+	"required"           : true,
+	"compatibilityLevel" : "JAVA_8",
+	"package"            : "mod.supergamer5465.sc.mixin",
+	"refmap"             : "mixins.sc.refmap.json",
+	"mixins"             : [
+		"ScMixinNetworkManager"
+	]
+}
