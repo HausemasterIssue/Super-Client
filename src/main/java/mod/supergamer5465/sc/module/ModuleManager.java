@@ -13,6 +13,7 @@ import mod.supergamer5465.sc.module.modules.movement.AutoWalk;
 import mod.supergamer5465.sc.module.modules.movement.Flight;
 import mod.supergamer5465.sc.module.modules.movement.Jesus;
 import mod.supergamer5465.sc.module.modules.movement.Speed;
+import mod.supergamer5465.sc.module.modules.player.Scaffold;
 import mod.supergamer5465.sc.module.modules.render.EntityTracers;
 import mod.supergamer5465.sc.module.modules.render.FullBright;
 import mod.supergamer5465.sc.module.modules.utilities.AutoFish;
@@ -46,6 +47,7 @@ public class ModuleManager {
 		addModule(new AutoWalk());
 
 		// player
+		addModule(new Scaffold());
 
 		// render
 		addModule(new EntityTracers());
