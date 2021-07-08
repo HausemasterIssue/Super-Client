@@ -2,12 +2,17 @@ package mod.supergamer5465.sc;
 
 import mod.supergamer5465.sc.command.CommandManager;
 import mod.supergamer5465.sc.module.Module;
+import mod.supergamer5465.sc.ui.clickgui.ClickGuiController;
 import net.minecraft.client.Minecraft;
 import net.minecraft.util.text.TextComponentString;
 
 //class to interact with the client
 
 public class Client {
+
+	public static String lastConnectedIP = null;
+	public static int lastConnectedPort = -1;
+
 	public static String commandPrefix = ".";
 
 	public static String getCommandPrefix() {
@@ -39,5 +44,11 @@ public class Client {
 	public static void waitForKeybindKeypress(Module m) {
 		keybindModule = m;
 		getNextKeyPressForKeybinding = true;
+	}
+
+	public static void stopWaitForKeybindPress() {
+		getNextKeyPressForKeybinding = false;
+		keybindModule = null;
+		ClickGuiController.INSTANCE.settingController.refresh(false);
 	}
 }

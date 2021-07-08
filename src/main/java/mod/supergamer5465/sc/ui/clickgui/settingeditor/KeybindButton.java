@@ -37,8 +37,13 @@ public class KeybindButton {
 	public void onClick(int x, int y, int button) {
 		if (x >= this.x && x <= this.x + mc.fontRenderer.getStringWidth("Keybind: ") + 50 && y >= this.y - 5
 				&& y <= this.y + this.height - 5) {
-			Client.waitForKeybindKeypress(module);
-			ClickGuiController.INSTANCE.settingController.refresh(true);
+			if (!Client.getNextKeyPressForKeybinding) {
+				Client.waitForKeybindKeypress(module);
+				ClickGuiController.INSTANCE.settingController.refresh(true);
+			} else {
+				Client.stopWaitForKeybindPress();
+				ClickGuiController.INSTANCE.settingController.refresh(false);
+			}
 		}
 	}
 }

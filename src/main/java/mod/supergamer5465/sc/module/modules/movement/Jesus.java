@@ -10,7 +10,7 @@ import net.minecraft.util.math.BlockPos;
 
 public class Jesus extends Module {
 
-	ModeSetting mode = new ModeSetting("Mode", this, "spacebar", new String[] { "spacebar", "packet" });
+	ModeSetting mode = new ModeSetting("Mode", this, "bounce", new String[] { "bounce", "packet" });
 	FloatSetting speed = new FloatSetting("Float Speed", this, 1.0f);
 	BooleanSetting dmg = new BooleanSetting("Packet Anti-FallDamage", this, false);
 
@@ -26,7 +26,7 @@ public class Jesus extends Module {
 	public void onUpdate() {
 		if (mc.player.isRiding())
 			return;
-		if (mode.getMode().equalsIgnoreCase("spacebar")) {
+		if (mode.getMode().equalsIgnoreCase("bounce")) {
 			if (mc.player.isInWater()) {
 				mc.player.motionY = 0.03999999910593033D * speed.value;
 			}

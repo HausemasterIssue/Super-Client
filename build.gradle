@@ -24,7 +24,7 @@ apply plugin: 'eclipse'
 apply plugin: "org.spongepowered.mixin"
 apply plugin: "com.github.johnrengelman.shadow";
 
-version = '1.0.0'
+version = '0.1.0'
 group = 'mod.supergamer5465.sc'
 archivesBaseName = 'sc'
 
@@ -61,6 +61,8 @@ dependencies {
 
 	compile 'com.github.zeromemes:Alpine:1.9'
     
+    compile group : "net.jodah", name : "typetools",   version: "0.5.0"
+    
     compile("org.spongepowered:mixin:0.7.11-SNAPSHOT") {
 		exclude module: "launchwrapper"
 		exclude module: "commons-io"
@@ -72,7 +74,8 @@ dependencies {
 
 shadowJar {
 	dependencies {
-		include(dependency('com.github.ionar2:Alpine'))
+		include(dependency('com.github.zeromemes:Alpine:1.9'))
+		include(dependency("net.jodah:typetools"))
 		include(dependency("org.javassist:javassist"))
 		include(dependency("org.spongepowered:mixin"))
 	}
@@ -108,5 +111,22 @@ processResources {
 
 	rename "(.+_at.cfg)", 'META-INF/$1';
 }
+
+//doesn't work in dev environment but add for jar
+/*
+jar {
+	manifest {
+		attributes (
+			"FMLCorePluginContainsFMLMod" : "true",
+			"ForceLoadAsMod"              : "true",
+			"FMLCorePlugin"               : "mod.supergamer5465.sc.mixin.ScMixinLoader",
+			"MixinConfigs"                : "mixins.sc.json",
+			"tweakClass"                  : "org.spongepowered.asm.launch.MixinTweaker",
+			"TweakOrder"                  : 0,
+			"FMLAT"                       : "super_at.cfg"
+		)
+	}
+}
+*/
 
 build.dependsOn(shadowJar)

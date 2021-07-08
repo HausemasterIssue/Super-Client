@@ -22,7 +22,11 @@ public class FullBright extends Module {
 	public void onDisable() {
 		super.onDisable();
 
-		mc.gameSettings.gammaSetting = this.lastGamma;
+		if (lastGamma != 1000) {
+			mc.gameSettings.gammaSetting = this.lastGamma;
+		} else {
+			mc.gameSettings.gammaSetting = 100;
+		}
 	}
 
 	@Override

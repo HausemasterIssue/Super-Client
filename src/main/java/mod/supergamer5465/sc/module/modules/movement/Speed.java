@@ -2,7 +2,6 @@ package mod.supergamer5465.sc.module.modules.movement;
 
 import me.zero.alpine.listener.EventHandler;
 import me.zero.alpine.listener.Listener;
-import mod.supergamer5465.sc.event.events.ScEventJump;
 import mod.supergamer5465.sc.event.events.ScEventMove;
 import mod.supergamer5465.sc.module.Category;
 import mod.supergamer5465.sc.module.Module;
@@ -59,15 +58,6 @@ public class Speed extends Module {
 			}
 		}
 	}
-
-	@EventHandler
-	private Listener<ScEventJump> on_jump = new Listener<>(event -> {
-
-		if (mode.type.equalsIgnoreCase("strafe")) {
-			event.cancel();
-		}
-
-	});
 
 	@EventHandler
 	private Listener<ScEventMove> player_move = new Listener<>(event -> {

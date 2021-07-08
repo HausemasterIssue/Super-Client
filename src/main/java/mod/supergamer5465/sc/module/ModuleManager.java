@@ -15,8 +15,10 @@ import mod.supergamer5465.sc.module.modules.movement.Jesus;
 import mod.supergamer5465.sc.module.modules.movement.Speed;
 import mod.supergamer5465.sc.module.modules.player.Scaffold;
 import mod.supergamer5465.sc.module.modules.render.EntityTracers;
+import mod.supergamer5465.sc.module.modules.render.Freecam;
 import mod.supergamer5465.sc.module.modules.render.FullBright;
 import mod.supergamer5465.sc.module.modules.utilities.AutoFish;
+import mod.supergamer5465.sc.module.modules.utilities.NoHunger;
 import mod.supergamer5465.sc.util.RenderHelp;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.GlStateManager;
@@ -52,9 +54,11 @@ public class ModuleManager {
 		// render
 		addModule(new EntityTracers());
 		addModule(new FullBright());
+		addModule(new Freecam());
 
 		// utilities
 		addModule(new AutoFish());
+		addModule(new NoHunger());
 	}
 
 	public void addModule(Module m) {

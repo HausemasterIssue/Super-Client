@@ -11,11 +11,11 @@ import mod.supergamer5465.sc.setting.settings.BooleanSetting;
 import mod.supergamer5465.sc.setting.settings.ColorSetting;
 import mod.supergamer5465.sc.setting.settings.FloatSetting;
 import mod.supergamer5465.sc.setting.settings.IntSetting;
+import mod.supergamer5465.sc.util.EntityUtil;
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.item.EntityItem;
-import net.minecraft.entity.monster.EntityMob;
-import net.minecraft.entity.passive.EntityAnimal;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.math.Vec3d;
 
@@ -24,12 +24,12 @@ public class EntityTracers extends Module {
 	private final ArrayList<Entity> entities = new ArrayList<>();
 
 	IntSetting max = new IntSetting("Maximum Tracers", this, 50);
-	BooleanSetting hostile = new BooleanSetting("Hostile Mobs", this, true);
+	BooleanSetting monster = new BooleanSetting("Monsters", this, true);
 	BooleanSetting passive = new BooleanSetting("Passive Mobs", this, true);
 	BooleanSetting players = new BooleanSetting("Players", this, true);
 	BooleanSetting items = new BooleanSetting("Items", this, true);
 	BooleanSetting other = new BooleanSetting("Other Entities", this, true);
-	ColorSetting hostileColor = new ColorSetting("Hostile Color", this, 255, 255, 255);
+	ColorSetting monsterColor = new ColorSetting("Monster Color", this, 255, 255, 255);
 	ColorSetting passiveColor = new ColorSetting("Passive Color", this, 255, 255, 255);
 	ColorSetting playerColor = new ColorSetting("Player Color", this, 255, 255, 255);
 	ColorSetting itemColor = new ColorSetting("Item Color", this, 255, 255, 255);
@@ -39,16 +39,17 @@ public class EntityTracers extends Module {
 	public EntityTracers() {
 		super("Tracers", "Traces a line to entities", Category.RENDER);
 
-		addSetting(hostile);
+		addSetting(monster);
 		addSetting(passive);
 		addSetting(players);
 		addSetting(items);
 		addSetting(other);
-		addSetting(hostileColor);
+		addSetting(monsterColor);
 		addSetting(passiveColor);
 		addSetting(playerColor);
 		addSetting(itemColor);
 		addSetting(otherColor);
+		addSetting(width);
 	}
 
 	@Override
@@ -80,46 +81,50 @@ public class EntityTracers extends Module {
 				.rotateYaw(-(float) Math.toRadians(mc.player.rotationYaw));
 
 		for (Entity e : entities) {
-			if (e instanceof EntityMob && !hostile.enabled) {
-				continue;
-			} else if (e instanceof EntityAnimal && !passive.enabled) {
-				continue;
-			} else if (e instanceof EntityPlayer && !players.enabled) {
-				continue;
-			} else if (e instanceof EntityItem && !items.enabled) {
-				continue;
-			} else if (!(e instanceof EntityMob) && !(e instanceof EntityAnimal) && !(e instanceof EntityPlayer)
-					&& !(e instanceof EntityItem) && !other.enabled) {
-				continue;
+			if (e != mc.player) {
+				GL11.glColor4f(1.0f, 1.0f, 1.0f, 1.0f);
+
+				final double posX = this.interpolate(e.posX, e.lastTickPosX) - mc.getRenderManager().viewerPosX;
+				final double posY = this.interpolate(e.posY, e.lastTickPosY) - mc.getRenderManager().viewerPosY;
+				final double posZ = this.interpolate(e.posZ, e.lastTickPosZ) - mc.getRenderManager().viewerPosZ;
+
+				if (checkShouldRenderTracers(e)) {
+					GL11.glBegin(1);
+
+					GL11.glVertex3d(eyes.x, eyes.y + mc.player.getEyeHeight(), eyes.z);
+					GL11.glVertex3d(posX, posY, posZ);
+					GL11.glVertex3d(posX, posY, posZ);
+
+					GL11.glEnd();
+				}
 			}
-
-			final double posX = this.interpolate(e.posX, e.lastTickPosX) - mc.getRenderManager().viewerPosX;
-			final double posY = this.interpolate(e.posY, e.lastTickPosY) - mc.getRenderManager().viewerPosY;
-			final double posZ = this.interpolate(e.posZ, e.lastTickPosZ) - mc.getRenderManager().viewerPosZ;
-
-			if (e instanceof EntityMob) {
-				GL11.glColor4f(hostileColor.red, hostileColor.green, hostileColor.blue, 0.5F);
-			} else if (e instanceof EntityAnimal) {
-				GL11.glColor4f(passiveColor.red, passiveColor.green, passiveColor.blue, 0.5F);
-			} else if (e instanceof EntityPlayer) {
-				GL11.glColor4f(playerColor.red, playerColor.green, playerColor.blue, 0.5F);
-			} else if (e instanceof EntityItem) {
-				GL11.glColor4f(itemColor.red, itemColor.green, itemColor.blue, 0.5F);
-			} else {
-				GL11.glColor4f(otherColor.red, otherColor.green, otherColor.blue, 0.5F);
-			}
-
-			GL11.glBegin(1);
-
-			GL11.glVertex3d(eyes.x, eyes.y + mc.player.getEyeHeight(), eyes.z);
-			GL11.glVertex3d(posX, posY, posZ);
-			GL11.glVertex3d(posX, posY, posZ);
-
-			GL11.glEnd();
 		}
 	}
 
-	public double interpolate(final double now, final double then) {
+	private double interpolate(final double now, final double then) {
 		return then + (now - then) * mc.getRenderPartialTicks();
+	}
+
+	private boolean checkShouldRenderTracers(Entity e) {
+		if (e == Minecraft.getMinecraft().player)
+			return false;
+		if (e instanceof EntityPlayer) {
+			GL11.glColor4f(playerColor.red, playerColor.green, playerColor.blue, 0.5F);
+			return players.enabled;
+		}
+		if ((EntityUtil.isHostileMob(e) || EntityUtil.isNeutralMob(e))) {
+			GL11.glColor4f(monsterColor.red, monsterColor.green, monsterColor.blue, 0.5F);
+			return monster.enabled;
+		}
+		if (EntityUtil.isPassive(e)) {
+			GL11.glColor4f(passiveColor.red, passiveColor.green, passiveColor.blue, 0.5F);
+			return passive.enabled;
+		}
+		if (e instanceof EntityItem) {
+			GL11.glColor4f(itemColor.red, itemColor.green, itemColor.blue, 0.5F);
+			return items.enabled;
+		}
+		GL11.glColor4f(otherColor.red, otherColor.green, otherColor.blue, 0.5F);
+		return other.enabled;
 	}
 }

@@ -279,7 +279,10 @@ public class SettingButton {
 
 		if (cTextFieldRed != null && x <= cTextFieldRed.x && x >= cTextFieldRed.x + cTextFieldRed.width && y <= this.y
 				&& y >= this.y + this.height) {
-			// NOOP
+			if (cTextFieldRed != null) {
+				cTextFieldRed.setFocused(false);
+				cTextFieldRed.setText(Integer.toString(cSetting.red));
+			}
 		} else {
 			for (Entry<GuiTextField[], Entry<Module, Setting>> entry : SettingController.cTextFields.entrySet()) {
 				GuiTextField r = entry.getKey()[0];

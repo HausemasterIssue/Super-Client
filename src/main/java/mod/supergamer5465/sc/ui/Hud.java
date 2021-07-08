@@ -1,11 +1,13 @@
 package mod.supergamer5465.sc.ui;
 
 import java.awt.Color;
+import java.text.DecimalFormat;
 import java.util.Collections;
 import java.util.Comparator;
 
 import mod.supergamer5465.sc.Main;
 import mod.supergamer5465.sc.module.Module;
+import mod.supergamer5465.sc.setting.settings.BooleanSetting;
 import mod.supergamer5465.sc.util.Reference;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.FontRenderer;
@@ -42,18 +44,54 @@ public class Hud extends Gui {
 			FontRenderer fr = mc.fontRenderer;
 
 			if (event.getType() == RenderGameOverlayEvent.ElementType.TEXT) {
-				fr.drawStringWithShadow("Super Client " + Reference.VERSION, 2, 1, 0xa600ff);
-			}
-			if (event.getType() == RenderGameOverlayEvent.ElementType.TEXT) {
-				int y = 2;
-				final int[] counter = { 1 };
-				for (Module mod : Main.moduleManager.getModuleList()) {
-					if (!mod.getName().equalsIgnoreCase("") && mod.isToggled()) {
-						fr.drawStringWithShadow(mod.getName(),
-								sr.getScaledWidth() - fr.getStringWidth(mod.getName()) - 2, y,
-								rainbow(counter[0] * 300));
-						y += fr.FONT_HEIGHT;
-						counter[0]++;
+				if (((BooleanSetting) Main.settingManager.getSettingByName(Main.moduleManager.getModule("Hud"),
+						"Watermark")).enabled)
+					fr.drawStringWithShadow("Super Client " + Reference.VERSION, 2, 1, 0xa600ff);
+
+				if (((BooleanSetting) Main.settingManager.getSettingByName(Main.moduleManager.getModule("Hud"),
+						"ArrayList")).enabled) {
+					int y = 2;
+					final int[] counter = { 1 };
+					for (Module mod : Main.moduleManager.getModuleList()) {
+						if (!mod.getName().equalsIgnoreCase("") && mod.isToggled()) {
+							fr.drawStringWithShadow(mod.getName(),
+									sr.getScaledWidth() - fr.getStringWidth(mod.getName()) - 2, y,
+									rainbow(counter[0] * 300));
+							y += fr.FONT_HEIGHT;
+							counter[0]++;
+						}
+					}
+				}
+				if (((BooleanSetting) Main.settingManager.getSettingByName(Main.moduleManager.getModule("Hud"),
+						"Coordinates")).enabled) {
+
+					DecimalFormat df = new DecimalFormat("#.#");
+
+					if (mc.player.dimension == -1) {
+						fr.drawStringWithShadow(
+								df.format(mc.player.posX) + ", " + df.format(mc.player.posY) + ", "
+										+ df.format(mc.player.posZ),
+								2, (sr.getScaledHeight() - fr.FONT_HEIGHT) - 2, 0xff0000);
+						fr.drawStringWithShadow(
+								df.format(mc.player.posX * 8) + ", " + df.format(mc.player.posY) + ", "
+										+ df.format(mc.player.posZ * 8),
+								2, sr.getScaledHeight() - (fr.FONT_HEIGHT * 2) - 2, 0x00ff00);
+					}
+					if (mc.player.dimension == 0) {
+						fr.drawStringWithShadow(
+								df.format(mc.player.posX / 8) + ", " + df.format(mc.player.posY) + ", "
+										+ df.format(mc.player.posZ / 8),
+								2, (sr.getScaledHeight() - fr.FONT_HEIGHT) - 2, 0xff0000);
+						fr.drawStringWithShadow(
+								df.format(mc.player.posX) + ", " + df.format(mc.player.posY) + ", "
+										+ df.format(mc.player.posZ),
+								2, sr.getScaledHeight() - (fr.FONT_HEIGHT * 2) - 2, 0x00ff00);
+					}
+					if (mc.player.dimension == 1) {
+						fr.drawStringWithShadow(
+								df.format(mc.player.posX) + ", " + df.format(mc.player.posY) + ", "
+										+ df.format(mc.player.posZ),
+								2, (sr.getScaledHeight() - fr.FONT_HEIGHT) - 2, 0x800080);
 					}
 				}
 			}

@@ -1,4 +1,4 @@
-package mod.supergamer5465.sc.util.world;
+package mod.supergamer5465.sc.util;
 
 import java.util.Arrays;
 import java.util.List;
@@ -8,7 +8,7 @@ import net.minecraft.init.Blocks;
 
 public class WorldUtil {
 	public static List<Block> NONSOLID_BLOCKS = Arrays.asList(Blocks.AIR, Blocks.LAVA, Blocks.WATER, Blocks.SNOW_LAYER,
-			Blocks.FIRE, Blocks.GRASS, Blocks.TALLGRASS);
+			Blocks.FIRE, Blocks.TALLGRASS);
 
 	public static List<Block> RIGHTCLICKABLE_BLOCKS = Arrays.asList(Blocks.CHEST, Blocks.TRAPPED_CHEST,
 			Blocks.ENDER_CHEST, Blocks.WHITE_SHULKER_BOX, Blocks.ORANGE_SHULKER_BOX, Blocks.MAGENTA_SHULKER_BOX,

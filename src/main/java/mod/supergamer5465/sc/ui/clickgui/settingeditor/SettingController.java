@@ -6,6 +6,8 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Map.Entry;
 
+import org.lwjgl.input.Mouse;
+
 import mod.supergamer5465.sc.Main;
 import mod.supergamer5465.sc.misc.StringParser;
 import mod.supergamer5465.sc.module.Module;
@@ -17,6 +19,8 @@ import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.gui.GuiTextField;
 
 public class SettingController extends GuiScreen {
+
+	private int scrollOffset = 0;
 
 	public static Map<GuiTextField, Module> textFields = new HashMap<GuiTextField, Module>();
 
@@ -35,7 +39,8 @@ public class SettingController extends GuiScreen {
 			}
 		}
 
-		frame = new SettingFrame(module, 20, 20, new Color(255, 255, 255));
+		if (module != null)
+			frame = new SettingFrame(module, 20, 20, new Color(255, 255, 255));
 	}
 
 	public void refresh(boolean kbClicked) {
@@ -49,6 +54,14 @@ public class SettingController extends GuiScreen {
 	@Override
 	public void drawScreen(int mouseX, int mouseY, float partialTicks) {
 		super.drawScreen(mouseX, mouseY, partialTicks);
+
+		scroller();
+
+		if (frame == null) {
+			this.onGuiClosed();
+			return;
+		}
+
 		frame.render(mouseX, mouseY);
 
 		for (Map.Entry<GuiTextField, Module> entry : textFields.entrySet()) {
@@ -77,8 +90,39 @@ public class SettingController extends GuiScreen {
 
 	@Override
 	protected void keyTyped(char typedChar, int keyCode) throws IOException {
+
+		if (frame == null)
+			return;
+
 		super.keyTyped(typedChar, keyCode);
 		if (keyCode == 1) {
+
+			for (Map.Entry<GuiTextField, Module> entry : textFields.entrySet()) {
+				GuiTextField textField = entry.getKey();
+				if (entry.getValue() == frame.module)
+					textField.y -= scrollOffset;
+			}
+			frame.y -= scrollOffset;
+			for (Entry<GuiTextField[], Entry<Module, Setting>> entry : cTextFields.entrySet()) {
+				GuiTextField cTextFieldRed = entry.getKey()[0];
+				GuiTextField cTextFieldGreen = entry.getKey()[1];
+				GuiTextField cTextFieldBlue = entry.getKey()[2];
+
+				if (entry.getValue().getKey() == frame.module) {
+					cTextFieldRed.y -= scrollOffset;
+					cTextFieldGreen.y -= scrollOffset;
+					cTextFieldBlue.y -= scrollOffset;
+				}
+			}
+
+			frame.kbButton.y -= scrollOffset;
+
+			for (SettingButton s : frame.settingButtons) {
+				s.y -= scrollOffset;
+			}
+
+			scrollOffset = 0;
+
 			for (GuiTextField t : SettingController.textFields.keySet()) {
 				t.setFocused(false);
 				t.setTextColor(new Color(255, 255, 255).getRGB());
@@ -111,8 +155,29 @@ public class SettingController extends GuiScreen {
 	protected void mouseClicked(int mouseX, int mouseY, int mouseButton) throws IOException {
 		super.mouseClicked(mouseX, mouseY, mouseButton);
 
+		if (frame == null)
+			return;
+
 		if (mouseButton == 0) {
 			frame.onClick(mouseX, mouseY, mouseButton);
+			frame.y += scrollOffset;
+			for (Entry<GuiTextField[], Entry<Module, Setting>> entry : cTextFields.entrySet()) {
+				GuiTextField cTextFieldRed = entry.getKey()[0];
+				GuiTextField cTextFieldGreen = entry.getKey()[1];
+				GuiTextField cTextFieldBlue = entry.getKey()[2];
+
+				if (entry.getValue().getKey() == frame.module) {
+					cTextFieldRed.y += scrollOffset;
+					cTextFieldGreen.y += scrollOffset;
+					cTextFieldBlue.y += scrollOffset;
+				}
+			}
+
+			frame.kbButton.y += scrollOffset;
+
+			for (SettingButton s : frame.settingButtons) {
+				s.y += scrollOffset;
+			}
 		}
 
 		for (Map.Entry<GuiTextField, Module> entry : textFields.entrySet()) {
@@ -172,6 +237,12 @@ public class SettingController extends GuiScreen {
 	@Override
 	public void updateScreen() {
 		super.updateScreen();
+
+		if (frame == null) {
+			this.onGuiClosed();
+			return;
+		}
+
 		for (Map.Entry<GuiTextField, Module> entry : textFields.entrySet()) {
 			GuiTextField textField = entry.getKey();
 			if (entry.getValue() == frame.module) {
@@ -192,6 +263,57 @@ public class SettingController extends GuiScreen {
 				if (cTextFieldBlue.isFocused())
 					cTextFieldBlue.updateCursorCounter();
 			}
+		}
+	}
+
+	private void scroller() {
+		int dWheel = Mouse.getDWheel();
+		if (dWheel < 0) {
+			for (Map.Entry<GuiTextField, Module> entry : textFields.entrySet()) {
+				GuiTextField textField = entry.getKey();
+				if (entry.getValue() == frame.module)
+					textField.y = textField.y - 10;
+			}
+			frame.y = frame.y - 10;
+			for (SettingButton s : frame.settingButtons) {
+				s.y -= 10;
+			}
+			frame.kbButton.y -= 10;
+			for (Entry<GuiTextField[], Entry<Module, Setting>> entry : cTextFields.entrySet()) {
+				GuiTextField cTextFieldRed = entry.getKey()[0];
+				GuiTextField cTextFieldGreen = entry.getKey()[1];
+				GuiTextField cTextFieldBlue = entry.getKey()[2];
+
+				if (entry.getValue().getKey() == frame.module) {
+					cTextFieldRed.y -= 10;
+					cTextFieldGreen.y -= 10;
+					cTextFieldBlue.y -= 10;
+				}
+			}
+			scrollOffset -= 10;
+		} else if (dWheel > 0) {
+			for (Map.Entry<GuiTextField, Module> entry : textFields.entrySet()) {
+				GuiTextField textField = entry.getKey();
+				if (entry.getValue() == frame.module)
+					textField.y = textField.y + 10;
+			}
+			frame.y = frame.y + 10;
+			for (SettingButton s : frame.settingButtons) {
+				s.y += 10;
+			}
+			frame.kbButton.y += 10;
+			for (Entry<GuiTextField[], Entry<Module, Setting>> entry : cTextFields.entrySet()) {
+				GuiTextField cTextFieldRed = entry.getKey()[0];
+				GuiTextField cTextFieldGreen = entry.getKey()[1];
+				GuiTextField cTextFieldBlue = entry.getKey()[2];
+
+				if (entry.getValue().getKey() == frame.module) {
+					cTextFieldRed.y = cTextFieldRed.y + 10;
+					cTextFieldGreen.y = cTextFieldGreen.y + 10;
+					cTextFieldBlue.y = cTextFieldBlue.y + 10;
+				}
+			}
+			scrollOffset += 10;
 		}
 	}
 }

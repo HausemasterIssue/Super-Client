@@ -4,10 +4,9 @@ import mod.supergamer5465.sc.Main;
 import mod.supergamer5465.sc.module.Category;
 import mod.supergamer5465.sc.module.Module;
 import mod.supergamer5465.sc.setting.settings.BooleanSetting;
+import mod.supergamer5465.sc.util.EntityUtil;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.entity.monster.IMob;
-import net.minecraft.entity.passive.EntityAnimal;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
@@ -142,11 +141,11 @@ public class KillAura extends Module {
 		}
 
 		// If is hostile.
-		if (hostile.enabled && entity instanceof IMob) {
+		if (hostile.enabled && (EntityUtil.isNeutralMob(entity) || EntityUtil.isHostileMob(entity))) {
 			return true;
 		}
 
-		if (passive.enabled && entity instanceof EntityAnimal) {
+		if (passive.enabled && EntityUtil.isPassive(entity)) {
 			return true;
 		}
 
