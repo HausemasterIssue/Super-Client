@@ -1,130 +1,162 @@
 package mod.supergamer5465.sc.module.modules.player;
 
-import java.util.HashMap;
-import java.util.Map.Entry;
-
+import me.zero.alpine.listener.EventHandler;
+import me.zero.alpine.listener.Listener;
+import mod.supergamer5465.sc.Main;
+import mod.supergamer5465.sc.event.ScEventBus;
+import mod.supergamer5465.sc.event.events.ScEventMotionUpdate;
 import mod.supergamer5465.sc.module.Category;
 import mod.supergamer5465.sc.module.Module;
 import mod.supergamer5465.sc.setting.settings.BooleanSetting;
-import mod.supergamer5465.sc.setting.settings.FloatSetting;
-import mod.supergamer5465.sc.setting.settings.IntSetting;
-import mod.supergamer5465.sc.util.world.WorldUtil;
-import net.minecraft.init.SoundEvents;
+import mod.supergamer5465.sc.util.BlockUtil;
+import mod.supergamer5465.sc.util.EntityUtil;
+import mod.supergamer5465.sc.util.InventoryUtil;
+import mod.supergamer5465.sc.util.MathUtil;
+import mod.supergamer5465.sc.util.Timer;
+import mod.supergamer5465.sc.util.WorldUtil;
+import net.minecraft.block.Block;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
-import net.minecraft.network.Packet;
 import net.minecraft.network.play.client.CPacketEntityAction;
-import net.minecraft.network.play.client.CPacketEntityAction.Action;
+import net.minecraft.network.play.client.CPacketHeldItemChange;
+import net.minecraft.network.play.client.CPacketPlayer;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumHand;
-import net.minecraft.util.SoundCategory;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.Vec3d;
+import net.minecraftforge.common.MinecraftForge;
 
 public class Scaffold extends Module {
 
-	private HashMap<BlockPos, Integer> lastPlaced = new HashMap<>();
-
-	BooleanSetting stopper = new BooleanSetting("Fall Stopper", this, true);
-	IntSetting delay = new IntSetting("Delay (ms)", this, 100);
-	FloatSetting blockRange = new FloatSetting("Block Range", this, 0.3f);
+	BooleanSetting rotation = new BooleanSetting("Rotation", this, true);
+	private final Timer timer = new Timer();
 
 	public Scaffold() {
 		super("Scaffold", "Places Blocks Below You", Category.PLAYER);
 
-		addSetting(stopper);
-		addSetting(delay);
-		addSetting(blockRange);
+		addSetting(rotation);
 	}
-
-	private double delayTimer;
-	private double towerTimer;
 
 	@Override
-	public void onUpdate() {
+	public void onEnable() {
 
-		if (delayTimer == -1) {
-			delayTimer = System.currentTimeMillis();
-			return;
-		}
+		MinecraftForge.EVENT_BUS.register(this);
 
-		if (delayTimer >= System.currentTimeMillis() - delay.value)
-			return;
+		ScEventBus.EVENT_BUS.subscribe(this);
 
-		if (!WorldUtil.NONSOLID_BLOCKS
-				.contains(mc.world.getBlockState(new BlockPos(mc.player.getPosition().add(0, -0.85, 0))).getBlock())
-				&& mc.player.movementInput.jump) {
-			if (towerTimer == 0)
-				towerTimer = System.currentTimeMillis();
-			if (towerTimer + 1500 >= System.currentTimeMillis()) {
-				mc.player.motionY = -0.28f;
-				towerTimer = 0;
-			} else {
-				mc.player.setVelocity(0, 0.41999998688f, 0);
-			}
-		} // tower
+		Main.config.Save();
 
-		HashMap<BlockPos, Integer> tempMap = new HashMap<>();
-		for (Entry<BlockPos, Integer> e : lastPlaced.entrySet()) {
-			if (e.getValue() > 0)
-				tempMap.put(e.getKey(), e.getValue() - 1);
-		}
-		lastPlaced.clear();
-		lastPlaced.putAll(tempMap);
-
-		if (!(mc.player.inventory.getCurrentItem().getItem() instanceof ItemBlock)) {
-			for (int i = 0; i < 9; i++) {
-				ItemStack stack = mc.player.inventory.getStackInSlot(i);
-				if (stack.getItem() instanceof ItemBlock) {
-					mc.player.inventory.currentItem = i;
-					break;
-				}
-			}
-		}
-
-		double range = blockRange.value;
-		for (int r = 0; r < 7; r++) {
-			Vec3d r1 = new Vec3d(0, -0.85, 0);
-			if (r == 1)
-				r1 = r1.add(range, 0, 0);
-			if (r == 2)
-				r1 = r1.add(-range, 0, 0);
-			if (r == 3)
-				r1 = r1.add(0, 0, range);
-			if (r == 4)
-				r1 = r1.add(0, 0, -range);
-			if (r == 5)
-				r1 = r1.add(0, 0.35, 0);
-
-			if (WorldUtil.NONSOLID_BLOCKS
-					.contains(mc.world.getBlockState(new BlockPos(mc.player.getPositionVector().add(r1))).getBlock())) {
-				placeBlockAuto(new BlockPos(mc.player.getPositionVector().add(r1)));
-				delayTimer = System.currentTimeMillis();
-				return;
-			}
-		}
-		if (mc.player.fallDistance >= 1.3)
-			mc.player.motionY = -0.28f;
+		timer.reset();
 	}
 
-	public void placeBlockAuto(BlockPos block) {
-		if (lastPlaced.containsKey(block))
+	@EventHandler
+	private Listener<ScEventMotionUpdate> player_move = new Listener<>(event -> {
+
+		BlockPos playerBlock;
+		if (mc.world == null || event.stage == 0) {
 			return;
-		for (EnumFacing d : EnumFacing.values()) {
-			if (!WorldUtil.NONSOLID_BLOCKS.contains(mc.world.getBlockState(block.offset(d)).getBlock())) {
-				if (WorldUtil.RIGHTCLICKABLE_BLOCKS.contains(mc.world.getBlockState(block.offset(d)).getBlock())) {
-					mc.player.connection
-							.sendPacket((Packet<?>) new CPacketEntityAction(mc.player, Action.START_SNEAKING));
+		}
+		if (!mc.gameSettings.keyBindJump.isKeyDown()) {
+			this.timer.reset();
+		}
+		if (BlockUtil.isScaffoldPos((playerBlock = EntityUtil.getPlayerPosWithEntity()).add(0, -1, 0))) {
+			if (BlockUtil.isValidBlock(playerBlock.add(0, -2, 0))) {
+				this.place(playerBlock.add(0, -1, 0), EnumFacing.UP);
+			} else if (BlockUtil.isValidBlock(playerBlock.add(-1, -1, 0))) {
+				this.place(playerBlock.add(0, -1, 0), EnumFacing.EAST);
+			} else if (BlockUtil.isValidBlock(playerBlock.add(1, -1, 0))) {
+				this.place(playerBlock.add(0, -1, 0), EnumFacing.WEST);
+			} else if (BlockUtil.isValidBlock(playerBlock.add(0, -1, -1))) {
+				this.place(playerBlock.add(0, -1, 0), EnumFacing.SOUTH);
+			} else if (BlockUtil.isValidBlock(playerBlock.add(0, -1, 1))) {
+				this.place(playerBlock.add(0, -1, 0), EnumFacing.NORTH);
+			} else if (BlockUtil.isValidBlock(playerBlock.add(1, -1, 1))) {
+				if (BlockUtil.isValidBlock(playerBlock.add(0, -1, 1))) {
+					this.place(playerBlock.add(0, -1, 1), EnumFacing.NORTH);
 				}
-				mc.playerController.processRightClickBlock(mc.player, mc.world, block, d, new Vec3d(block),
-						EnumHand.MAIN_HAND);
-				mc.world.playSound(block, SoundEvents.BLOCK_NOTE_HAT, SoundCategory.BLOCKS, 1f, 1f, false);
-				if (WorldUtil.RIGHTCLICKABLE_BLOCKS.contains(mc.world.getBlockState(block.offset(d)).getBlock())) {
-					mc.player.connection.sendPacket(new CPacketEntityAction(mc.player, Action.STOP_SNEAKING));
+				this.place(playerBlock.add(1, -1, 1), EnumFacing.EAST);
+			} else if (BlockUtil.isValidBlock(playerBlock.add(-1, -1, 1))) {
+				if (BlockUtil.isValidBlock(playerBlock.add(-1, -1, 0))) {
+					this.place(playerBlock.add(0, -1, 1), EnumFacing.WEST);
 				}
-				lastPlaced.put(block, 5);
-				return;
+				this.place(playerBlock.add(-1, -1, 1), EnumFacing.SOUTH);
+			} else if (BlockUtil.isValidBlock(playerBlock.add(1, -1, 1))) {
+				if (BlockUtil.isValidBlock(playerBlock.add(0, -1, 1))) {
+					this.place(playerBlock.add(0, -1, 1), EnumFacing.SOUTH);
+				}
+				this.place(playerBlock.add(1, -1, 1), EnumFacing.WEST);
+			} else if (BlockUtil.isValidBlock(playerBlock.add(1, -1, 1))) {
+				if (BlockUtil.isValidBlock(playerBlock.add(0, -1, 1))) {
+					this.place(playerBlock.add(0, -1, 1), EnumFacing.EAST);
+				}
+				this.place(playerBlock.add(1, -1, 1), EnumFacing.NORTH);
 			}
+		}
+	});
+
+	public void place(BlockPos posI, EnumFacing face) {
+		BlockPos pos = posI;
+		if (face == EnumFacing.UP) {
+			pos = pos.add(0, -1, 0);
+		} else if (face == EnumFacing.NORTH) {
+			pos = pos.add(0, 0, 1);
+		} else if (face == EnumFacing.SOUTH) {
+			pos = pos.add(0, 0, -1);
+		} else if (face == EnumFacing.EAST) {
+			pos = pos.add(-1, 0, 0);
+		} else if (face == EnumFacing.WEST) {
+			pos = pos.add(1, 0, 0);
+		}
+		int oldSlot = mc.player.inventory.currentItem;
+		int newSlot = -1;
+		for (int i = 0; i < 9; ++i) {
+			ItemStack stack = mc.player.inventory.getStackInSlot(i);
+			if (InventoryUtil.isItemStackNull(stack) || !(stack.getItem() instanceof ItemBlock)
+					|| !Block.getBlockFromItem(stack.getItem()).getDefaultState().isFullBlock())
+				continue;
+			newSlot = i;
+			break;
+		}
+		if (newSlot == -1) {
+			return;
+		}
+		boolean crouched = false;
+		if (!mc.player.isSneaking()
+				&& WorldUtil.RIGHTCLICKABLE_BLOCKS.contains(mc.world.getBlockState(pos).getBlock())) {
+			mc.player.connection
+					.sendPacket(new CPacketEntityAction(mc.player, CPacketEntityAction.Action.START_SNEAKING));
+			crouched = true;
+		}
+		if (!(mc.player.getHeldItemMainhand().getItem() instanceof ItemBlock)) {
+			mc.player.connection.sendPacket(new CPacketHeldItemChange(newSlot));
+			mc.player.inventory.currentItem = newSlot;
+			mc.playerController.updateController();
+		}
+		if (mc.gameSettings.keyBindJump.isKeyDown()) {
+			mc.player.motionX *= 0.3;
+			mc.player.motionZ *= 0.3;
+			mc.player.jump();
+			if (this.timer.getPassedMillis(1500L)) {
+				mc.player.motionY = -0.28;
+				this.timer.reset();
+			}
+		}
+		if (this.rotation.enabled) {
+			float[] angle = MathUtil.calcAngle(mc.player.getPositionEyes(mc.getRenderPartialTicks()),
+					new Vec3d((float) pos.getX() + 0.5f, (float) pos.getY() - 0.5f, (float) pos.getZ() + 0.5f));
+			mc.player.connection.sendPacket(new CPacketPlayer.Rotation(angle[0],
+					(float) MathHelper.normalizeAngle((int) angle[1], 360), mc.player.onGround));
+		}
+		mc.playerController.processRightClickBlock(mc.player, mc.world, pos, face, new Vec3d(0.5, 0.5, 0.5),
+				EnumHand.MAIN_HAND);
+		mc.player.swingArm(EnumHand.MAIN_HAND);
+		mc.player.connection.sendPacket(new CPacketHeldItemChange(oldSlot));
+		mc.player.inventory.currentItem = oldSlot;
+		mc.playerController.updateController();
+		if (crouched) {
+			mc.player.connection
+					.sendPacket(new CPacketEntityAction(mc.player, CPacketEntityAction.Action.STOP_SNEAKING));
 		}
 	}
 }

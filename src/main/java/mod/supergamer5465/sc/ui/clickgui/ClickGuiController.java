@@ -3,11 +3,15 @@ package mod.supergamer5465.sc.ui.clickgui;
 import java.io.IOException;
 import java.util.ArrayList;
 
+import org.lwjgl.input.Mouse;
+
 import mod.supergamer5465.sc.module.Category;
 import mod.supergamer5465.sc.ui.clickgui.settingeditor.SettingController;
 import net.minecraft.client.gui.GuiScreen;
 
 public class ClickGuiController extends GuiScreen {
+
+	private int scrollOffset;
 
 	public static ClickGuiController INSTANCE = new ClickGuiController();
 
@@ -36,6 +40,7 @@ public class ClickGuiController extends GuiScreen {
 	@Override
 	public void drawScreen(int mouseX, int mouseY, float partialTicks) {
 		super.drawScreen(mouseX, mouseY, partialTicks);
+		scroller();
 		for (ClickGuiFrame frame : frames) {
 			frame.render(mouseX, mouseY);
 		}
@@ -52,8 +57,16 @@ public class ClickGuiController extends GuiScreen {
 		}
 
 		if (mouseButton == 1) {
-			settingController = new SettingController(mouseX, mouseY);
-			mc.displayGuiScreen(settingController);
+
+			settingController = null;
+
+			for (ModuleButton m : ClickGuiController.getButtons()) {
+				if (mouseX >= m.x && mouseX <= m.x + m.width && mouseY >= m.y && mouseY <= m.y + m.height) {
+					settingController = new SettingController(mouseX, mouseY);
+				}
+			}
+			if (settingController != null)
+				mc.displayGuiScreen(settingController);
 		}
 	}
 
@@ -61,5 +74,40 @@ public class ClickGuiController extends GuiScreen {
 	public boolean doesGuiPauseGame() {
 		super.doesGuiPauseGame();
 		return false;
+	}
+
+	@Override
+	protected void keyTyped(char typedChar, int keyCode) throws IOException {
+		super.keyTyped(typedChar, keyCode);
+		if (keyCode == 1) {
+			for (ClickGuiFrame c : frames) {
+				c.y = c.y -= scrollOffset;
+				for (ModuleButton m : c.moduleButtons) {
+					m.y -= scrollOffset;
+				}
+			}
+			scrollOffset = 0;
+		}
+	}
+
+	private void scroller() {
+		int dWheel = Mouse.getDWheel();
+		if (dWheel < 0) {
+			for (ClickGuiFrame c : frames) {
+				c.y = c.y - 10;
+				for (ModuleButton m : c.moduleButtons) {
+					m.y = m.y - 10;
+				}
+			}
+			scrollOffset -= 10;
+		} else if (dWheel > 0) {
+			for (ClickGuiFrame c : frames) {
+				c.y = c.y + 10;
+				for (ModuleButton m : c.moduleButtons) {
+					m.y = m.y + 10;
+				}
+			}
+			scrollOffset += 10;
+		}
 	}
 }

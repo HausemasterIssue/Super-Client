@@ -18,7 +18,7 @@ public class ScMixinLoader implements IFMLLoadingPlugin {
 
 		MixinEnvironment.getDefaultEnvironment().setObfuscationContext("searge");
 
-		System.out.println("loaded mixins");
+		System.out.println("Super Client: loaded mixins");
 	}
 
 	@Override

@@ -4,14 +4,16 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import me.zero.alpine.listener.Listenable;
 import mod.supergamer5465.sc.Main;
 import mod.supergamer5465.sc.container.ScInventory;
+import mod.supergamer5465.sc.event.ScEventBus;
 import mod.supergamer5465.sc.event.events.ScEventRender;
 import mod.supergamer5465.sc.setting.Setting;
 import net.minecraft.client.Minecraft;
 import net.minecraftforge.common.MinecraftForge;
 
-public class Module {
+public class Module implements Listenable {
 
 	protected Minecraft mc = Minecraft.getMinecraft();
 	protected ScInventory inv = new ScInventory();
@@ -79,11 +81,15 @@ public class Module {
 	protected void onEnable() {
 		MinecraftForge.EVENT_BUS.register(this);
 
+		ScEventBus.EVENT_BUS.subscribe(this);
+
 		Main.config.Save();
 	}
 
 	protected void onDisable() {
 		MinecraftForge.EVENT_BUS.unregister(this);
+
+		ScEventBus.EVENT_BUS.unsubscribe(this);
 
 		Main.config.Save();
 	}
@@ -105,5 +111,8 @@ public class Module {
 
 	public void render() {
 		// 2d
+	}
+
+	public void onKeyPress() {
 	}
 }
