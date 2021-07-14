@@ -5,6 +5,8 @@ import java.util.AbstractMap;
 import java.util.Map;
 import java.util.Map.Entry;
 
+import mod.supergamer5465.sc.event.ScEventBus;
+import mod.supergamer5465.sc.event.events.ScEventSettings;
 import mod.supergamer5465.sc.misc.StringParser;
 import mod.supergamer5465.sc.module.Module;
 import mod.supergamer5465.sc.setting.Setting;
@@ -235,6 +237,8 @@ public class SettingButton {
 	public void onClick(int x, int y, int button) throws NullPointerException {
 
 		if (x >= this.x && x <= this.x + this.width && y >= this.y && y <= this.y + this.height) {
+
+			ScEventBus.EVENT_BUS.post(new ScEventSettings(setting, setting.parent));
 
 			if (setting.type.equalsIgnoreCase("mode")) {
 				mSetting.cycle();

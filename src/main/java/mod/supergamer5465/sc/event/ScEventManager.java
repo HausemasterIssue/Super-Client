@@ -169,7 +169,7 @@ public class ScEventManager implements Listenable {
 				try {
 					Client.lastConnectedIP = (String) ip.get(packet);
 
-					Client.lastConnectedPort = ip.getInt(packet);
+					Client.lastConnectedPort = port.getInt(packet);
 				} catch (IllegalArgumentException | IllegalAccessException e) {
 					e.printStackTrace();
 				}

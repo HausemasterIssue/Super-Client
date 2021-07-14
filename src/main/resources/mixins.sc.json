@@ -8,6 +8,9 @@
 		"ScMixinEntity",
 		"ScMixinEntityPlayerSP",
 		"ScMixinVisGraph",
-		"ScMixinWorld"
+		"ScMixinWorld",
+		"ScMixinGuiDisconnected",
+		"ScMixinGuiScreen",
+		"ScMixinRenderPlayer"
 	]
 }

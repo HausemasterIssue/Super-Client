@@ -1,7 +1,7 @@
 package mod.supergamer5465.sc.event.events;
 
-import me.zero.alpine.event.type.Cancellable;
+import mod.supergamer5465.sc.event.ScEventCancellable;
 
-public class ScEventSetOpaqueCube extends Cancellable {
+public class ScEventSetOpaqueCube extends ScEventCancellable {
 
 }

@@ -109,22 +109,22 @@ public class EntityTracers extends Module {
 		if (e == Minecraft.getMinecraft().player)
 			return false;
 		if (e instanceof EntityPlayer) {
-			GL11.glColor4f(playerColor.red, playerColor.green, playerColor.blue, 0.5F);
+			GL11.glColor4f(playerColor.red / 255, playerColor.green / 255, playerColor.blue / 255, 0.5F);
 			return players.enabled;
 		}
 		if ((EntityUtil.isHostileMob(e) || EntityUtil.isNeutralMob(e))) {
-			GL11.glColor4f(monsterColor.red, monsterColor.green, monsterColor.blue, 0.5F);
+			GL11.glColor4f(monsterColor.red / 255, monsterColor.green / 255, monsterColor.blue / 255, 0.5F);
 			return monster.enabled;
 		}
 		if (EntityUtil.isPassive(e)) {
-			GL11.glColor4f(passiveColor.red, passiveColor.green, passiveColor.blue, 0.5F);
+			GL11.glColor4f(passiveColor.red / 255, passiveColor.green / 255, passiveColor.blue / 255, 0.5F);
 			return passive.enabled;
 		}
 		if (e instanceof EntityItem) {
-			GL11.glColor4f(itemColor.red, itemColor.green, itemColor.blue, 0.5F);
+			GL11.glColor4f(itemColor.red / 255, itemColor.green / 255, itemColor.blue / 255, 0.5F);
 			return items.enabled;
 		}
-		GL11.glColor4f(otherColor.red, otherColor.green, otherColor.blue, 0.5F);
+		GL11.glColor4f(otherColor.red / 255, otherColor.green / 255, otherColor.blue / 255, 0.5F);
 		return other.enabled;
 	}
 }
