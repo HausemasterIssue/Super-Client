@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import mod.supergamer5465.sc.Client;
 import mod.supergamer5465.sc.command.commands.Bind;
 import mod.supergamer5465.sc.command.commands.Help;
+import mod.supergamer5465.sc.command.commands.Rotate;
 import mod.supergamer5465.sc.command.commands.Toggle;
 
 public class CommandManager {
@@ -17,6 +18,7 @@ public class CommandManager {
 		addCommand(new Bind());
 		addCommand(new Toggle());
 		addCommand(new Help());
+		addCommand(new Rotate());
 	}
 
 	public void addCommand(Command c) {

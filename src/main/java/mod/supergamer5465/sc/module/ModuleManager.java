@@ -13,13 +13,16 @@ import mod.supergamer5465.sc.module.modules.movement.AutoWalk;
 import mod.supergamer5465.sc.module.modules.movement.Flight;
 import mod.supergamer5465.sc.module.modules.movement.Jesus;
 import mod.supergamer5465.sc.module.modules.movement.Speed;
+import mod.supergamer5465.sc.module.modules.player.AutoEat;
 import mod.supergamer5465.sc.module.modules.player.Scaffold;
 import mod.supergamer5465.sc.module.modules.render.EntityTracers;
 import mod.supergamer5465.sc.module.modules.render.Freecam;
 import mod.supergamer5465.sc.module.modules.render.FullBright;
+import mod.supergamer5465.sc.module.modules.render.Nametags;
 import mod.supergamer5465.sc.module.modules.utilities.AutoFish;
 import mod.supergamer5465.sc.module.modules.utilities.NoHunger;
-import mod.supergamer5465.sc.util.RenderHelp;
+import mod.supergamer5465.sc.module.modules.utilities.Spammer;
+import mod.supergamer5465.sc.util.RenderUtil;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.entity.Entity;
@@ -50,15 +53,21 @@ public class ModuleManager {
 
 		// player
 		addModule(new Scaffold());
+		addModule(new AutoEat());
 
 		// render
 		addModule(new EntityTracers());
 		addModule(new FullBright());
 		addModule(new Freecam());
+		addModule(new Nametags());
 
 		// utilities
 		addModule(new AutoFish());
 		addModule(new NoHunger());
+		addModule(new Spammer());
+		// this module is just an experiment and is not used in the current version of
+		// super client
+		// addModule(new NoteBot());
 	}
 
 	public void addModule(Module m) {
@@ -112,7 +121,7 @@ public class ModuleManager {
 
 		Vec3d pos = get_interpolated_pos(mc.player, event.getPartialTicks());
 
-		ScEventRender event_render = new ScEventRender(RenderHelp.INSTANCE, pos);
+		ScEventRender event_render = new ScEventRender(RenderUtil.INSTANCE, pos);
 
 		event_render.reset_translation();
 
@@ -139,7 +148,7 @@ public class ModuleManager {
 		GlStateManager.enableDepth();
 		GlStateManager.enableCull();
 
-		RenderHelp.release_gl();
+		RenderUtil.release_gl();
 
 		mc.profiler.endSection();
 		mc.profiler.endSection();

@@ -23,7 +23,7 @@ import mod.supergamer5465.sc.setting.settings.StringSetting;
 import net.minecraft.client.Minecraft;
 
 public class Config {
-	private Path modFolder;
+	public static Path modFolder;
 	private Path configFile;
 
 	public Config() {

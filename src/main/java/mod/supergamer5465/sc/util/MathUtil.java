@@ -1,6 +1,7 @@
 package mod.supergamer5465.sc.util;
 
 import net.minecraft.client.Minecraft;
+import net.minecraft.entity.Entity;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.Vec3d;
 
@@ -50,4 +51,30 @@ public class MathUtil {
 		return new float[] { (float) MathHelper.wrapDegrees(Math.toDegrees(Math.atan2(difZ, difX)) - 90.0),
 				(float) MathHelper.wrapDegrees(Math.toDegrees(Math.atan2(difY, dist))) };
 	}
+
+	public static float interpolate(float val, float fmin, float fmax, float tmin, float tmax) {
+		float fdist = fmax - fmin;
+		float tdist = tmax - tmin;
+
+		float scaled = (val - fmin) / fdist;
+
+		return tmin + (scaled * tdist);
+	}
+
+	public static Vec3d interpolateEntity(Entity entity, float time) {
+		return new Vec3d(entity.lastTickPosX + (entity.posX - entity.lastTickPosX) * time,
+				entity.lastTickPosY + (entity.posY - entity.lastTickPosY) * time,
+				entity.lastTickPosZ + (entity.posZ - entity.lastTickPosZ) * time);
+	}
+
+	public static float clamp(float val, float min, float max) {
+		if (val <= min) {
+			val = min;
+		}
+		if (val >= max) {
+			val = max;
+		}
+		return val;
+	}
+
 }

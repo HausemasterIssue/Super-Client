@@ -6,10 +6,12 @@ import net.minecraft.block.BlockAir;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.entity.EntityPlayerSP;
 import net.minecraft.client.multiplayer.WorldClient;
+import net.minecraft.item.ItemFood;
 import net.minecraft.network.play.client.CPacketEntityAction;
 import net.minecraft.network.play.client.CPacketPlayer;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.Vec3d;
 
 public class PlayerUtil {
 	static Minecraft mc = Minecraft.getMinecraft();
@@ -146,5 +148,22 @@ public class PlayerUtil {
 
 	public static boolean isCurrentViewEntity() {
 		return mc.getRenderViewEntity() == mc.player;
+	}
+
+	public static void lookAtPos(BlockPos pos) {
+		float[] angle = MathUtil.calcAngle(mc.player.getPositionEyes(mc.getRenderPartialTicks()),
+				new Vec3d((float) pos.getX() + 0.5f, (float) pos.getY() + 0.5f, (float) pos.getZ() + 0.5f));
+		setPlayerRotations(angle[0], angle[1]);
+	}
+
+	public static void setPlayerRotations(float yaw, float pitch) {
+		mc.player.rotationYaw = yaw;
+		mc.player.rotationYawHead = yaw;
+		mc.player.rotationPitch = pitch;
+	}
+
+	public static boolean IsEating() {
+		return mc.player != null && mc.player.getHeldItemMainhand().getItem() instanceof ItemFood
+				&& mc.player.isHandActive();
 	}
 }
