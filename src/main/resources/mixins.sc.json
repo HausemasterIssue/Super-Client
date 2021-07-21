@@ -11,6 +11,7 @@
 		"ScMixinWorld",
 		"ScMixinGuiDisconnected",
 		"ScMixinGuiScreen",
-		"ScMixinRenderPlayer"
+		"ScMixinRenderPlayer",
+		"ScMixinGuiPlayerTabOverlay"
 	]
 }

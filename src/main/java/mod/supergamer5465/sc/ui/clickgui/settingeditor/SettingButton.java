@@ -77,7 +77,7 @@ public class SettingButton {
 			if (entry.getValue() == module) {
 				if (t.height == mc.fontRenderer.FONT_HEIGHT + 2
 						&& t.width == 380 - mc.fontRenderer.getStringWidth(setting.name + ": ")
-						&& t.x == x + 2 + mc.fontRenderer.getStringWidth(setting.name + ": ")) {
+						&& t.x == x + 2 + mc.fontRenderer.getStringWidth(setting.name + ": ") && t.y == this.y) {
 					textField = t;
 				}
 			}

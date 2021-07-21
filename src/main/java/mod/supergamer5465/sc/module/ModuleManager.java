@@ -8,7 +8,10 @@ import org.lwjgl.opengl.GL11;
 import mod.supergamer5465.sc.event.events.ScEventRender;
 import mod.supergamer5465.sc.module.modules.client.ClickGui;
 import mod.supergamer5465.sc.module.modules.client.Hud;
+import mod.supergamer5465.sc.module.modules.combat.AutoTotem;
+import mod.supergamer5465.sc.module.modules.combat.CrystalAura;
 import mod.supergamer5465.sc.module.modules.combat.KillAura;
+import mod.supergamer5465.sc.module.modules.combat.Surround;
 import mod.supergamer5465.sc.module.modules.movement.AutoWalk;
 import mod.supergamer5465.sc.module.modules.movement.Flight;
 import mod.supergamer5465.sc.module.modules.movement.Jesus;
@@ -16,10 +19,12 @@ import mod.supergamer5465.sc.module.modules.movement.Speed;
 import mod.supergamer5465.sc.module.modules.player.AutoEat;
 import mod.supergamer5465.sc.module.modules.player.Scaffold;
 import mod.supergamer5465.sc.module.modules.render.EntityTracers;
+import mod.supergamer5465.sc.module.modules.render.ExtraTab;
 import mod.supergamer5465.sc.module.modules.render.Freecam;
 import mod.supergamer5465.sc.module.modules.render.FullBright;
 import mod.supergamer5465.sc.module.modules.render.Nametags;
 import mod.supergamer5465.sc.module.modules.utilities.AutoFish;
+import mod.supergamer5465.sc.module.modules.utilities.ConcreteBot;
 import mod.supergamer5465.sc.module.modules.utilities.NoHunger;
 import mod.supergamer5465.sc.module.modules.utilities.Spammer;
 import mod.supergamer5465.sc.util.RenderUtil;
@@ -44,12 +49,18 @@ public class ModuleManager {
 
 		// combat
 		addModule(new KillAura());
+		addModule(new CrystalAura());
+		addModule(new Surround());
+		addModule(new AutoTotem());
 
 		// movement
 		addModule(new Speed());
 		addModule(new Flight());
 		addModule(new Jesus());
 		addModule(new AutoWalk());
+		// TODO entityRide
+		// TODO elytrafly
+		// TODO boatfly
 
 		// player
 		addModule(new Scaffold());
@@ -60,14 +71,20 @@ public class ModuleManager {
 		addModule(new FullBright());
 		addModule(new Freecam());
 		addModule(new Nametags());
+		addModule(new ExtraTab());
+		// TODO minimap (generate chunks from seed to show for not yet loaded chunks)
+		// consider making it only an addition to hud module
+		// TODO seedoverlay (generate chunks from seed to see player activity)
 
 		// utilities
 		addModule(new AutoFish());
 		addModule(new NoHunger());
 		addModule(new Spammer());
+		addModule(new ConcreteBot());
 		// this module is just an experiment and is not used in the current version of
 		// super client
 		// addModule(new NoteBot());
+		// TODO portalgui
 	}
 
 	public void addModule(Module m) {
