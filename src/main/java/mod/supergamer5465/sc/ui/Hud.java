@@ -65,7 +65,7 @@ public class Hud extends Gui {
 				if (((BooleanSetting) Main.settingManager.getSettingByName(Main.moduleManager.getModule("Hud"),
 						"Coordinates")).enabled) {
 
-					DecimalFormat df = new DecimalFormat("#.#");
+					DecimalFormat df = new DecimalFormat("#");
 
 					if (mc.player.dimension == -1) {
 						fr.drawStringWithShadow(
