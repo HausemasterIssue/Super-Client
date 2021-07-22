@@ -12,6 +12,9 @@
 		"ScMixinGuiDisconnected",
 		"ScMixinGuiScreen",
 		"ScMixinRenderPlayer",
-		"ScMixinGuiPlayerTabOverlay"
+		"ScMixinGuiPlayerTabOverlay",
+		"ScMixinAbstractHorse",
+		"ScMixinEntityLlama",
+		"ScMixinEntityPig"
 	]
 }

@@ -13,6 +13,7 @@ import mod.supergamer5465.sc.module.modules.combat.CrystalAura;
 import mod.supergamer5465.sc.module.modules.combat.KillAura;
 import mod.supergamer5465.sc.module.modules.combat.Surround;
 import mod.supergamer5465.sc.module.modules.movement.AutoWalk;
+import mod.supergamer5465.sc.module.modules.movement.EntityRide;
 import mod.supergamer5465.sc.module.modules.movement.Flight;
 import mod.supergamer5465.sc.module.modules.movement.Jesus;
 import mod.supergamer5465.sc.module.modules.movement.Speed;
@@ -58,7 +59,7 @@ public class ModuleManager {
 		addModule(new Flight());
 		addModule(new Jesus());
 		addModule(new AutoWalk());
-		// TODO entityRide
+		addModule(new EntityRide());
 		// TODO elytrafly
 		// TODO boatfly
 
@@ -72,8 +73,8 @@ public class ModuleManager {
 		addModule(new Freecam());
 		addModule(new Nametags());
 		addModule(new ExtraTab());
-		// TODO minimap (generate chunks from seed to show for not yet loaded chunks)
-		// consider making it only an addition to hud module
+		// TODO map (generate chunks from seed to show for not yet loaded chunks)
+		// consider making minimap addition to hud module
 		// TODO seedoverlay (generate chunks from seed to see player activity)
 
 		// utilities
@@ -84,7 +85,6 @@ public class ModuleManager {
 		// this module is just an experiment and is not used in the current version of
 		// super client
 		// addModule(new NoteBot());
-		// TODO portalgui
 	}
 
 	public void addModule(Module m) {
