@@ -7,12 +7,10 @@ import net.minecraft.client.network.NetworkPlayerInfo;
 import net.minecraft.scoreboard.ScorePlayerTeam;
 
 public class ExtraTab extends Module {
-	private static ExtraTab INSTANCE = new ExtraTab();
 	public IntSetting size = new IntSetting("Size", this, 1000);
 
 	public ExtraTab() {
 		super("ExtraTab", "Extends Tab Menu", Category.RENDER);
-		this.setInstance();
 
 		addSetting(size);
 	}
@@ -24,16 +22,5 @@ public class ExtraTab extends Module {
 						networkPlayerInfoIn.getGameProfile().getName());
 		;
 		return name;
-	}
-
-	public static ExtraTab getINSTANCE() {
-		if (INSTANCE == null) {
-			INSTANCE = new ExtraTab();
-		}
-		return INSTANCE;
-	}
-
-	private void setInstance() {
-		INSTANCE = this;
 	}
 }
