@@ -3,8 +3,6 @@ package mod.supergamer5465.sc.module.modules.utilities;
 import static net.minecraft.network.play.client.CPacketEntityAction.Action.START_SPRINTING;
 import static net.minecraft.network.play.client.CPacketEntityAction.Action.STOP_SPRINTING;
 
-import java.lang.reflect.Field;
-
 import me.zero.alpine.listener.EventHandler;
 import me.zero.alpine.listener.Listener;
 import mod.supergamer5465.sc.event.events.ScEventPacket;
@@ -26,34 +24,15 @@ public class NoHunger extends Module {
 		addSetting(onGround);
 	}
 
-	private Field cPacketPlayerOnGround;
-
 	@EventHandler
 	private Listener<ScEventPacket.ReceivePacket> PacketEvent = new Listener<>(p_Event -> {
 		if (p_Event.get_packet() instanceof CPacketPlayer && onGround.enabled && !mc.player.isElytraFlying()) {
 			final CPacketPlayer l_Packet = (CPacketPlayer) p_Event.get_packet();
 
-			Class<CPacketPlayer> cPacketPlayerClass = CPacketPlayer.class;
-			try {
-				cPacketPlayerOnGround = cPacketPlayerClass.getDeclaredField("onGround");
-			} catch (NoSuchFieldException e) {
-				throw new RuntimeException(
-						"Super Client error: no such field " + e.getMessage() + " in class CPacketPlayer");
-			}
-			cPacketPlayerOnGround.setAccessible(true);
-
 			if (mc.player.fallDistance > 0 || mc.playerController.getIsHittingBlock()) {
-				try {
-					cPacketPlayerOnGround.setBoolean(l_Packet, true);
-				} catch (IllegalArgumentException | IllegalAccessException e) {
-					throw new RuntimeException("Super Client error: " + e.getMessage());
-				}
+				l_Packet.onGround = true;
 			} else {
-				try {
-					cPacketPlayerOnGround.setBoolean(l_Packet, false);
-				} catch (IllegalArgumentException | IllegalAccessException e) {
-					throw new RuntimeException("Super Client error: " + e.getMessage());
-				}
+				l_Packet.onGround = false;
 			}
 		}
 

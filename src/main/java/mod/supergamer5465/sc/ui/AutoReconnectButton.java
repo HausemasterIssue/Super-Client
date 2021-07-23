@@ -1,10 +1,9 @@
 package mod.supergamer5465.sc.ui;
 
-import java.util.concurrent.TimeUnit;
-
 import mod.supergamer5465.sc.Client;
 import mod.supergamer5465.sc.Main;
-import mod.supergamer5465.sc.module.modules.utilities.AutoReconnect;
+import mod.supergamer5465.sc.module.modules.utilities.Reconnect;
+import mod.supergamer5465.sc.setting.settings.IntSetting;
 import mod.supergamer5465.sc.util.Timer;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiButton;
@@ -14,13 +13,15 @@ public class AutoReconnectButton extends GuiButton {
 	public AutoReconnectButton(int buttonId, int x, int y, String buttonText) {
 		super(buttonId, x, y, buttonText);
 
+		timer = new Timer();
 		timer.reset();
 
-		Mod = (AutoReconnect) Main.moduleManager.getModule("AutoReconnect");
-		reconnectTimer = Mod.timer.getValue();
+		Mod = (Reconnect) Main.moduleManager.getModule("Reconnect");
+		reconnectTimer = (long) ((IntSetting) Main.settingManager
+				.getSettingByName(Main.moduleManager.getModule("Reconnect"), "Timer")).value;
 	}
 
-	private AutoReconnect Mod;
+	private Reconnect Mod;
 	private Timer timer = new Timer();
 	private long reconnectTimer;
 
@@ -29,15 +30,17 @@ public class AutoReconnectButton extends GuiButton {
 		super.drawButton(mc, mouseX, mouseY, partialTicks);
 
 		if (visible) {
-			if (Mod.toggled && !timer.getPassedMillis(reconnectTimer))
-				this.displayString = "AutoReconnect ("
-						+ TimeUnit.MILLISECONDS.toSeconds(Math
-								.abs((timer.getPassedTimeMs() + (long) reconnectTimer) - System.currentTimeMillis()))
-						+ ")";
+			reconnectTimer = (long) ((IntSetting) Main.settingManager
+					.getSettingByName(Main.moduleManager.getModule("Reconnect"), "Timer")).value;
+			if (Mod.toggled && timer.getPassedTimeMs() < reconnectTimer)
+				this.displayString = "AutoReconnect " + Long.toString((long) reconnectTimer - timer.getPassedTimeMs());
 			else if (!Mod.toggled)
-				this.displayString = "AutoReconnect";
+				this.displayString = "Enable AutoReconnect";
+			else {
+				mc.displayGuiScreen(new GuiConnecting(null, mc, Client.lastConnectedIP, Client.lastConnectedPort));
+			}
 
-			if (timer.getPassedMillis(reconnectTimer) && Mod.toggled && Client.lastConnectedIP != null
+			if (timer.getPassedTimeMs() + 100 >= reconnectTimer && Mod.toggled && Client.lastConnectedIP != null
 					&& Client.lastConnectedPort != -1) {
 				mc.displayGuiScreen(new GuiConnecting(null, mc, Client.lastConnectedIP, Client.lastConnectedPort));
 			}

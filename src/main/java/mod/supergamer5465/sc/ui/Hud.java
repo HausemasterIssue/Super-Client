@@ -1,7 +1,6 @@
 package mod.supergamer5465.sc.ui;
 
 import java.awt.Color;
-import java.text.DecimalFormat;
 import java.util.Collections;
 import java.util.Comparator;
 
@@ -65,33 +64,29 @@ public class Hud extends Gui {
 				if (((BooleanSetting) Main.settingManager.getSettingByName(Main.moduleManager.getModule("Hud"),
 						"Coordinates")).enabled) {
 
-					DecimalFormat df = new DecimalFormat("#");
+					String x;
+					String y;
+					String z;
+
+					x = Integer.toString((int) (mc.player.posX));
+					y = Integer.toString((int) (mc.player.posY));
+					z = Integer.toString((int) (mc.player.posZ));
 
 					if (mc.player.dimension == -1) {
-						fr.drawStringWithShadow(
-								df.format(mc.player.posX) + ", " + df.format(mc.player.posY) + ", "
-										+ df.format(mc.player.posZ),
-								2, (sr.getScaledHeight() - fr.FONT_HEIGHT) - 2, 0xff0000);
-						fr.drawStringWithShadow(
-								df.format(mc.player.posX * 8) + ", " + df.format(mc.player.posY) + ", "
-										+ df.format(mc.player.posZ * 8),
-								2, sr.getScaledHeight() - (fr.FONT_HEIGHT * 2) - 2, 0x00ff00);
+						fr.drawStringWithShadow(x + ", " + y + ", " + z, 2, (sr.getScaledHeight() - fr.FONT_HEIGHT) - 2,
+								0xff0000);
+						fr.drawStringWithShadow(Integer.valueOf(x) * 8 + ", " + y + ", " + Integer.valueOf(z) * 8, 2,
+								sr.getScaledHeight() - (fr.FONT_HEIGHT * 2) - 2, 0x00ff00);
 					}
 					if (mc.player.dimension == 0) {
-						fr.drawStringWithShadow(
-								df.format(mc.player.posX / 8) + ", " + df.format(mc.player.posY) + ", "
-										+ df.format(mc.player.posZ / 8),
-								2, (sr.getScaledHeight() - fr.FONT_HEIGHT) - 2, 0xff0000);
-						fr.drawStringWithShadow(
-								df.format(mc.player.posX) + ", " + df.format(mc.player.posY) + ", "
-										+ df.format(mc.player.posZ),
-								2, sr.getScaledHeight() - (fr.FONT_HEIGHT * 2) - 2, 0x00ff00);
+						fr.drawStringWithShadow(Integer.valueOf(x) / 8 + ", " + y + ", " + Integer.valueOf(z) / 8, 2,
+								(sr.getScaledHeight() - fr.FONT_HEIGHT) - 2, 0xff0000);
+						fr.drawStringWithShadow(x + ", " + y + ", " + z, 2,
+								sr.getScaledHeight() - (fr.FONT_HEIGHT * 2) - 2, 0x00ff00);
 					}
 					if (mc.player.dimension == 1) {
-						fr.drawStringWithShadow(
-								df.format(mc.player.posX) + ", " + df.format(mc.player.posY) + ", "
-										+ df.format(mc.player.posZ),
-								2, (sr.getScaledHeight() - fr.FONT_HEIGHT) - 2, 0x800080);
+						fr.drawStringWithShadow(x + ", " + y + ", " + z, 2, (sr.getScaledHeight() - fr.FONT_HEIGHT) - 2,
+								0x800080);
 					}
 				}
 			}

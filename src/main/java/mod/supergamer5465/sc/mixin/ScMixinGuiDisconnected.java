@@ -23,7 +23,6 @@ public class ScMixinGuiDisconnected extends ScMixinGuiScreen {
 
 	@Inject(method = "initGui", at = @At("RETURN"))
 	public void initGui(CallbackInfo info) {
-		/// Clear old ones :)
 		buttonList.clear();
 
 		this.buttonList.add(new GuiButton(0, this.width / 2 - 100,
@@ -41,9 +40,10 @@ public class ScMixinGuiDisconnected extends ScMixinGuiScreen {
 	protected void actionPerformed(GuiButton button, CallbackInfo info) {
 		if (button.id == 420) {
 			ReconnectingButton.Clicked();
-		} else if (button.id == 421)
+		} else if (button.id == 421) {
 			Minecraft.getMinecraft().displayGuiScreen(new GuiConnecting(null, Minecraft.getMinecraft(),
 					Client.lastConnectedIP, Client.lastConnectedPort));
+		}
 	}
 
 	@Inject(method = "drawScreen", at = @At("RETURN"))
@@ -54,10 +54,10 @@ public class ScMixinGuiDisconnected extends ScMixinGuiScreen {
 					Math.min(this.height / 2 + this.textHeight / 2 + this.fontRenderer.FONT_HEIGHT, this.height - 30),
 					I18n.format("gui.toMenu")));
 			this.buttonList.add(new GuiButton(421, this.width / 2 - 100, Math
-					.min(this.height / 2 + this.textHeight / 2 + this.fontRenderer.FONT_HEIGHT + 20, this.height - 10),
+					.min(this.height / 2 + this.textHeight / 2 + this.fontRenderer.FONT_HEIGHT + 30, this.height - 10),
 					"Reconnect"));
 			this.buttonList.add(ReconnectingButton = new AutoReconnectButton(420, this.width / 2 - 100, Math
-					.min(this.height / 2 + this.textHeight / 2 + this.fontRenderer.FONT_HEIGHT + 40, this.height + 10),
+					.min(this.height / 2 + this.textHeight / 2 + this.fontRenderer.FONT_HEIGHT + 60, this.height + 10),
 					"AutoReconnect"));
 		}
 	}

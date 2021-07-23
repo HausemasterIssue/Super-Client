@@ -1,7 +1,5 @@
 package mod.supergamer5465.sc.util;
 
-import java.lang.reflect.Field;
-
 import net.minecraft.block.BlockAir;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.entity.EntityPlayerSP;
@@ -26,123 +24,81 @@ public class PlayerUtil {
 		return 0;
 	}
 
-	private static Field serverSprintState;
-	private static Field serverSneakState;
-	private static Field lastReportedPosX;
-	private static Field lastReportedPosY;
-	private static Field lastReportedPosZ;
-	private static Field lastReportedPitch;
-	private static Field lastReportedYaw;
-	private static Field positionUpdateTicks;
-	private static Field prevOnGround;
-	private static Field autoJumpEnabled;
-
 	public static void PacketFacePitchAndYaw(float p_Pitch, float p_Yaw) {
-		Class<EntityPlayerSP> entityPlayerClass = EntityPlayerSP.class;
-
-		try {
-			serverSprintState = entityPlayerClass.getDeclaredField("serverSprintState");
-			serverSneakState = entityPlayerClass.getDeclaredField("serverSneakState");
-			lastReportedPosX = entityPlayerClass.getDeclaredField("lastReportedPosX");
-			lastReportedPosY = entityPlayerClass.getDeclaredField("lastReportedPosY");
-			lastReportedPosZ = entityPlayerClass.getDeclaredField("lastReportedPosZ");
-			lastReportedPitch = entityPlayerClass.getDeclaredField("lastReportedPitch");
-			lastReportedYaw = entityPlayerClass.getDeclaredField("lastReportedYaw");
-			positionUpdateTicks = entityPlayerClass.getDeclaredField("positionUpdateTicks");
-			prevOnGround = entityPlayerClass.getDeclaredField("prevOnGround");
-			autoJumpEnabled = entityPlayerClass.getDeclaredField("autoJumpEnabled");
-		} catch (NoSuchFieldException e) {
-			throw new RuntimeException(
-					"Super Client error: no such field " + e.getMessage() + " in class EntityPlayerSP");
-		}
-		serverSprintState.setAccessible(true);
-		serverSneakState.setAccessible(true);
-		lastReportedPosX.setAccessible(true);
-		lastReportedPosY.setAccessible(true);
-		lastReportedPosZ.setAccessible(true);
-		lastReportedPitch.setAccessible(true);
-		lastReportedYaw.setAccessible(true);
-		positionUpdateTicks.setAccessible(true);
-		prevOnGround.setAccessible(true);
-		autoJumpEnabled.setAccessible(true);
 
 		boolean l_IsSprinting = mc.player.isSprinting();
 
-		try {
-			if (l_IsSprinting != serverSprintState.getBoolean(mc.player)) {
-				if (l_IsSprinting) {
-					mc.player.connection
-							.sendPacket(new CPacketEntityAction(mc.player, CPacketEntityAction.Action.START_SPRINTING));
-				} else {
-					mc.player.connection
-							.sendPacket(new CPacketEntityAction(mc.player, CPacketEntityAction.Action.STOP_SPRINTING));
-				}
-
-				serverSprintState.setBoolean(mc.player, l_IsSprinting);
+		if (l_IsSprinting != mc.player.serverSprintState) {
+			if (l_IsSprinting) {
+				mc.player.connection
+						.sendPacket(new CPacketEntityAction(mc.player, CPacketEntityAction.Action.START_SPRINTING));
+			} else {
+				mc.player.connection
+						.sendPacket(new CPacketEntityAction(mc.player, CPacketEntityAction.Action.STOP_SPRINTING));
 			}
 
-			boolean l_IsSneaking = mc.player.isSneaking();
+			mc.player.serverSprintState = l_IsSprinting;
+		}
 
-			if (l_IsSneaking != serverSneakState.getBoolean(mc.player)) {
-				if (l_IsSneaking) {
-					mc.player.connection
-							.sendPacket(new CPacketEntityAction(mc.player, CPacketEntityAction.Action.START_SNEAKING));
-				} else {
-					mc.player.connection
-							.sendPacket(new CPacketEntityAction(mc.player, CPacketEntityAction.Action.STOP_SNEAKING));
-				}
+		boolean l_IsSneaking = mc.player.isSneaking();
 
-				serverSneakState.setBoolean(mc.player, l_IsSneaking);
+		if (l_IsSneaking != mc.player.serverSneakState) {
+			if (l_IsSneaking) {
+				mc.player.connection
+						.sendPacket(new CPacketEntityAction(mc.player, CPacketEntityAction.Action.START_SNEAKING));
+			} else {
+				mc.player.connection
+						.sendPacket(new CPacketEntityAction(mc.player, CPacketEntityAction.Action.STOP_SNEAKING));
 			}
 
-			if (PlayerUtil.isCurrentViewEntity()) {
-				float l_Pitch = p_Pitch;
-				float l_Yaw = p_Yaw;
+			mc.player.serverSneakState = l_IsSneaking;
+		}
 
-				AxisAlignedBB axisalignedbb = mc.player.getEntityBoundingBox();
-				double l_PosXDifference = mc.player.posX - lastReportedPosX.getDouble(mc.player);
-				double l_PosYDifference = axisalignedbb.minY - lastReportedPosY.getDouble(mc.player);
-				double l_PosZDifference = mc.player.posZ - lastReportedPosZ.getDouble(mc.player);
-				double l_YawDifference = (double) (l_Yaw - lastReportedYaw.getFloat(mc.player));
-				double l_RotationDifference = (double) (l_Pitch - lastReportedPitch.getFloat(mc.player));
-				positionUpdateTicks.set(mc.player, positionUpdateTicks.getInt(mc.player) + 1);
-				boolean l_MovedXYZ = l_PosXDifference * l_PosXDifference + l_PosYDifference * l_PosYDifference
-						+ l_PosZDifference * l_PosZDifference > 9.0E-4D || positionUpdateTicks.getInt(mc.player) >= 20;
-				boolean l_MovedRotation = l_YawDifference != 0.0D || l_RotationDifference != 0.0D;
+		if (PlayerUtil.isCurrentViewEntity()) {
+			float l_Pitch = p_Pitch;
+			float l_Yaw = p_Yaw;
 
-				if (mc.player.isRiding()) {
-					mc.player.connection.sendPacket(new CPacketPlayer.PositionRotation(mc.player.motionX, -999.0D,
-							mc.player.motionZ, l_Yaw, l_Pitch, mc.player.onGround));
-					l_MovedXYZ = false;
-				} else if (l_MovedXYZ && l_MovedRotation) {
-					mc.player.connection.sendPacket(new CPacketPlayer.PositionRotation(mc.player.posX,
-							axisalignedbb.minY, mc.player.posZ, l_Yaw, l_Pitch, mc.player.onGround));
-				} else if (l_MovedXYZ) {
-					mc.player.connection.sendPacket(new CPacketPlayer.Position(mc.player.posX, axisalignedbb.minY,
-							mc.player.posZ, mc.player.onGround));
-				} else if (l_MovedRotation) {
-					mc.player.connection.sendPacket(new CPacketPlayer.Rotation(l_Yaw, l_Pitch, mc.player.onGround));
-				} else if (prevOnGround.getBoolean(mc.player) != mc.player.onGround) {
-					mc.player.connection.sendPacket(new CPacketPlayer(mc.player.onGround));
-				}
+			AxisAlignedBB axisalignedbb = mc.player.getEntityBoundingBox();
+			double l_PosXDifference = mc.player.posX - mc.player.lastReportedPosX;
+			double l_PosYDifference = axisalignedbb.minY - mc.player.lastReportedPosY;
+			double l_PosZDifference = mc.player.posZ - mc.player.lastReportedPosZ;
+			double l_YawDifference = (double) (l_Yaw - mc.player.lastReportedYaw);
+			double l_RotationDifference = (double) (l_Pitch - mc.player.lastReportedPitch);
+			mc.player.positionUpdateTicks = mc.player.positionUpdateTicks + 1;
+			boolean l_MovedXYZ = l_PosXDifference * l_PosXDifference + l_PosYDifference * l_PosYDifference
+					+ l_PosZDifference * l_PosZDifference > 9.0E-4D || mc.player.positionUpdateTicks >= 20;
+			boolean l_MovedRotation = l_YawDifference != 0.0D || l_RotationDifference != 0.0D;
 
-				if (l_MovedXYZ) {
-					lastReportedPosX.setDouble(mc.player, mc.player.posX);
-					lastReportedPosY.setDouble(mc.player, axisalignedbb.minY);
-					lastReportedPosZ.setDouble(mc.player, mc.player.posZ);
-					positionUpdateTicks.setInt(mc.player, 0);
-				}
-
-				if (l_MovedRotation) {
-					lastReportedYaw.setFloat(mc.player, l_Yaw);
-					lastReportedPitch.setFloat(mc.player, l_Pitch);
-				}
-
-				prevOnGround.setBoolean(mc.player, mc.player.onGround);
-				autoJumpEnabled.setBoolean(mc.player, mc.gameSettings.autoJump);
+			if (mc.player.isRiding()) {
+				mc.player.connection.sendPacket(new CPacketPlayer.PositionRotation(mc.player.motionX, -999.0D,
+						mc.player.motionZ, l_Yaw, l_Pitch, mc.player.onGround));
+				l_MovedXYZ = false;
+			} else if (l_MovedXYZ && l_MovedRotation) {
+				mc.player.connection.sendPacket(new CPacketPlayer.PositionRotation(mc.player.posX, axisalignedbb.minY,
+						mc.player.posZ, l_Yaw, l_Pitch, mc.player.onGround));
+			} else if (l_MovedXYZ) {
+				mc.player.connection.sendPacket(new CPacketPlayer.Position(mc.player.posX, axisalignedbb.minY,
+						mc.player.posZ, mc.player.onGround));
+			} else if (l_MovedRotation) {
+				mc.player.connection.sendPacket(new CPacketPlayer.Rotation(l_Yaw, l_Pitch, mc.player.onGround));
+			} else if (mc.player.prevOnGround != mc.player.onGround) {
+				mc.player.connection.sendPacket(new CPacketPlayer(mc.player.onGround));
 			}
-		} catch (IllegalAccessException e) {
-			throw new RuntimeException("Super Client error: " + e.getMessage());
+
+			if (l_MovedXYZ) {
+				mc.player.lastReportedPosX = mc.player.posX;
+				mc.player.lastReportedPosY = axisalignedbb.minY;
+				mc.player.lastReportedPosZ = mc.player.posZ;
+				mc.player.positionUpdateTicks = 0;
+			}
+
+			if (l_MovedRotation) {
+				mc.player.lastReportedYaw = l_Yaw;
+				mc.player.lastReportedPitch = l_Pitch;
+			}
+
+			mc.player.prevOnGround = mc.player.onGround;
+			mc.player.autoJumpEnabled = mc.gameSettings.autoJump;
 		}
 	}
 

@@ -1,12 +1,9 @@
 package mod.supergamer5465.sc.module.modules.player;
 
-import java.lang.reflect.Field;
-
 import mod.supergamer5465.sc.module.Category;
 import mod.supergamer5465.sc.module.Module;
 import mod.supergamer5465.sc.setting.settings.IntSetting;
 import mod.supergamer5465.sc.util.PlayerUtil;
-import net.minecraft.client.settings.KeyBinding;
 import net.minecraft.item.ItemFood;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumHand;
@@ -23,30 +20,13 @@ public class AutoEat extends Module {
 
 	private boolean m_WasEating = false;
 
-	private static Field keyBindUseItemPressed;
-	Class<KeyBinding> keyBindingClass = KeyBinding.class;
-
 	@Override
 	public void onDisable() {
 		super.onDisable();
 
 		if (m_WasEating) {
 			m_WasEating = false;
-
-			try {
-				keyBindUseItemPressed = keyBindingClass.getDeclaredField("pressed");
-			} catch (NoSuchFieldException e) {
-				throw new RuntimeException(
-						"Super Client error: no such field " + e.getMessage() + " in class KeyBinding");
-			}
-
-			keyBindUseItemPressed.setAccessible(true);
-
-			try {
-				keyBindUseItemPressed.setBoolean(mc.gameSettings.keyBindUseItem, false);
-			} catch (IllegalArgumentException | IllegalAccessException e) {
-				e.printStackTrace();
-			}
+			mc.gameSettings.keyBindUseItem.pressed = false;
 		}
 	}
 
@@ -73,23 +53,7 @@ public class AutoEat extends Module {
 			}
 
 			if (l_CanEat) {
-				if (mc.currentScreen == null) {
-					try {
-						keyBindUseItemPressed = keyBindingClass.getDeclaredField("pressed");
-					} catch (NoSuchFieldException e) {
-						throw new RuntimeException(
-								"Super Client error: no such field " + e.getMessage() + " in class KeyBinding");
-					}
-
-					keyBindUseItemPressed.setAccessible(true);
-
-					try {
-						keyBindUseItemPressed.setBoolean(mc.gameSettings.keyBindUseItem, true);
-					} catch (IllegalArgumentException | IllegalAccessException e) {
-						e.printStackTrace();
-					}
-				} else
-					mc.playerController.processRightClick(mc.player, mc.world, EnumHand.MAIN_HAND);
+				mc.playerController.processRightClick(mc.player, mc.world, EnumHand.MAIN_HAND);
 
 				m_WasEating = true;
 			}
@@ -97,21 +61,7 @@ public class AutoEat extends Module {
 
 		if (m_WasEating) {
 			m_WasEating = false;
-
-			try {
-				keyBindUseItemPressed = keyBindingClass.getDeclaredField("pressed");
-			} catch (NoSuchFieldException e) {
-				throw new RuntimeException(
-						"Super Client error: no such field " + e.getMessage() + " in class KeyBinding");
-			}
-
-			keyBindUseItemPressed.setAccessible(true);
-
-			try {
-				keyBindUseItemPressed.setBoolean(mc.gameSettings.keyBindUseItem, false);
-			} catch (IllegalArgumentException | IllegalAccessException e) {
-				e.printStackTrace();
-			}
+			mc.gameSettings.keyBindUseItem.pressed = false;
 		}
 	}
 }

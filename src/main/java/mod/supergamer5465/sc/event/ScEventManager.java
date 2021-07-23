@@ -1,7 +1,5 @@
 package mod.supergamer5465.sc.event;
 
-import java.lang.reflect.Field;
-
 import org.lwjgl.input.Keyboard;
 
 import me.zero.alpine.listener.EventHandler;
@@ -51,11 +49,6 @@ public class ScEventManager implements Listenable {
 	public void onWorldRender(RenderWorldLastEvent event) {
 		if (event.isCanceled()) {
 			return;
-		}
-		if (mc.gameSettings.viewBobbing) {
-			mc.gameSettings.viewBobbing = false;
-			System.out.println("disabled view bobbing (because it fucking sucks)");
-			// view bobbing is gay
 		}
 		Main.moduleManager.render(event);
 	}
@@ -141,38 +134,17 @@ public class ScEventManager implements Listenable {
 		}
 	}
 
-	private Field ip;
-	private Field port;
+	@EventHandler
+	private Listener<ScEventPacket.ReceivePacket> PacketRecvEvent = new Listener<>(p_Event -> {
+	});
 
 	@EventHandler
-	private Listener<ScEventPacket.ReceivePacket> PacketEvent = new Listener<>(p_Event -> {
+	private Listener<ScEventPacket.SendPacket> PacketSendEvent = new Listener<>(p_Event -> {
 		if (p_Event.get_packet() instanceof C00Handshake) {
 			final C00Handshake packet = (C00Handshake) p_Event.get_packet();
 			if (packet.getRequestedState() == EnumConnectionState.LOGIN) {
-
-				Class<C00Handshake> c00HandshakeClass = C00Handshake.class;
-				try {
-					ip = c00HandshakeClass.getDeclaredField("ip");
-				} catch (NoSuchFieldException e) {
-					throw new RuntimeException(
-							"Super Client error: no such field " + e.getMessage() + " in class C00Handshake");
-				}
-				ip.setAccessible(true);
-				try {
-					port = c00HandshakeClass.getDeclaredField("port");
-				} catch (NoSuchFieldException e) {
-					throw new RuntimeException(
-							"Super Client error: no such field " + e.getMessage() + " in class C00Handshake");
-				}
-				port.setAccessible(true);
-
-				try {
-					Client.lastConnectedIP = (String) ip.get(packet);
-
-					Client.lastConnectedPort = port.getInt(packet);
-				} catch (IllegalArgumentException | IllegalAccessException e) {
-					e.printStackTrace();
-				}
+				Client.lastConnectedIP = packet.ip;
+				Client.lastConnectedPort = packet.port;
 			}
 		}
 	});

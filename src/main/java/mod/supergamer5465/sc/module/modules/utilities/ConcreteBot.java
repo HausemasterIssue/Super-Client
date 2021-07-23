@@ -1,14 +1,9 @@
 package mod.supergamer5465.sc.module.modules.utilities;
 
-import java.lang.reflect.Field;
-
-import mod.supergamer5465.sc.Main;
-import mod.supergamer5465.sc.event.ScEventBus;
 import mod.supergamer5465.sc.module.Category;
 import mod.supergamer5465.sc.module.Module;
 import mod.supergamer5465.sc.setting.settings.IntSetting;
 import mod.supergamer5465.sc.util.BlockInteractionUtil;
-import net.minecraft.client.multiplayer.PlayerControllerMP;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemPickaxe;
@@ -17,7 +12,6 @@ import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumHand;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.RayTraceResult;
-import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.gameevent.TickEvent;
 
@@ -110,27 +104,6 @@ public class ConcreteBot extends Module {
 			return;
 		}
 	}
-
-	@Override
-	public void onEnable() {
-
-		try {
-			isHittingBlock = PlayerControllerMPClass.getDeclaredField("isHittingBlock");
-			isHittingBlock.setAccessible(true);
-		} catch (NoSuchFieldException | SecurityException e) {
-			throw new RuntimeException(
-					"Super Client error: missing field in class PlayerControllerMP " + e.getMessage());
-		}
-
-		MinecraftForge.EVENT_BUS.register(this);
-
-		ScEventBus.EVENT_BUS.subscribe(this);
-
-		Main.config.Save();
-	}
-
-	Field isHittingBlock;
-	Class<PlayerControllerMP> PlayerControllerMPClass = PlayerControllerMP.class;
 
 	@SubscribeEvent
 	public void onTick(TickEvent event) {

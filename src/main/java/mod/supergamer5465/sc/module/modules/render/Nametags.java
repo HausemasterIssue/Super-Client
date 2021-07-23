@@ -1,6 +1,5 @@
 package mod.supergamer5465.sc.module.modules.render;
 
-import java.lang.reflect.Field;
 import java.util.Objects;
 
 import org.lwjgl.opengl.GL11;
@@ -16,7 +15,6 @@ import mod.supergamer5465.sc.util.ItemUtil;
 import mod.supergamer5465.sc.util.RenderUtil;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.RenderHelper;
-import net.minecraft.client.renderer.entity.RenderManager;
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
@@ -36,164 +34,121 @@ public class Nametags extends Module {
 		addSetting(scaleSetting);
 	}
 
-	private static Field renderPosX;
-	private static Field renderPosY;
-	private static Field renderPosZ;
-
-	Class<RenderManager> renderManagerClass = RenderManager.class;
-
 	@Override
 	public void render(ScEventRender event) {
-		try {
-			renderPosX = renderManagerClass.getDeclaredField("renderPosX");
-			renderPosY = renderManagerClass.getDeclaredField("renderPosY");
-			renderPosZ = renderManagerClass.getDeclaredField("renderPosZ");
-		} catch (NoSuchFieldException e) {
-			throw new RuntimeException(
-					"Super Client error: no such field " + e.getMessage() + " in class RenderManager");
-		}
-
-		renderPosX.setAccessible(true);
-		renderPosY.setAccessible(true);
-		renderPosZ.setAccessible(true);
-
 		for (final EntityPlayer player : mc.world.playerEntities) {
 			if (player != null && !player.equals(mc.player) && player.isEntityAlive() && (!player.isInvisible())) {
-				try {
-					final double x = this.interpolate(player.lastTickPosX, player.posX, event.get_partial_ticks())
-							- renderPosX.getDouble(mc.getRenderManager());
+				final double x = this.interpolate(player.lastTickPosX, player.posX, event.get_partial_ticks())
+						- mc.getRenderManager().renderPosX;
 
-					final double y = this.interpolate(player.lastTickPosY, player.posY, event.get_partial_ticks())
-							- renderPosY.getDouble(mc.getRenderManager());
-					final double z = this.interpolate(player.lastTickPosZ, player.posZ, event.get_partial_ticks())
-							- renderPosZ.getDouble(mc.getRenderManager());
-					this.renderNameTag(player, x, y, z, event.get_partial_ticks());
-				} catch (IllegalArgumentException | IllegalAccessException e) {
-					e.printStackTrace();
-				}
+				final double y = this.interpolate(player.lastTickPosY, player.posY, event.get_partial_ticks())
+						- mc.getRenderManager().renderPosY;
+				final double z = this.interpolate(player.lastTickPosZ, player.posZ, event.get_partial_ticks())
+						- mc.getRenderManager().renderPosZ;
+				this.renderNameTag(player, x, y, z, event.get_partial_ticks());
 			}
 		}
 	}
 
-	private static Field stackSize;
-	private static Field isEmpty;
-
-	Class<ItemStack> itemStackClass = ItemStack.class;
-
 	private void renderNameTag(final EntityPlayer player, final double x, final double y, final double z,
 			final float delta) {
-		try {
-			double tempY = y;
-			tempY += (player.isSneaking() ? 0.5 : 0.7);
-			final Entity camera = mc.getRenderViewEntity();
-			assert camera != null;
-			final double originalPositionX = camera.posX;
-			final double originalPositionY = camera.posY;
-			final double originalPositionZ = camera.posZ;
-			camera.posX = this.interpolate(camera.prevPosX, camera.posX, delta);
-			camera.posY = this.interpolate(camera.prevPosY, camera.posY, delta);
-			camera.posZ = this.interpolate(camera.prevPosZ, camera.posZ, delta);
-			final String displayTag = this.getDisplayTag(player);
-			final double distance = camera.getDistance(x + mc.getRenderManager().viewerPosX,
-					y + mc.getRenderManager().viewerPosY, z + mc.getRenderManager().viewerPosZ);
-			final int width = mc.fontRenderer.getStringWidth(displayTag) / 2;
-			double scale = (0.0018 + scaleSetting.value * (distance * 0.3)) / 1000.0;
-			if (distance <= 8.0) {
-				scale = 0.0245;
-			}
-			GlStateManager.pushMatrix();
-			RenderHelper.enableStandardItemLighting();
-			GlStateManager.enablePolygonOffset();
-			GlStateManager.doPolygonOffset(1.0f, -1500000.0f);
-			GlStateManager.disableLighting();
-			GlStateManager.translate((float) x, (float) tempY + 1.4f, (float) z);
-			GlStateManager.rotate(-mc.getRenderManager().playerViewY, 0.0f, 1.0f, 0.0f);
-			GlStateManager.rotate(mc.getRenderManager().playerViewX,
-					(mc.gameSettings.thirdPersonView == 2) ? -1.0f : 1.0f, 0.0f, 0.0f);
-			GlStateManager.scale(-scale, -scale, scale);
-			GlStateManager.disableDepth();
-			GlStateManager.enableBlend();
-			GlStateManager.enableBlend();
-
-			int red = 255;
-			int green = 255;
-			int blue = 255;
-			Float a = 0.5f;
-
-			RenderUtil.drawRect((float) (-width - 2) - 1, (float) (-(mc.fontRenderer.FONT_HEIGHT + 1)) - 1, width + 3f,
-					2.5f, red, green, blue, a);
-			RenderUtil.drawRect((float) (-width - 2), (float) (-(mc.fontRenderer.FONT_HEIGHT + 1)), width + 2.0f, 1.5f,
-					1426063360);
-			GlStateManager.disableBlend();
-			final ItemStack renderMainHand = player.getHeldItemMainhand().copy();
-
-			try {
-				stackSize = itemStackClass.getDeclaredField("stackSize");
-				isEmpty = itemStackClass.getDeclaredField("isEmpty");
-			} catch (NoSuchFieldException e) {
-				throw new RuntimeException(
-						"Super Client error: no such field " + e.getMessage() + " in class RenderManager");
-			}
-
-			stackSize.setAccessible(true);
-			isEmpty.setAccessible(true);
-
-			if (renderMainHand.hasEffect() && (renderMainHand.getItem() instanceof ItemTool
-					|| renderMainHand.getItem() instanceof ItemArmor)) {
-				stackSize.setInt(renderMainHand, 1);
-			}
-			if (!isEmpty.getBoolean(renderMainHand) && renderMainHand.getItem() != Items.AIR) {
-				final String stackName = renderMainHand.getDisplayName();
-				final int stackNameWidth = mc.fontRenderer.getStringWidth(stackName) / 2;
-				GL11.glPushMatrix();
-				GL11.glScalef(0.75f, 0.75f, 0.0f);
-				mc.fontRenderer.drawStringWithShadow(stackName, (float) (-stackNameWidth),
-						-(this.getBiggestArmorTag(player) + 32.0f), -1);
-				GL11.glScalef(1.5f, 1.5f, 1.0f);
-				GL11.glPopMatrix();
-			}
-
-			GlStateManager.pushMatrix();
-			int xOffset = -8;
-			for (final ItemStack stack : player.inventory.armorInventory) {
-				if (stack != null) {
-					xOffset -= 8;
-				}
-			}
-			xOffset -= 8;
-			final ItemStack renderOffhand = player.getHeldItemOffhand().copy();
-			if (renderOffhand.hasEffect()
-					&& (renderOffhand.getItem() instanceof ItemTool || renderOffhand.getItem() instanceof ItemArmor)) {
-				stackSize.setInt(renderOffhand, 1);
-			}
-			this.renderItemStack(renderOffhand, xOffset);
-			xOffset += 16;
-
-			for (int i = player.inventory.armorInventory.size(); i > 0; i--) {
-				final ItemStack stack2 = player.inventory.armorInventory.get(i - 1);
-				final ItemStack armourStack = stack2.copy();
-				if (armourStack.hasEffect()
-						&& (armourStack.getItem() instanceof ItemTool || armourStack.getItem() instanceof ItemArmor)) {
-					stackSize.setInt(armourStack, 1);
-				}
-				this.renderItemStack(armourStack, xOffset);
-				xOffset += 16;
-			}
-			this.renderItemStack(renderMainHand, xOffset);
-			GlStateManager.popMatrix();
-			mc.fontRenderer.drawStringWithShadow(displayTag, (float) (-width),
-					(float) (-(mc.fontRenderer.FONT_HEIGHT - 1)), this.getDisplayColour(player));
-			camera.posX = originalPositionX;
-			camera.posY = originalPositionY;
-			camera.posZ = originalPositionZ;
-			GlStateManager.enableDepth();
-			GlStateManager.disableBlend();
-			GlStateManager.disablePolygonOffset();
-			GlStateManager.doPolygonOffset(1.0f, 1500000.0f);
-			GlStateManager.popMatrix();
-		} catch (IllegalArgumentException | IllegalAccessException e) {
-			e.printStackTrace();
+		double tempY = y;
+		tempY += (player.isSneaking() ? 0.5 : 0.7);
+		final Entity camera = mc.getRenderViewEntity();
+		assert camera != null;
+		final double originalPositionX = camera.posX;
+		final double originalPositionY = camera.posY;
+		final double originalPositionZ = camera.posZ;
+		camera.posX = this.interpolate(camera.prevPosX, camera.posX, delta);
+		camera.posY = this.interpolate(camera.prevPosY, camera.posY, delta);
+		camera.posZ = this.interpolate(camera.prevPosZ, camera.posZ, delta);
+		final String displayTag = this.getDisplayTag(player);
+		final double distance = camera.getDistance(x + mc.getRenderManager().viewerPosX,
+				y + mc.getRenderManager().viewerPosY, z + mc.getRenderManager().viewerPosZ);
+		final int width = mc.fontRenderer.getStringWidth(displayTag) / 2;
+		double scale = (0.0018 + scaleSetting.value * (distance * 0.3)) / 1000.0;
+		if (distance <= 8.0) {
+			scale = 0.0245;
 		}
+		GlStateManager.pushMatrix();
+		RenderHelper.enableStandardItemLighting();
+		GlStateManager.enablePolygonOffset();
+		GlStateManager.doPolygonOffset(1.0f, -1500000.0f);
+		GlStateManager.disableLighting();
+		GlStateManager.translate((float) x, (float) tempY + 1.4f, (float) z);
+		GlStateManager.rotate(-mc.getRenderManager().playerViewY, 0.0f, 1.0f, 0.0f);
+		GlStateManager.rotate(mc.getRenderManager().playerViewX, (mc.gameSettings.thirdPersonView == 2) ? -1.0f : 1.0f,
+				0.0f, 0.0f);
+		GlStateManager.scale(-scale, -scale, scale);
+		GlStateManager.disableDepth();
+		GlStateManager.enableBlend();
+		GlStateManager.enableBlend();
+
+		int red = 255;
+		int green = 255;
+		int blue = 255;
+		Float a = 0.5f;
+
+		RenderUtil.drawRect((float) (-width - 2) - 1, (float) (-(mc.fontRenderer.FONT_HEIGHT + 1)) - 1, width + 3f,
+				2.5f, red, green, blue, a);
+		RenderUtil.drawRect((float) (-width - 2), (float) (-(mc.fontRenderer.FONT_HEIGHT + 1)), width + 2.0f, 1.5f,
+				1426063360);
+		GlStateManager.disableBlend();
+		final ItemStack renderMainHand = player.getHeldItemMainhand().copy();
+
+		if (renderMainHand.hasEffect()
+				&& (renderMainHand.getItem() instanceof ItemTool || renderMainHand.getItem() instanceof ItemArmor)) {
+			renderMainHand.stackSize = 1;
+		}
+		if (!renderMainHand.isEmpty && renderMainHand.getItem() != Items.AIR) {
+			final String stackName = renderMainHand.getDisplayName();
+			final int stackNameWidth = mc.fontRenderer.getStringWidth(stackName) / 2;
+			GL11.glPushMatrix();
+			GL11.glScalef(0.75f, 0.75f, 0.0f);
+			mc.fontRenderer.drawStringWithShadow(stackName, (float) (-stackNameWidth),
+					-(this.getBiggestArmorTag(player) + 32.0f), -1);
+			GL11.glScalef(1.5f, 1.5f, 1.0f);
+			GL11.glPopMatrix();
+		}
+
+		GlStateManager.pushMatrix();
+		int xOffset = -8;
+		for (final ItemStack stack : player.inventory.armorInventory) {
+			if (stack != null) {
+				xOffset -= 8;
+			}
+		}
+		xOffset -= 8;
+		final ItemStack renderOffhand = player.getHeldItemOffhand().copy();
+		if (renderOffhand.hasEffect()
+				&& (renderOffhand.getItem() instanceof ItemTool || renderOffhand.getItem() instanceof ItemArmor)) {
+			renderOffhand.stackSize = 1;
+		}
+		this.renderItemStack(renderOffhand, xOffset);
+		xOffset += 16;
+
+		for (int i = player.inventory.armorInventory.size(); i > 0; i--) {
+			final ItemStack stack2 = player.inventory.armorInventory.get(i - 1);
+			final ItemStack armourStack = stack2.copy();
+			if (armourStack.hasEffect()
+					&& (armourStack.getItem() instanceof ItemTool || armourStack.getItem() instanceof ItemArmor)) {
+				armourStack.stackSize = 1;
+			}
+			this.renderItemStack(armourStack, xOffset);
+			xOffset += 16;
+		}
+		this.renderItemStack(renderMainHand, xOffset);
+		GlStateManager.popMatrix();
+		mc.fontRenderer.drawStringWithShadow(displayTag, (float) (-width), (float) (-(mc.fontRenderer.FONT_HEIGHT - 1)),
+				this.getDisplayColour(player));
+		camera.posX = originalPositionX;
+		camera.posY = originalPositionY;
+		camera.posZ = originalPositionZ;
+		GlStateManager.enableDepth();
+		GlStateManager.disableBlend();
+		GlStateManager.disablePolygonOffset();
+		GlStateManager.doPolygonOffset(1.0f, 1500000.0f);
+		GlStateManager.popMatrix();
 	}
 
 	private void renderItemStack(final ItemStack stack, final int x) {

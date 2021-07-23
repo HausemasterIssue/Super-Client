@@ -27,6 +27,7 @@ import mod.supergamer5465.sc.module.modules.render.Nametags;
 import mod.supergamer5465.sc.module.modules.utilities.AutoFish;
 import mod.supergamer5465.sc.module.modules.utilities.ConcreteBot;
 import mod.supergamer5465.sc.module.modules.utilities.NoHunger;
+import mod.supergamer5465.sc.module.modules.utilities.Reconnect;
 import mod.supergamer5465.sc.module.modules.utilities.Spammer;
 import mod.supergamer5465.sc.util.RenderUtil;
 import net.minecraft.client.Minecraft;
@@ -68,17 +69,20 @@ public class ModuleManager {
 		addModule(new AutoEat());
 
 		// render
-		addModule(new EntityTracers());
+		addModule(new EntityTracers());// TODO make full entity selection list gui component
 		addModule(new FullBright());
 		addModule(new Freecam());
 		addModule(new Nametags());
 		addModule(new ExtraTab());
+		// TODO newchunks
+		// TODO search
 		// TODO map (generate chunks from seed to show for not yet loaded chunks)
 		// consider making minimap addition to hud module
 		// TODO seedoverlay (generate chunks from seed to see player activity)
 
 		// utilities
 		addModule(new AutoFish());
+		addModule(new Reconnect());
 		addModule(new NoHunger());
 		addModule(new Spammer());
 		addModule(new ConcreteBot());
