@@ -13,6 +13,8 @@ public class ExtraTab extends Module {
 	public ExtraTab() {
 		super("ExtraTab", "Extends Tab Menu", Category.RENDER);
 		this.setInstance();
+
+		addSetting(size);
 	}
 
 	public static String getPlayerName(NetworkPlayerInfo networkPlayerInfoIn) {
