@@ -38,8 +38,10 @@ public class AutoEat extends Module {
 		if (!PlayerUtil.IsEating() && hunger.value >= mc.player.getFoodStats().getFoodLevel()) {
 			boolean l_CanEat = false;
 
+			ItemStack l_Stack = null;
+
 			for (int l_I = 0; l_I < 9; ++l_I) {
-				ItemStack l_Stack = mc.player.inventory.getStackInSlot(l_I);
+				l_Stack = mc.player.inventory.getStackInSlot(l_I);
 
 				if (mc.player.inventory.getStackInSlot(l_I).isEmpty())
 					continue;
@@ -52,7 +54,8 @@ public class AutoEat extends Module {
 				}
 			}
 
-			if (l_CanEat) {
+			if (l_CanEat && l_Stack.getItem() instanceof ItemFood) {
+				mc.gameSettings.keyBindUseItem.pressed = true;
 				mc.playerController.processRightClick(mc.player, mc.world, EnumHand.MAIN_HAND);
 
 				m_WasEating = true;
@@ -61,7 +64,6 @@ public class AutoEat extends Module {
 
 		if (m_WasEating) {
 			m_WasEating = false;
-			mc.gameSettings.keyBindUseItem.pressed = false;
 		}
 	}
 }
