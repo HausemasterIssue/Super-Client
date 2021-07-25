@@ -15,6 +15,7 @@ import mod.supergamer5465.sc.setting.Setting;
 import mod.supergamer5465.sc.setting.settings.ColorSetting;
 import mod.supergamer5465.sc.ui.clickgui.ClickGuiController;
 import mod.supergamer5465.sc.ui.clickgui.ModuleButton;
+import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.gui.GuiTextField;
 
@@ -64,6 +65,11 @@ public class SettingController extends GuiScreen {
 
 		frame.render(mouseX, mouseY);
 
+		for (GuiButton g : frame.module.buttons) {
+			g.visible = true;
+			g.enabled = true;
+		}
+
 		for (Map.Entry<GuiTextField, Module> entry : textFields.entrySet()) {
 			GuiTextField textField = entry.getKey();
 			if (entry.getValue() == frame.module)
@@ -96,6 +102,11 @@ public class SettingController extends GuiScreen {
 
 		super.keyTyped(typedChar, keyCode);
 		if (keyCode == 1) {
+
+			for (GuiButton g : frame.module.buttons) {
+				g.visible = false;
+				g.enabled = false;
+			}
 
 			for (Map.Entry<GuiTextField, Module> entry : textFields.entrySet()) {
 				GuiTextField textField = entry.getKey();
@@ -160,6 +171,14 @@ public class SettingController extends GuiScreen {
 
 		if (mouseButton == 0) {
 			frame.onClick(mouseX, mouseY, mouseButton);
+
+			for (GuiButton g : frame.module.buttons) {
+				g.y += scrollOffset;
+
+				if (mouseX >= g.x && mouseX < g.x + g.width && mouseY >= g.y && mouseY < g.y + g.height)
+					module.actionPerformed(g);
+			}
+
 			frame.y += scrollOffset;
 			for (Entry<GuiTextField[], Entry<Module, Setting>> entry : cTextFields.entrySet()) {
 				GuiTextField cTextFieldRed = entry.getKey()[0];
@@ -290,6 +309,11 @@ public class SettingController extends GuiScreen {
 					cTextFieldBlue.y -= 10;
 				}
 			}
+
+			for (GuiButton g : frame.module.buttons) {
+				g.y -= 10;
+			}
+
 			scrollOffset -= 10;
 		} else if (dWheel > 0) {
 			for (Map.Entry<GuiTextField, Module> entry : textFields.entrySet()) {
@@ -313,6 +337,11 @@ public class SettingController extends GuiScreen {
 					cTextFieldBlue.y = cTextFieldBlue.y + 10;
 				}
 			}
+
+			for (GuiButton g : frame.module.buttons) {
+				g.y += 10;
+			}
+
 			scrollOffset += 10;
 		}
 	}
