@@ -4,6 +4,7 @@ import mod.supergamer5465.sc.module.Category;
 import mod.supergamer5465.sc.module.Module;
 import mod.supergamer5465.sc.setting.settings.IntSetting;
 import mod.supergamer5465.sc.util.BlockInteractionUtil;
+import net.minecraft.client.gui.GuiButton;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemPickaxe;
@@ -21,12 +22,27 @@ public class ConcreteBot extends Module {
 	IntSetting y = new IntSetting("Y", this, 0);
 	IntSetting z = new IntSetting("Z", this, 0);
 
+	GuiButton setPos = new GuiButton(10001, 0, 0, 0, mc.fontRenderer.FONT_HEIGHT + 2, "Set Current Position");
+
+	@Override
+	public void actionPerformed(GuiButton b) {
+		switch (b.id) {
+		case 10001:
+			x.value = mc.player.getPosition().getX();
+			y.value = mc.player.getPosition().getY();
+			z.value = mc.player.getPosition().getZ();
+			break;
+		}
+	}
+
 	public ConcreteBot() {
 		super("ConcreteBot", "Turns Powder Into Concrete", Category.UTILITIES);
 
 		addSetting(x);
 		addSetting(y);
 		addSetting(z);
+
+		addButton(setPos);
 	}
 
 	private boolean breakBlock;

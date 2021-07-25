@@ -11,6 +11,7 @@ import mod.supergamer5465.sc.event.ScEventBus;
 import mod.supergamer5465.sc.event.events.ScEventRender;
 import mod.supergamer5465.sc.setting.Setting;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.GuiButton;
 import net.minecraftforge.common.MinecraftForge;
 
 public class Module implements Listenable {
@@ -23,6 +24,7 @@ public class Module implements Listenable {
 	private Category category;
 	public boolean toggled;
 	public List<Setting> settings = new ArrayList<Setting>();
+	public List<GuiButton> buttons = new ArrayList<GuiButton>();
 
 	public Module(String name, String description, Category category) {
 		super();
@@ -31,6 +33,10 @@ public class Module implements Listenable {
 		this.key = 0;
 		this.category = category;
 		this.toggled = false;
+	}
+
+	public void addButton(GuiButton... buttons) {
+		this.buttons.addAll(Arrays.asList(buttons));
 	}
 
 	public void addSetting(Setting... settings) {
@@ -114,5 +120,8 @@ public class Module implements Listenable {
 	}
 
 	public void onKeyPress() {
+	}
+
+	public void actionPerformed(GuiButton b) {
 	}
 }

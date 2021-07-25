@@ -9,6 +9,7 @@ import mod.supergamer5465.sc.Main;
 import mod.supergamer5465.sc.module.Module;
 import mod.supergamer5465.sc.setting.Setting;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.GuiButton;
 
 public class SettingFrame {
 	int x, y, width, height;
@@ -40,6 +41,13 @@ public class SettingFrame {
 				settingButtons.add(new SettingButton(module, s, x, y + offsetY, this));
 				offsetY += 14;
 			}
+		}
+
+		for (GuiButton b : m.buttons) {
+			b.x = x;
+			b.y = y + offsetY;
+			b.width = mc.fontRenderer.getStringWidth(b.displayString);
+			offsetY += 14;
 		}
 
 		this.height = offsetY;
@@ -80,11 +88,19 @@ public class SettingFrame {
 		for (SettingButton s : settingButtons) {
 			s.draw(mouseX, mouseY);
 		}
+
+		for (GuiButton b : module.buttons) {
+			mc.fontRenderer.drawString(b.displayString, b.x + 2, b.y + 2, new Color(255, 255, 255).getRGB());
+		}
 	}
 
 	public void onClick(int x, int y, int button) {
 		for (SettingButton s : settingButtons) {
 			s.onClick(x, y, button);
+		}
+		for (GuiButton g : module.buttons) {
+			g.mousePressed(mc, x, y);
+			g.mouseReleased(x, y);
 		}
 		kbButton.onClick(x, y, button);
 	}
