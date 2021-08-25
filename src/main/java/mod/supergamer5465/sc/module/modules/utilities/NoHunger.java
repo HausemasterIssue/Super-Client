@@ -18,7 +18,7 @@ public class NoHunger extends Module {
 	BooleanSetting onGround = new BooleanSetting("On Ground", this, true);
 
 	public NoHunger() {
-		super("NoHunger", "Prevents You From Losing Hunger", Category.UTILITIES);
+		super("NoHunger", "Prevents You From Losing Hunger", Category.PLAYER);
 
 		addSetting(cancelSprint);
 		addSetting(onGround);

@@ -12,7 +12,6 @@ public class IntSetting extends Setting {
 		this.parent = parent;
 		if (!Main.configLoaded)
 			this.value = value;
-		this.type = "int";
 	}
 
 	public int getValue() {

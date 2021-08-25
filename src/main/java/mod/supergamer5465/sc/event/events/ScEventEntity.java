@@ -33,7 +33,7 @@ public class ScEventEntity extends ScEventCancellable {
 			this.y = y;
 		}
 
-		public void set_z(double x) {
+		public void set_z(double z) {
 			this.z = z;
 		}
 

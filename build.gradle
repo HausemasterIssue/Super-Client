@@ -13,9 +13,9 @@ buildscript {
 		}
     }
     dependencies {
-    	classpath "org.spongepowered:mixingradle:0.4-SNAPSHOT"
+    	classpath "org.spongepowered:mixingradle:0.6-SNAPSHOT"
         classpath 'net.minecraftforge.gradle:ForgeGradle:2.3-SNAPSHOT'
-        classpath "com.github.jengelman.gradle.plugins:shadow:1.2.3"
+        classpath "com.github.jengelman.gradle.plugins:shadow:2.0.4"
     }
 }
         
@@ -34,14 +34,17 @@ compileJava {
 }
 
 minecraft {
-    version  = "1.12.2-14.23.0.2531"
+    version  = "1.12.2-14.23.5.2768"
 	runDir   = "run"
 	coreMod  = "mod.supergamer5465.sc.mixin.ScMixinLoader"
-	mappings = "snapshot_20180814"
-	makeObfSourceJar = true
+	mappings = "stable_39"
+	makeObfSourceJar = false
 }
 
 repositories {
+	
+	jcenter()
+
 	maven {
 		name = "spongepowered-repo"
 		url  = "https://repo.spongepowered.org/maven/"
@@ -53,15 +56,16 @@ repositories {
 	}
 	
 	maven { url "https://jitpack.io" }
+	
 	mavenCentral()
-	jcenter()
+
 }
 
 dependencies {
 
 	compile 'com.github.zeromemes:Alpine:1.9'
     
-    compile group : "net.jodah", name : "typetools",   version: "0.5.0"
+    compile group: 'net.jodah', name: 'typetools', version: '0.5.0'
     
     compile("org.spongepowered:mixin:0.7.11-SNAPSHOT") {
 		exclude module: "launchwrapper"
@@ -70,10 +74,13 @@ dependencies {
 		exclude module: "gson"
 		exclude module: 'log4j-core'
 	}
+	
+	compile 'club.minnced:java-discord-rpc:2.0.2'
 }
 
 shadowJar {
 	dependencies {
+		include(dependency('club.minnced:java-discord-rpc:2.0.2'))
 		include(dependency('com.github.zeromemes:Alpine:1.9'))
 		include(dependency("net.jodah:typetools"))
 		include(dependency("org.javassist:javassist"))

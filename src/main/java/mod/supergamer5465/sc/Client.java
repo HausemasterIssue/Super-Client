@@ -10,9 +10,6 @@ import net.minecraft.util.text.TextComponentString;
 
 public class Client {
 
-	public static String lastConnectedIP = null;
-	public static int lastConnectedPort = -1;
-
 	public static String commandPrefix = ".";
 
 	public static String getCommandPrefix() {

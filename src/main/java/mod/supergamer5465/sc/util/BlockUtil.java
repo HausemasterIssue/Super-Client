@@ -21,6 +21,7 @@ public class BlockUtil {
 				|| BlockUtil.mc.world.getBlockState(pos).getBlock() instanceof BlockLiquid;
 	}
 
+	@SuppressWarnings("deprecation")
 	public static boolean isValidBlock(final BlockPos pos) {
 		final Block block = BlockUtil.mc.world.getBlockState(pos).getBlock();
 		return !(block instanceof BlockLiquid) && block.getMaterial((IBlockState) null) != Material.AIR;
