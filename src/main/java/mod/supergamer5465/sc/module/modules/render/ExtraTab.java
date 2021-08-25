@@ -20,7 +20,6 @@ public class ExtraTab extends Module {
 				? networkPlayerInfoIn.getDisplayName().getFormattedText()
 				: ScorePlayerTeam.formatPlayerName(networkPlayerInfoIn.getPlayerTeam(),
 						networkPlayerInfoIn.getGameProfile().getName());
-		;
 		return name;
 	}
 }

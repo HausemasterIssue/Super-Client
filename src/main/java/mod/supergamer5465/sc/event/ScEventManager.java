@@ -2,26 +2,19 @@ package mod.supergamer5465.sc.event;
 
 import org.lwjgl.input.Keyboard;
 
-import me.zero.alpine.listener.EventHandler;
-import me.zero.alpine.listener.Listenable;
-import me.zero.alpine.listener.Listener;
-import mod.supergamer5465.sc.Client;
-import mod.supergamer5465.sc.Main;
-import mod.supergamer5465.sc.event.events.ScEventGameOverlay;
-import mod.supergamer5465.sc.event.events.ScEventPacket;
+import me.zero.alpine.listener.*;
+import mod.supergamer5465.sc.*;
+import mod.supergamer5465.sc.event.events.*;
 import mod.supergamer5465.sc.module.Module;
+import mod.supergamer5465.sc.module.modules.utilities.Reconnect;
 import mod.supergamer5465.sc.ui.clickgui.ClickGuiController;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.GuiChat;
-import net.minecraft.client.gui.ScaledResolution;
+import net.minecraft.client.gui.*;
+import net.minecraft.client.multiplayer.ServerData;
 import net.minecraft.entity.passive.AbstractHorse;
-import net.minecraft.network.EnumConnectionState;
-import net.minecraft.network.handshake.client.C00Handshake;
-import net.minecraftforge.client.event.ClientChatEvent;
-import net.minecraftforge.client.event.InputUpdateEvent;
-import net.minecraftforge.client.event.RenderGameOverlayEvent;
-import net.minecraftforge.client.event.RenderWorldLastEvent;
+import net.minecraftforge.client.event.*;
 import net.minecraftforge.event.entity.living.LivingEvent;
+import net.minecraftforge.event.world.WorldEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.gameevent.InputEvent.KeyInputEvent;
 import net.minecraftforge.fml.common.gameevent.TickEvent;
@@ -140,12 +133,23 @@ public class ScEventManager implements Listenable {
 
 	@EventHandler
 	private Listener<ScEventPacket.SendPacket> PacketSendEvent = new Listener<>(p_Event -> {
-		if (p_Event.get_packet() instanceof C00Handshake) {
-			final C00Handshake packet = (C00Handshake) p_Event.get_packet();
-			if (packet.getRequestedState() == EnumConnectionState.LOGIN) {
-				Client.lastConnectedIP = packet.ip;
-				Client.lastConnectedPort = packet.port;
+	});
+
+	@SubscribeEvent
+	public void sendPacket(GuiOpenEvent event) {
+		if (event.getGui() instanceof GuiDisconnected) {
+			ServerData data = Minecraft.getMinecraft().getCurrentServerData();
+			if (data != null) {
+				((Reconnect) Main.moduleManager.getModule("Reconnect")).serverData = data;
 			}
 		}
-	});
+	}
+
+	@SubscribeEvent
+	public void onWorldUnload(WorldEvent.Unload event) {
+		ServerData data = Minecraft.getMinecraft().getCurrentServerData();
+		if (data != null) {
+			((Reconnect) Main.moduleManager.getModule("Reconnect")).serverData = data;
+		}
+	}
 }

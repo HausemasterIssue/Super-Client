@@ -1,34 +1,16 @@
 package mod.supergamer5465.sc.module;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 import org.lwjgl.opengl.GL11;
 
 import mod.supergamer5465.sc.event.events.ScEventRender;
-import mod.supergamer5465.sc.module.modules.client.ClickGui;
-import mod.supergamer5465.sc.module.modules.client.Hud;
-import mod.supergamer5465.sc.module.modules.combat.AutoTotem;
-import mod.supergamer5465.sc.module.modules.combat.CrystalAura;
-import mod.supergamer5465.sc.module.modules.combat.KillAura;
-import mod.supergamer5465.sc.module.modules.combat.Surround;
-import mod.supergamer5465.sc.module.modules.movement.AutoWalk;
-import mod.supergamer5465.sc.module.modules.movement.EntityRide;
-import mod.supergamer5465.sc.module.modules.movement.Flight;
-import mod.supergamer5465.sc.module.modules.movement.Jesus;
-import mod.supergamer5465.sc.module.modules.movement.Speed;
-import mod.supergamer5465.sc.module.modules.player.AutoEat;
-import mod.supergamer5465.sc.module.modules.player.Scaffold;
-import mod.supergamer5465.sc.module.modules.render.EntityTracers;
-import mod.supergamer5465.sc.module.modules.render.ExtraTab;
-import mod.supergamer5465.sc.module.modules.render.Freecam;
-import mod.supergamer5465.sc.module.modules.render.FullBright;
-import mod.supergamer5465.sc.module.modules.render.Nametags;
-import mod.supergamer5465.sc.module.modules.utilities.AutoFish;
-import mod.supergamer5465.sc.module.modules.utilities.ConcreteBot;
-import mod.supergamer5465.sc.module.modules.utilities.NoHunger;
-import mod.supergamer5465.sc.module.modules.utilities.Reconnect;
-import mod.supergamer5465.sc.module.modules.utilities.Spammer;
+import mod.supergamer5465.sc.module.modules.client.*;
+import mod.supergamer5465.sc.module.modules.combat.*;
+import mod.supergamer5465.sc.module.modules.movement.*;
+import mod.supergamer5465.sc.module.modules.player.*;
+import mod.supergamer5465.sc.module.modules.render.*;
+import mod.supergamer5465.sc.module.modules.utilities.*;
 import mod.supergamer5465.sc.util.RenderUtil;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.GlStateManager;
@@ -48,6 +30,7 @@ public class ModuleManager {
 		// client
 		addModule(new ClickGui());
 		addModule(new Hud());
+		addModule(new DiscordRPC());
 
 		// combat
 		addModule(new KillAura());
@@ -61,30 +44,38 @@ public class ModuleManager {
 		addModule(new Jesus());
 		addModule(new AutoWalk());
 		addModule(new EntityRide());
+		addModule(new Velocity());
 		// TODO elytrafly
-		// TODO boatfly
+		addModule(new BoatFly());
 
 		// player
+		// TODO fix autoeat and nohunger
 		addModule(new Scaffold());
 		addModule(new AutoEat());
+		addModule(new NoHunger());
 
 		// render
 		addModule(new EntityTracers());// TODO make full entity selection list gui component
 		addModule(new FullBright());
-		addModule(new Freecam());
+		addModule(new Freecam());// TODO fix entity dismounting with shift in freecam/make it baritone compatible
 		addModule(new Nametags());
 		addModule(new ExtraTab());
+		// TODO norender
 		// TODO newchunks
-		// TODO search
+		// TODO camera clip
+		// TODO camera distance
+		// addModule(new Search()); WIP
 		// TODO map (generate chunks from seed to show for not yet loaded chunks)
 		// consider making minimap addition to hud module
 		// TODO seedoverlay (generate chunks from seed to see player activity)
 
 		// utilities
+		// TODO fix autofish rod disappearing/items being held in inventory for offhand
+		// mending repair, also add timer so not reeling and casting rapidly
 		addModule(new AutoFish());
 		addModule(new Reconnect());
-		addModule(new NoHunger());
 		addModule(new Spammer());
+		// TODO fix concretebot to work on 2b2t
 		addModule(new ConcreteBot());
 		// this module is just an experiment and is not used in the current version of
 		// super client

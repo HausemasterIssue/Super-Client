@@ -1,18 +1,12 @@
 package mod.supergamer5465.sc.module.modules.render;
 
 import java.awt.Color;
-import java.util.ArrayList;
 
 import mod.supergamer5465.sc.event.events.ScEventRender;
 import mod.supergamer5465.sc.module.Category;
 import mod.supergamer5465.sc.module.Module;
-import mod.supergamer5465.sc.setting.settings.BooleanSetting;
-import mod.supergamer5465.sc.setting.settings.ColorSetting;
-import mod.supergamer5465.sc.setting.settings.FloatSetting;
-import mod.supergamer5465.sc.setting.settings.IntSetting;
-import mod.supergamer5465.sc.util.EntityUtil;
-import mod.supergamer5465.sc.util.MathUtil;
-import mod.supergamer5465.sc.util.RenderUtil;
+import mod.supergamer5465.sc.setting.settings.*;
+import mod.supergamer5465.sc.util.*;
 import net.minecraft.client.Minecraft;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.item.EntityItem;
@@ -20,8 +14,6 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.math.Vec3d;
 
 public class EntityTracers extends Module {
-
-	private final ArrayList<Entity> entities = new ArrayList<>();
 
 	IntSetting max = new IntSetting("Maximum Tracers", this, 50);
 	BooleanSetting monster = new BooleanSetting("Monsters", this, true);
@@ -100,17 +92,17 @@ public class EntityTracers extends Module {
 
 	private int getColor(Entity e) {
 		if (e instanceof EntityPlayer) {
-			return new Color(playerColor.red / 255, playerColor.green / 255, playerColor.blue / 255).getRGB();
+			return new Color(playerColor.red, playerColor.green, playerColor.blue, 0.5f).getRGB();
 		}
 		if ((EntityUtil.isHostileMob(e) || EntityUtil.isNeutralMob(e))) {
-			return new Color(monsterColor.red / 255, monsterColor.green / 255, monsterColor.blue / 255, 0.5F).getRGB();
+			return new Color(monsterColor.red, monsterColor.green, monsterColor.blue, 0.5F).getRGB();
 		}
 		if (EntityUtil.isPassive(e)) {
-			return new Color(passiveColor.red / 255, passiveColor.green / 255, passiveColor.blue / 255, 0.5F).getRGB();
+			return new Color(passiveColor.red, passiveColor.green, passiveColor.blue, 0.5F).getRGB();
 		}
 		if (e instanceof EntityItem) {
-			return new Color(itemColor.red / 255, itemColor.green / 255, itemColor.blue / 255, 0.5F).getRGB();
+			return new Color(itemColor.red, itemColor.green, itemColor.blue, 0.5F).getRGB();
 		}
-		return new Color(otherColor.red / 255, otherColor.green / 255, otherColor.blue / 255, 0.5F).getRGB();
+		return new Color(otherColor.red, otherColor.green, otherColor.blue, 0.5F).getRGB();
 	}
 }

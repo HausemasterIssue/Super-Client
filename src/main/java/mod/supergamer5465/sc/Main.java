@@ -2,9 +2,7 @@ package mod.supergamer5465.sc;
 
 import mod.supergamer5465.sc.command.CommandManager;
 import mod.supergamer5465.sc.config.Config;
-import mod.supergamer5465.sc.event.ScEventBus;
-import mod.supergamer5465.sc.event.ScEventHandler;
-import mod.supergamer5465.sc.event.ScEventManager;
+import mod.supergamer5465.sc.event.*;
 import mod.supergamer5465.sc.module.ModuleManager;
 import mod.supergamer5465.sc.setting.SettingManager;
 import mod.supergamer5465.sc.ui.Hud;
@@ -13,13 +11,9 @@ import mod.supergamer5465.sc.util.Reference;
 import net.minecraft.client.Minecraft;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.common.Mod;
-import net.minecraftforge.fml.common.Mod.EventHandler;
-import net.minecraftforge.fml.common.Mod.Instance;
-import net.minecraftforge.fml.common.event.FMLInitializationEvent;
-import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
-import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
+import net.minecraftforge.fml.common.Mod.*;
+import net.minecraftforge.fml.common.event.*;
+import net.minecraftforge.fml.relauncher.*;
 
 //main class, contains all event handlers etc.
 

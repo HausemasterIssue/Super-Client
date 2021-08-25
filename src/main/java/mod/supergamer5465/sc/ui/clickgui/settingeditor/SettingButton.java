@@ -1,8 +1,7 @@
 package mod.supergamer5465.sc.ui.clickgui.settingeditor;
 
 import java.awt.Color;
-import java.util.AbstractMap;
-import java.util.Map;
+import java.util.*;
 import java.util.Map.Entry;
 
 import mod.supergamer5465.sc.event.ScEventBus;
@@ -10,15 +9,11 @@ import mod.supergamer5465.sc.event.events.ScEventSettings;
 import mod.supergamer5465.sc.misc.StringParser;
 import mod.supergamer5465.sc.module.Module;
 import mod.supergamer5465.sc.setting.Setting;
-import mod.supergamer5465.sc.setting.settings.BooleanSetting;
-import mod.supergamer5465.sc.setting.settings.ColorSetting;
-import mod.supergamer5465.sc.setting.settings.FloatSetting;
-import mod.supergamer5465.sc.setting.settings.IntSetting;
-import mod.supergamer5465.sc.setting.settings.ModeSetting;
-import mod.supergamer5465.sc.setting.settings.StringSetting;
+import mod.supergamer5465.sc.setting.settings.*;
 import mod.supergamer5465.sc.ui.clickgui.ClickGuiController;
+import mod.supergamer5465.sc.ui.clickgui.settingeditor.selectors.*;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.GuiTextField;
+import net.minecraft.client.gui.*;
 
 public class SettingButton {
 	private GuiTextField textField;
@@ -44,6 +39,11 @@ public class SettingButton {
 	BooleanSetting bSetting;
 	StringSetting sSetting;
 	ColorSetting cSetting;
+	EntitySelectorSetting entitySetting;
+	BlockSelectorSetting blockSetting;
+
+	BlockSelectorGuiController blockController;
+	EntitySelectorGuiController entityController;
 
 	public SettingButton(Module module, Setting setting, int x, int y, SettingFrame parent) {
 
@@ -55,18 +55,22 @@ public class SettingButton {
 		this.height = 14;
 		this.setting = setting;
 
-		if (setting.type.equalsIgnoreCase("mode")) {
+		if (setting instanceof ModeSetting) {
 			this.mSetting = (ModeSetting) setting;
-		} else if (setting.type.equalsIgnoreCase("int")) {
+		} else if (setting instanceof IntSetting) {
 			this.iSetting = (IntSetting) setting;
-		} else if (setting.type.equalsIgnoreCase("float")) {
+		} else if (setting instanceof FloatSetting) {
 			this.fSetting = (FloatSetting) setting;
-		} else if (setting.type.equalsIgnoreCase("string")) {
+		} else if (setting instanceof StringSetting) {
 			this.sSetting = (StringSetting) setting;
-		} else if (setting.type.equalsIgnoreCase("boolean")) {
+		} else if (setting instanceof BooleanSetting) {
 			this.bSetting = (BooleanSetting) setting;
-		} else if (setting.type.equalsIgnoreCase("color")) {
+		} else if (setting instanceof ColorSetting) {
 			this.cSetting = (ColorSetting) setting;
+		} else if (setting instanceof EntitySelectorSetting) {
+			this.entitySetting = (EntitySelectorSetting) setting;
+		} else if (setting instanceof BlockSelectorSetting) {
+			this.blockSetting = (BlockSelectorSetting) setting;
 		}
 	}
 
@@ -107,10 +111,10 @@ public class SettingButton {
 			}
 		}
 
-		if (setting.type.equalsIgnoreCase("mode")) {
+		if (setting instanceof ModeSetting) {
 			mc.fontRenderer.drawString(mSetting.name + ": " + mSetting.getMode(), x + 2, y + 2,
 					new Color(255, 255, 255).getRGB());
-		} else if (setting.type.equalsIgnoreCase("int")) {
+		} else if (setting instanceof IntSetting) {
 			mc.fontRenderer.drawString(iSetting.name + ": ", x + 2, y + 2, new Color(255, 255, 255).getRGB());
 			int text = mc.fontRenderer.drawString(Integer.toString(iSetting.value),
 					x + 2 + mc.fontRenderer.getStringWidth(iSetting.name + ": "), y + 2,
@@ -132,7 +136,7 @@ public class SettingButton {
 					textField.setTextColor(new Color(255, 0, 0).getRGB());
 				}
 			}
-		} else if (setting.type.equalsIgnoreCase("float")) {
+		} else if (setting instanceof FloatSetting) {
 			mc.fontRenderer.drawString(fSetting.name + ": ", x + 2, y + 2, new Color(255, 255, 255).getRGB());
 			int text = mc.fontRenderer.drawString(Float.toString(fSetting.value),
 					x + 2 + mc.fontRenderer.getStringWidth(fSetting.name + ": "), y + 2,
@@ -153,7 +157,7 @@ public class SettingButton {
 					textField.setTextColor(new Color(255, 0, 0).getRGB());
 				}
 			}
-		} else if (setting.type.equalsIgnoreCase("string")) {
+		} else if (setting instanceof StringSetting) {
 			mc.fontRenderer.drawString(sSetting.name + ": ", x + 2, y + 2, new Color(255, 255, 255).getRGB());
 			int text = mc.fontRenderer.drawString(sSetting.value,
 					x + 2 + mc.fontRenderer.getStringWidth(sSetting.name + ": "), y + 2,
@@ -170,13 +174,13 @@ public class SettingButton {
 				sSetting.value = textField.getText();
 				textField.setTextColor(new Color(0, 255, 0).getRGB());
 			}
-		} else if (setting.type.equalsIgnoreCase("boolean")) {
+		} else if (setting instanceof BooleanSetting) {
 			if (bSetting.enabled) {
 				mc.fontRenderer.drawString(bSetting.name, x + 2, y + 2, new Color(255, 150, 50).getRGB());
 			} else {
 				mc.fontRenderer.drawString(bSetting.name, x + 2, y + 2, new Color(180, 240, 255).getRGB());
 			}
-		} else if (setting.type.equalsIgnoreCase("color")) {
+		} else if (setting instanceof ColorSetting) {
 			mc.fontRenderer.drawString(cSetting.name + ": ", x + 2, y + 2,
 					new Color(cSetting.red, cSetting.green, cSetting.blue).getRGB());
 			int textRed = mc.fontRenderer.drawString(Integer.toString(cSetting.red),
@@ -228,28 +232,32 @@ public class SettingButton {
 						cSetting.blue = Integer.valueOf(cTextFieldBlue.getText());
 				}
 			}
+		} else if (setting instanceof EntitySelectorSetting) {
+			mc.fontRenderer.drawString(entitySetting.name, x + 2, y + 2, new Color(255, 255, 255).getRGB());
+		} else if (setting instanceof BlockSelectorSetting) {
+			mc.fontRenderer.drawString(blockSetting.name, x + 2, y + 2, new Color(255, 255, 255).getRGB());
 		}
 	}
 
 	// mc.fontRenderer.drawString(module.getName(), x + 2, y + 2, new Color(255,
 	// 255, 255).getRGB());
 
-	public void onClick(int x, int y, int button) throws NullPointerException {
+	public void onClick(int x, int y, int button) {
 
 		if (x >= this.x && x <= this.x + this.width && y >= this.y && y <= this.y + this.height) {
 
 			ScEventBus.EVENT_BUS.post(new ScEventSettings(setting, setting.parent));
 
-			if (setting.type.equalsIgnoreCase("mode")) {
+			if (setting instanceof ModeSetting) {
 				mSetting.cycle();
 				ClickGuiController.INSTANCE.settingController.refresh(false);
-			} else if (setting.type.equalsIgnoreCase("int")) {
+			} else if (setting instanceof IntSetting) {
 				// NOOP
-			} else if (setting.type.equalsIgnoreCase("float")) {
+			} else if (setting instanceof FloatSetting) {
 				// NOOP
-			} else if (setting.type.equalsIgnoreCase("string")) {
+			} else if (setting instanceof StringSetting) {
 				// NOOP
-			} else if (setting.type.equalsIgnoreCase("boolean")) {
+			} else if (setting instanceof BooleanSetting) {
 				// we need to thin this down a bit so it doesn't overlap with other buttons
 				if (y >= this.y - 5 && y <= this.y + this.height - 5 && x >= this.x
 						&& x <= this.x + mc.fontRenderer.getStringWidth(bSetting.name)) {
@@ -260,9 +268,19 @@ public class SettingButton {
 					}
 				}
 				ClickGuiController.INSTANCE.settingController.refresh(false);
-			} else if (setting.type.equalsIgnoreCase("color")) {
+			} else if (setting instanceof ColorSetting) {
 				mc.fontRenderer.drawString(cSetting.name + ": ", x + 2, y + 2,
 						new Color(cSetting.red, cSetting.green, cSetting.blue).getRGB());
+			} else if (setting instanceof EntitySelectorSetting) {
+				GuiScreen last = mc.currentScreen;
+				mc.currentScreen.onGuiClosed();
+				this.entityController = new EntitySelectorGuiController(last, entitySetting.colorSettings);
+				mc.displayGuiScreen(this.entityController);
+			} else if (setting instanceof BlockSelectorSetting) {
+				GuiScreen last = mc.currentScreen;
+				mc.currentScreen.onGuiClosed();
+				this.blockController = new BlockSelectorGuiController(last, blockSetting.colorSettings, blockSetting);
+				mc.displayGuiScreen(this.blockController);
 			}
 		} else {
 			if (textField != null && textField.isFocused()) {
@@ -271,11 +289,11 @@ public class SettingButton {
 			}
 			if (textField != null) {
 				this.textField.setTextColor(new Color(255, 255, 255).getRGB());
-				if (setting.type.equalsIgnoreCase("int")) {
+				if (setting instanceof IntSetting) {
 					this.textField.setText(Integer.toString(iSetting.value));
-				} else if (setting.type.equalsIgnoreCase("float")) {
+				} else if (setting instanceof FloatSetting) {
 					this.textField.setText(Float.toString(fSetting.value));
-				} else if (setting.type.equalsIgnoreCase("string")) {
+				} else if (setting instanceof StringSetting) {
 					this.textField.setText(sSetting.value);
 				}
 			}

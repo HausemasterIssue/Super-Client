@@ -62,7 +62,7 @@ public class Speed extends Module {
 	@EventHandler
 	private Listener<ScEventMove> player_move = new Listener<>(event -> {
 
-		if (mode.type.equalsIgnoreCase("sprint"))
+		if (mode.getMode().equalsIgnoreCase("sprint"))
 			return;
 
 		if (mc.player.isInWater() || mc.player.isInLava()) {

@@ -17,7 +17,5 @@ public class ColorSetting extends Setting {
 			this.green = green;
 			this.blue = blue;
 		}
-
-		this.type = "color";
 	}
 }

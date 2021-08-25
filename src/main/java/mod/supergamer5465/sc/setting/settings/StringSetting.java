@@ -12,7 +12,6 @@ public class StringSetting extends Setting {
 		this.parent = parent;
 		if (value == null)
 			this.value = value;
-		this.type = "string";
 	}
 
 	public String getValue() {

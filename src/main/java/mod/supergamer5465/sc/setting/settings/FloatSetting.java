@@ -12,7 +12,6 @@ public class FloatSetting extends Setting {
 		this.parent = parent;
 		if (!Main.configLoaded)
 			this.value = value;
-		this.type = "float";
 	}
 
 	public float getValue() {

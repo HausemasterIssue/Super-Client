@@ -17,7 +17,6 @@ public class ModeSetting extends Setting {
 		this.parent = parent;
 		this.modes = Arrays.asList(modes);
 		this.index = this.modes.indexOf(defaultMode);
-		this.type = "mode";
 	}
 
 	public String getMode() {

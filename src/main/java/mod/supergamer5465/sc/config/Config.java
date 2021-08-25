@@ -1,26 +1,18 @@
 package mod.supergamer5465.sc.config;
 
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.io.IOException;
-import java.io.PrintWriter;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
+import java.awt.Color;
+import java.io.*;
+import java.nio.file.*;
 import java.util.ArrayList;
+import java.util.Map.Entry;
 
 import mod.supergamer5465.sc.Main;
 import mod.supergamer5465.sc.module.Module;
 import mod.supergamer5465.sc.setting.Setting;
-import mod.supergamer5465.sc.setting.settings.BooleanSetting;
-import mod.supergamer5465.sc.setting.settings.ColorSetting;
-import mod.supergamer5465.sc.setting.settings.FloatSetting;
-import mod.supergamer5465.sc.setting.settings.IntSetting;
-import mod.supergamer5465.sc.setting.settings.ModeSetting;
-import mod.supergamer5465.sc.setting.settings.StringSetting;
+import mod.supergamer5465.sc.setting.settings.*;
+import net.minecraft.block.Block;
 import net.minecraft.client.Minecraft;
+import net.minecraftforge.fml.common.registry.*;
 
 public class Config {
 	public static Path modFolder;
@@ -81,6 +73,28 @@ public class Config {
 					save.add("setting:" + mod.getName() + ":" + setting.name + ":" + col.red + "," + col.green + ","
 							+ col.blue);
 				}
+
+				if (setting instanceof BlockSelectorSetting) {
+					BlockSelectorSetting block = (BlockSelectorSetting) setting;
+					String list = "";
+					String colorList = "";
+					for (Block b : block.blocks) {
+						list += b.getLocalizedName() + "/";
+					}
+					for (Entry<Block, Color> e : block.colors.entrySet()) {
+						colorList += e.getValue().getRGB() + "," + e.getKey() + "/";
+					}
+					save.add("setting:" + mod.getName() + ":" + setting.name + ":" + list + ";" + colorList);
+				}
+
+				if (setting instanceof EntitySelectorSetting) {
+					EntitySelectorSetting entity = (EntitySelectorSetting) setting;
+					String list = "";
+					for (EntityEntry e : entity.entities) {
+						list += e.getName() + "/";
+					}
+					save.add("setting:" + mod.getName() + ":" + setting.name + ":" + list);
+				}
 			}
 		}
 
@@ -95,6 +109,7 @@ public class Config {
 		}
 	}
 
+	@SuppressWarnings("deprecation")
 	public void Load() {
 		ArrayList<String> lines = new ArrayList<String>();
 
@@ -168,6 +183,28 @@ public class Config {
 						save.add("setting:" + mod.getName() + ":" + setting.name + ":" + col.red + "," + col.green + ","
 								+ col.blue);
 					}
+
+					if (setting instanceof BlockSelectorSetting) {
+						BlockSelectorSetting block = (BlockSelectorSetting) setting;
+						String list = "";
+						String colorList = "";
+						for (Block b : block.blocks) {
+							list += b.getLocalizedName() + "/";
+						}
+						for (Entry<Block, Color> e : block.colors.entrySet()) {
+							colorList += e.getValue().getRGB() + "," + e.getKey() + "/";
+						}
+						save.add("setting:" + mod.getName() + ":" + setting.name + ":" + list + ";" + colorList);
+					}
+
+					if (setting instanceof EntitySelectorSetting) {
+						EntitySelectorSetting entity = (EntitySelectorSetting) setting;
+						String list = "";
+						for (EntityEntry e : entity.entities) {
+							list += e.getName() + "/";
+						}
+						save.add("setting:" + mod.getName() + ":" + setting.name + ":" + list);
+					}
 				}
 			}
 		}
@@ -214,22 +251,80 @@ public class Config {
 						if (setting instanceof BooleanSetting) {
 							((BooleanSetting) setting).setEnabled(Boolean.parseBoolean(args[3]));
 						}
+
 						if (setting instanceof IntSetting) {
 							((IntSetting) setting).setValue(Integer.valueOf(args[3]));
 						}
+
 						if (setting instanceof FloatSetting) {
 							((FloatSetting) setting).setValue(Float.valueOf(args[3]));
 						}
+
 						if (setting instanceof StringSetting) {
 							((StringSetting) setting).setValue((args[3]));
 						}
+
 						if (setting instanceof ModeSetting) {
 							((ModeSetting) setting).setMode(args[3]);
 						}
+
 						if (setting instanceof ColorSetting) {
 							((ColorSetting) setting).red = Integer.valueOf(args[3].split(",")[0]);
 							((ColorSetting) setting).green = Integer.valueOf(args[3].split(",")[1]);
 							((ColorSetting) setting).blue = Integer.valueOf(args[3].split(",")[2]);
+						}
+
+						if (setting instanceof BlockSelectorSetting) {
+							if (args.length > 3) {
+								try {
+									if (args[3].contains(";")) {
+										for (String str : args[3].split(";")[0].split("/")) {
+											if (!str.isEmpty()) {
+												for (Block b : GameRegistry.findRegistry(Block.class)
+														.getValuesCollection()) {
+													if (str.equalsIgnoreCase(b.getLocalizedName()))
+														((BlockSelectorSetting) setting).blocks.add(b);
+												}
+											}
+										}
+										for (String str : args[3].split(";")[1].split("/")) {
+											if (!str.isEmpty()) {
+												for (Block b : GameRegistry.findRegistry(Block.class)
+														.getValuesCollection()) {
+													if (str.split(",")[1].equalsIgnoreCase(b.getLocalizedName()))
+														((BlockSelectorSetting) setting).setColor(b,
+																new Color(Integer.valueOf(str)));
+												}
+											}
+										}
+									} else {
+										for (String str : args[3].split("/")) {
+											if (!str.isEmpty()) {
+												for (Block b : GameRegistry.findRegistry(Block.class)
+														.getValuesCollection()) {
+													if (str.equalsIgnoreCase(b.getLocalizedName()))
+														((BlockSelectorSetting) setting).blocks.add(b);
+												}
+											}
+										}
+									}
+								} catch (ArrayIndexOutOfBoundsException e) {
+									// System.out.println("config issue");
+								}
+							}
+						}
+
+						if (setting instanceof EntitySelectorSetting) {
+							if (args.length >= 4) {
+								for (String str : args[3].split("/")) {
+									if (!str.isEmpty()) {
+										for (EntityEntry e : GameRegistry.findRegistry(EntityEntry.class).getValues()) {
+											if (e.getName() == str)
+												((EntitySelectorSetting) setting).entities.add(e);
+										}
+									}
+								}
+							}
 						}
 					}
 				}

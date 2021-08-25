@@ -6,7 +6,8 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
-import mod.supergamer5465.sc.Client;
+import mod.supergamer5465.sc.Main;
+import mod.supergamer5465.sc.module.modules.utilities.Reconnect;
 import mod.supergamer5465.sc.ui.AutoReconnectButton;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiButton;
@@ -41,8 +42,9 @@ public class ScMixinGuiDisconnected extends ScMixinGuiScreen {
 		if (button.id == 420) {
 			ReconnectingButton.Clicked();
 		} else if (button.id == 421) {
-			Minecraft.getMinecraft().displayGuiScreen(new GuiConnecting(null, Minecraft.getMinecraft(),
-					Client.lastConnectedIP, Client.lastConnectedPort));
+			if (((Reconnect) Main.moduleManager.getModule("Reconnect")).serverData != null)
+				Minecraft.getMinecraft().displayGuiScreen(new GuiConnecting(null, Minecraft.getMinecraft(),
+						((Reconnect) Main.moduleManager.getModule("Reconnect")).serverData));
 		}
 	}
 

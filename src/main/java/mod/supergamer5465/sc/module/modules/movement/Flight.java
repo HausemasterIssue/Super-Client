@@ -15,11 +15,12 @@ public class Flight extends Module {
 	BooleanSetting dmg = new BooleanSetting("Packet Anti-FallDamage", this, false);
 
 	public Flight() {
-		super("Flight", "Allows flight", Category.MOVEMENT);
+		super("Flight", "Allows Flight", Category.MOVEMENT);
 
 		this.addSetting(hSpeed);
 		this.addSetting(vSpeed);
 		this.addSetting(glide);
+		addSetting(dmg);
 	}
 
 	@Override
