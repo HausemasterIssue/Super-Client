@@ -34,8 +34,8 @@ public class ModuleManager {
 
 		// combat
 		addModule(new KillAura());
-		addModule(new CrystalAura());
-		addModule(new Surround());
+		addModule(new CrystalAura());// TODO skid phobos ca mine is retarded
+		addModule(new Surround());// TODO fix surround its broken
 		addModule(new AutoTotem());
 
 		// movement
@@ -57,14 +57,15 @@ public class ModuleManager {
 		// render
 		addModule(new EntityTracers());// TODO make full entity selection list gui component
 		addModule(new FullBright());
-		addModule(new Freecam());// TODO fix entity dismounting with shift in freecam/make it baritone compatible
+		addModule(new Freecam());// TODO fix entity dismounting with shift in freecam/make it baritone
+									// compatible, fix character skin
 		addModule(new Nametags());
 		addModule(new ExtraTab());
 		// TODO norender
 		// TODO newchunks
 		// TODO camera clip
 		// TODO camera distance
-		// addModule(new Search()); WIP
+		addModule(new Search());
 		// TODO map (generate chunks from seed to show for not yet loaded chunks)
 		// consider making minimap addition to hud module
 		// TODO seedoverlay (generate chunks from seed to see player activity)

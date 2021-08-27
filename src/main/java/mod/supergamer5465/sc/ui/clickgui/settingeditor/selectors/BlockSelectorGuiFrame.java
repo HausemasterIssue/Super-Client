@@ -86,7 +86,14 @@ public class BlockSelectorGuiFrame {
 	}
 
 	public void onClick(int x, int y, int button) {
+		ArrayList<BlockButton> onScreen = new ArrayList<>();
+
 		for (BlockButton b : ((BlockSelectorGuiController) controller).blocks) {
+			if (b != null && b.y + b.height >= 0 && b.y <= mc.displayHeight)
+				onScreen.add(b);
+		}
+
+		for (BlockButton b : onScreen) {
 			if (b != null)
 				b.onClick(x, y, button);
 		}
