@@ -9,10 +9,12 @@ public class Hud extends Module {
 	BooleanSetting watermark = new BooleanSetting("Watermark", this, true);
 	BooleanSetting arraylist = new BooleanSetting("ArrayList", this, true);
 	BooleanSetting coords = new BooleanSetting("Coordinates", this, true);
+	BooleanSetting roundCoords = new BooleanSetting("Round Coordinates", this, true);
 
 	public Hud() {
 		super("Hud", "In-Game Overlay", Category.CLIENT);
 
+		addSetting(roundCoords);
 		addSetting(watermark);
 		addSetting(arraylist);
 		addSetting(coords);

@@ -41,6 +41,24 @@ public class Spammer extends Module {
 		} catch (IOException e) {
 			throw new RuntimeException(e);
 		}
+
+		try {
+			BufferedReader reader = new BufferedReader(new FileReader(this.spammerFile.toFile()));
+			String line = reader.readLine();
+			while (line != null) {
+				lines.add(line);
+				line = reader.readLine();
+			}
+			reader.close();
+		} catch (FileNotFoundException e) {
+			this.toggle();
+			spammerFile = Paths.get(Config.modFolder.toString() + File.separator + "spammer.txt");
+			Client.addChatMessage("couldn't find the spammer file, turning spammer off.");
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+
 		timer.reset();
 	}
 

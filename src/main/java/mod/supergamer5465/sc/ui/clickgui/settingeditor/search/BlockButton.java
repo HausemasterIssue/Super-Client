@@ -1,26 +1,44 @@
-package mod.supergamer5465.sc.ui.clickgui.settingeditor.selectors;
+package mod.supergamer5465.sc.ui.clickgui.settingeditor.search;
 
 import java.awt.Color;
 import java.util.ArrayList;
 import java.util.Map.Entry;
 
+import mod.supergamer5465.sc.Main;
+import mod.supergamer5465.sc.event.ScEventBus;
+import mod.supergamer5465.sc.event.events.ScEventSettings;
 import mod.supergamer5465.sc.misc.StringParser;
 import mod.supergamer5465.sc.module.Module;
-import mod.supergamer5465.sc.setting.Setting;
-import mod.supergamer5465.sc.setting.settings.BlockSelectorSetting;
+import mod.supergamer5465.sc.setting.settings.SearchBlockSelectorSetting;
 import mod.supergamer5465.sc.util.TileEntityFakeWorld;
-import net.minecraft.block.*;
+import net.minecraft.block.Block;
+import net.minecraft.block.BlockDirectional;
+import net.minecraft.block.BlockHorizontal;
+import net.minecraft.block.BlockWall;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiTextField;
-import net.minecraft.client.renderer.*;
+import net.minecraft.client.renderer.BufferBuilder;
+import net.minecraft.client.renderer.GlStateManager;
+import net.minecraft.client.renderer.RenderHelper;
+import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.block.model.IBakedModel;
 import net.minecraft.client.renderer.texture.TextureMap;
-import net.minecraft.client.renderer.tileentity.*;
+import net.minecraft.client.renderer.tileentity.TileEntityRendererDispatcher;
+import net.minecraft.client.renderer.tileentity.TileEntitySkullRenderer;
+import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemStack;
-import net.minecraft.tileentity.*;
+import net.minecraft.tileentity.TileEntity;
+import net.minecraft.tileentity.TileEntityBanner;
+import net.minecraft.tileentity.TileEntityBed;
+import net.minecraft.tileentity.TileEntityChest;
+import net.minecraft.tileentity.TileEntityEndGateway;
+import net.minecraft.tileentity.TileEntityEndPortal;
+import net.minecraft.tileentity.TileEntityEnderChest;
+import net.minecraft.tileentity.TileEntityShulkerBox;
+import net.minecraft.tileentity.TileEntitySkull;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.common.registry.ForgeRegistries;
@@ -33,8 +51,6 @@ public class BlockButton {
 
 	Module module;
 
-	Setting setting;
-
 	BlockSelectorGuiFrame parent;
 
 	Minecraft mc = Minecraft.getMinecraft();
@@ -45,7 +61,7 @@ public class BlockButton {
 	GuiTextField textFieldGreen;
 	GuiTextField textFieldBlue;
 
-	public BlockButton(Module module, Setting setting, int x, int y, BlockSelectorGuiFrame parent, Block block) {
+	public BlockButton(Module module, int x, int y, BlockSelectorGuiFrame parent, Block block) {
 
 		this.module = module;
 		this.x = x;
@@ -53,13 +69,13 @@ public class BlockButton {
 		this.parent = parent;
 		this.width = mc.fontRenderer.getStringWidth(block.getLocalizedName() + 100);
 		this.height = mc.fontRenderer.FONT_HEIGHT;
-		this.setting = setting;
 		this.block = block;
 		this.world = new TileEntityFakeWorld(null, this.mc.world.provider);
 	}
 
 	public void draw() {
-		if (((BlockSelectorSetting) setting).getBlocks().contains(block)) {
+		if (((SearchBlockSelectorSetting) Main.settingManager.getSettingByName(Main.moduleManager.getModule("Search"),
+				"Select Blocks")).blocks.contains(block)) {
 			mc.fontRenderer.drawString(block.getLocalizedName(), x + 20, y + 2, new Color(255, 150, 50).getRGB());
 		} else {
 			mc.fontRenderer.drawString(block.getLocalizedName(), x + 20, y + 2, new Color(180, 240, 255).getRGB());
@@ -67,12 +83,23 @@ public class BlockButton {
 
 		displayBlockFlat(x + 2, y + 2, block);
 
-		if (parent.setting.colorSettings && ForgeRegistries.BLOCKS.getValuesCollection().contains(block)) {
-			int textRed = mc.fontRenderer.drawString(Integer.toString(parent.setting.getColors().get(block).getRed()),
-					mc.displayWidth / 2, y + 2, new Color(255, 0, 0).getRGB());
-			int textGreen = mc.fontRenderer.drawString(Integer.toString(parent.setting.getColor(block).getGreen()),
+		if (((SearchBlockSelectorSetting) Main.settingManager.getSettingByName(Main.moduleManager.getModule("Search"),
+				"Select Blocks")).colorSettings && ForgeRegistries.BLOCKS.getValuesCollection().contains(block)) {
+			int textRed = mc.fontRenderer
+					.drawString(
+							Integer.toString(new Color(((SearchBlockSelectorSetting) Main.settingManager
+									.getSettingByName(Main.moduleManager.getModule("Search"), "Select Blocks"))
+											.getColors().get(block)).getRed()),
+							mc.displayWidth / 2, y + 2, new Color(255, 0, 0).getRGB());
+			int textGreen = mc.fontRenderer.drawString(
+					Integer.toString(new Color(((SearchBlockSelectorSetting) Main.settingManager
+							.getSettingByName(Main.moduleManager.getModule("Search"), "Select Blocks")).getColors()
+									.get(block)).getGreen()),
 					mc.displayWidth / 2 + 125, y + 2, new Color(0, 255, 0).getRGB());
-			int textBlue = mc.fontRenderer.drawString(Integer.toString(parent.setting.getColor(block).getBlue()),
+			int textBlue = mc.fontRenderer.drawString(
+					Integer.toString(new Color(((SearchBlockSelectorSetting) Main.settingManager
+							.getSettingByName(Main.moduleManager.getModule("Search"), "Select Blocks")).getColors()
+									.get(block)).getBlue()),
 					mc.displayWidth / 2 + 250, y + 2, new Color(0, 0, 255).getRGB());
 			if (textFieldRed == null && textFieldGreen == null && textFieldBlue == null) {
 				textFieldRed = new GuiTextField(textRed, mc.fontRenderer, this.x + 200, this.y + 4, 50,
@@ -88,9 +115,18 @@ public class BlockButton {
 			textFieldRed.setEnabled(true);
 			textFieldGreen.setEnabled(true);
 			textFieldBlue.setEnabled(true);
-			textFieldRed.setText(Integer.toString(parent.setting.getColor(block).getRed()));
-			textFieldGreen.setText(Integer.toString(parent.setting.getColor(block).getGreen()));
-			textFieldBlue.setText(Integer.toString(parent.setting.getColor(block).getBlue()));
+			if (!textFieldRed.isFocused())
+				textFieldRed.setText(Integer.toString(new Color(((SearchBlockSelectorSetting) Main.settingManager
+						.getSettingByName(Main.moduleManager.getModule("Search"), "Select Blocks")).getColor(block))
+								.getRed()));
+			if (!textFieldGreen.isFocused())
+				textFieldGreen.setText(Integer.toString(new Color(((SearchBlockSelectorSetting) Main.settingManager
+						.getSettingByName(Main.moduleManager.getModule("Search"), "Select Blocks")).getColor(block))
+								.getGreen()));
+			if (!textFieldBlue.isFocused())
+				textFieldBlue.setText(Integer.toString(new Color(((SearchBlockSelectorSetting) Main.settingManager
+						.getSettingByName(Main.moduleManager.getModule("Search"), "Select Blocks")).getColor(block))
+								.getBlue()));
 
 			textFieldRed.drawTextBox();
 			textFieldGreen.drawTextBox();
@@ -99,44 +135,55 @@ public class BlockButton {
 			if (textFieldRed.isFocused()) {
 				if (StringParser.isInteger(textFieldRed.getText()) && Integer.valueOf(textFieldRed.getText()) <= 255
 						&& Integer.valueOf(textFieldRed.getText()) >= 0) {
-					for (Entry<Block, Color> e : parent.setting.colors.entrySet()) {
+					for (Entry<Block, Integer> e : ((SearchBlockSelectorSetting) Main.settingManager
+							.getSettingByName(Main.moduleManager.getModule("Search"), "Select Blocks")).colors
+									.entrySet()) {
 						if (e.getKey() == block) {
 							e.setValue(new Color(Integer.valueOf(textFieldRed.getText()),
-									parent.setting.getColor(block).getGreen(),
-									parent.setting.getColor(block).getBlue()));
+									Integer.valueOf(textFieldGreen.getText()), Integer.valueOf(textFieldBlue.getText()))
+											.getRGB());
 						}
 					}
 				} else {
-					textFieldBlue.setText(Integer.toString(((BlockSelectorSetting) setting).getColor(block).getRed()));
+					textFieldRed.setText(Integer.toString(new Color(((SearchBlockSelectorSetting) Main.settingManager
+							.getSettingByName(Main.moduleManager.getModule("Search"), "Select Blocks")).getColor(block))
+									.getRed()));
 				}
 			}
 			if (textFieldGreen.isFocused()) {
 				if (StringParser.isInteger(textFieldGreen.getText()) && Integer.valueOf(textFieldGreen.getText()) <= 255
 						&& Integer.valueOf(textFieldGreen.getText()) >= 0) {
-					for (Entry<Block, Color> e : parent.setting.colors.entrySet()) {
+					for (Entry<Block, Integer> e : ((SearchBlockSelectorSetting) Main.settingManager
+							.getSettingByName(Main.moduleManager.getModule("Search"), "Select Blocks")).colors
+									.entrySet()) {
 						if (e.getKey() == block) {
-							e.setValue(new Color(parent.setting.getColor(block).getRed(),
-									Integer.valueOf(textFieldGreen.getText()),
-									parent.setting.getColor(block).getBlue()));
+							e.setValue(new Color(Integer.valueOf(textFieldRed.getText()),
+									Integer.valueOf(textFieldGreen.getText()), Integer.valueOf(textFieldBlue.getText()))
+											.getRGB());
 						}
 					}
 				} else {
-					textFieldBlue
-							.setText(Integer.toString(((BlockSelectorSetting) setting).getColor(block).getGreen()));
+					textFieldGreen.setText(Integer.toString(new Color(((SearchBlockSelectorSetting) Main.settingManager
+							.getSettingByName(Main.moduleManager.getModule("Search"), "Select Blocks")).getColor(block))
+									.getGreen()));
 				}
 			}
 			if (textFieldBlue.isFocused()) {
 				if (StringParser.isInteger(textFieldBlue.getText()) && Integer.valueOf(textFieldBlue.getText()) <= 255
 						&& Integer.valueOf(textFieldBlue.getText()) >= 0) {
-					for (Entry<Block, Color> e : parent.setting.colors.entrySet()) {
+					for (Entry<Block, Integer> e : ((SearchBlockSelectorSetting) Main.settingManager
+							.getSettingByName(Main.moduleManager.getModule("Search"), "Select Blocks")).colors
+									.entrySet()) {
 						if (e.getKey() == block) {
-							e.setValue(new Color(parent.setting.getColor(block).getRed(),
-									parent.setting.getColor(block).getGreen(),
-									Integer.valueOf(textFieldBlue.getText())));
+							e.setValue(new Color(Integer.valueOf(textFieldRed.getText()),
+									Integer.valueOf(textFieldGreen.getText()), Integer.valueOf(textFieldBlue.getText()))
+											.getRGB());
 						}
 					}
 				} else {
-					textFieldBlue.setText(Integer.toString(((BlockSelectorSetting) setting).getColor(block).getBlue()));
+					textFieldBlue.setText(Integer.toString(new Color(((SearchBlockSelectorSetting) Main.settingManager
+							.getSettingByName(Main.moduleManager.getModule("Search"), "Select Blocks")).getColor(block))
+									.getBlue()));
 				}
 			}
 		}
@@ -288,38 +335,43 @@ public class BlockButton {
 	}
 
 	public void onClick(int mouseX, int mouseY, int button) {
+
+		ArrayList<Block> removeDuplicates = new ArrayList<>();
+		for (Block b : ((SearchBlockSelectorSetting) Main.settingManager
+				.getSettingByName(Main.moduleManager.getModule("Search"), "Select Blocks")).blocks) {
+			if (!removeDuplicates.contains(b)) {
+				removeDuplicates.add(b);
+			}
+		}
+
+		((SearchBlockSelectorSetting) Main.settingManager.getSettingByName(Main.moduleManager.getModule("Search"),
+				"Select Blocks")).blocks = removeDuplicates;
+
 		if (mouseX >= this.x && mouseY >= this.y && mouseX < this.x + this.width && mouseY < this.y + this.height) {
-			ArrayList<Block> blockListTemp = ((BlockSelectorSetting) setting).getBlocks();
-			for (Block b : ((BlockSelectorSetting) setting).getBlocks()) {
-				if (b == block) {
-					blockListTemp.remove(b);
-					((BlockSelectorSetting) setting).setBlocks(blockListTemp);
-					return;
-				}
+			if (((SearchBlockSelectorSetting) Main.settingManager
+					.getSettingByName(Main.moduleManager.getModule("Search"), "Select Blocks")).blocks
+							.contains(block)) {
+				((SearchBlockSelectorSetting) Main.settingManager
+						.getSettingByName(Main.moduleManager.getModule("Search"), "Select Blocks")).blocks
+								.remove(block);
+			} else {
+				((SearchBlockSelectorSetting) Main.settingManager
+						.getSettingByName(Main.moduleManager.getModule("Search"), "Select Blocks")).blocks.add(block);
 			}
-			blockListTemp.add(block);
-			((BlockSelectorSetting) setting).setBlocks(blockListTemp);
+
+			Main.config.Save();
+			((BlockSelectorGuiController) parent.controller).refresh();
+
+			ScEventBus.EVENT_BUS.post(new ScEventSettings(
+					Main.settingManager.getSettingByName(Main.moduleManager.getModule("Search"), "Select Blocks"),
+					Main.moduleManager.getModule("Search")));
 		}
 
-		if ((textFieldRed != null || textFieldGreen != null || textFieldBlue != null) && mouseX <= textFieldRed.x
-				&& mouseX >= textFieldGreen.x + 50) {
-			if (mouseX <= textFieldRed.x && mouseY <= textFieldRed.y && mouseX < textFieldRed.x + textFieldRed.width
-					&& mouseY < textFieldRed.y + textFieldRed.height) {
-				textFieldRed.setFocused(false);
-			}
-
-			if (mouseX <= textFieldGreen.x && mouseY <= textFieldGreen.y
-					&& mouseX < textFieldGreen.x + textFieldGreen.width
-					&& mouseY < textFieldGreen.y + textFieldGreen.height) {
-				textFieldGreen.setFocused(false);
-			}
-
-			if (mouseX <= textFieldBlue.x && mouseY <= textFieldBlue.y && mouseX < textFieldBlue.x + textFieldBlue.width
-					&& mouseY < textFieldBlue.y + textFieldBlue.height) {
-				textFieldBlue.setFocused(false);
-			}
-		}
-
-		((BlockSelectorGuiController) parent.controller).refresh();
+		if (textFieldRed != null)
+			textFieldRed.mouseClicked(mouseX, mouseY, button);
+		if (textFieldGreen != null)
+			textFieldGreen.mouseClicked(mouseX, mouseY, button);
+		if (textFieldBlue != null)
+			textFieldBlue.mouseClicked(mouseX, mouseY, button);
 	}
 }

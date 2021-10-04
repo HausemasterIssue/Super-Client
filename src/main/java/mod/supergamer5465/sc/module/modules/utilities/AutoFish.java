@@ -15,6 +15,7 @@ import net.minecraft.util.EnumHand;
 public class AutoFish extends Module {
 	long recastTimer = 0;
 	long reelTimer = 0;
+	long timeSinceCast = 0;
 
 	BooleanSetting findRod = new BooleanSetting("Hotbar Rod Finder", this, true);
 	BooleanSetting autoRepair = new BooleanSetting("Offhand Mending Repair", this, true);
@@ -66,8 +67,10 @@ public class AutoFish extends Module {
 		}
 
 		if (reelIn) {
-			mc.playerController.processRightClick(mc.player, mc.world, EnumHand.MAIN_HAND);
-			return;
+			if (timeSinceCast > 0 && System.currentTimeMillis() - timeSinceCast > 3000) {
+				mc.playerController.processRightClick(mc.player, mc.world, EnumHand.MAIN_HAND);
+				return;
+			}
 		}
 
 		boolean cast;
@@ -89,7 +92,7 @@ public class AutoFish extends Module {
 		if (cast) {
 			if (mc.player.getHeldItemMainhand().getItem() instanceof ItemFishingRod) {
 				mc.playerController.processRightClick(mc.player, mc.world, EnumHand.MAIN_HAND);
-				return;
+				timeSinceCast = System.currentTimeMillis();
 			} else {
 				if (findRod.enabled) {
 					if (!(mc.player.inventory.getCurrentItem().getItem() instanceof ItemFishingRod)) {
@@ -102,7 +105,6 @@ public class AutoFish extends Module {
 						}
 					}
 				}
-				return;
 			}
 		}
 	}

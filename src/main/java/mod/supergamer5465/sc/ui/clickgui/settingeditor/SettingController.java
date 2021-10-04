@@ -2,7 +2,8 @@ package mod.supergamer5465.sc.ui.clickgui.settingeditor;
 
 import java.awt.Color;
 import java.io.IOException;
-import java.util.*;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Map.Entry;
 
 import org.lwjgl.input.Mouse;
@@ -12,8 +13,11 @@ import mod.supergamer5465.sc.misc.StringParser;
 import mod.supergamer5465.sc.module.Module;
 import mod.supergamer5465.sc.setting.Setting;
 import mod.supergamer5465.sc.setting.settings.ColorSetting;
-import mod.supergamer5465.sc.ui.clickgui.*;
-import net.minecraft.client.gui.*;
+import mod.supergamer5465.sc.ui.clickgui.ClickGuiController;
+import mod.supergamer5465.sc.ui.clickgui.ModuleButton;
+import net.minecraft.client.gui.GuiButton;
+import net.minecraft.client.gui.GuiScreen;
+import net.minecraft.client.gui.GuiTextField;
 
 public class SettingController extends GuiScreen {
 

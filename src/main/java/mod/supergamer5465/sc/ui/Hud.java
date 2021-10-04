@@ -68,25 +68,52 @@ public class Hud extends Gui {
 					String y;
 					String z;
 
-					x = Integer.toString((int) (mc.player.posX));
-					y = Integer.toString((int) (mc.player.posY));
-					z = Integer.toString((int) (mc.player.posZ));
+					if (((BooleanSetting) Main.settingManager.getSettingByName(Main.moduleManager.getModule("Hud"),
+							"Round Coordinates")).enabled) {
+						x = Integer.toString((int) (mc.player.posX));
+						y = Integer.toString((int) (mc.player.posY));
+						z = Integer.toString((int) (mc.player.posZ));
+					} else {
+						x = Double.toString(mc.player.posX);
+						y = Double.toString(mc.player.posY);
+						z = Double.toString(mc.player.posZ);
+					}
 
-					if (mc.player.dimension == -1) {
-						fr.drawStringWithShadow(x + ", " + y + ", " + z, 2, (sr.getScaledHeight() - fr.FONT_HEIGHT) - 2,
-								0xff0000);
-						fr.drawStringWithShadow(Integer.valueOf(x) * 8 + ", " + y + ", " + Integer.valueOf(z) * 8, 2,
-								sr.getScaledHeight() - (fr.FONT_HEIGHT * 2) - 2, 0x00ff00);
-					}
-					if (mc.player.dimension == 0) {
-						fr.drawStringWithShadow(Integer.valueOf(x) / 8 + ", " + y + ", " + Integer.valueOf(z) / 8, 2,
-								(sr.getScaledHeight() - fr.FONT_HEIGHT) - 2, 0xff0000);
-						fr.drawStringWithShadow(x + ", " + y + ", " + z, 2,
-								sr.getScaledHeight() - (fr.FONT_HEIGHT * 2) - 2, 0x00ff00);
-					}
-					if (mc.player.dimension == 1) {
-						fr.drawStringWithShadow(x + ", " + y + ", " + z, 2, (sr.getScaledHeight() - fr.FONT_HEIGHT) - 2,
-								0x800080);
+					if (((BooleanSetting) Main.settingManager.getSettingByName(Main.moduleManager.getModule("Hud"),
+							"Round Coordinates")).enabled) {
+						if (mc.player.dimension == -1) {
+							fr.drawStringWithShadow(x + ", " + y + ", " + z, 2,
+									(sr.getScaledHeight() - fr.FONT_HEIGHT) - 2, 0xff0000);
+							fr.drawStringWithShadow(Integer.valueOf(x) * 8 + ", " + y + ", " + Integer.valueOf(z) * 8,
+									2, sr.getScaledHeight() - (fr.FONT_HEIGHT * 2) - 2, 0x00ff00);
+						}
+						if (mc.player.dimension == 0) {
+							fr.drawStringWithShadow(Integer.valueOf(x) / 8 + ", " + y + ", " + Integer.valueOf(z) / 8,
+									2, (sr.getScaledHeight() - fr.FONT_HEIGHT) - 2, 0xff0000);
+							fr.drawStringWithShadow(x + ", " + y + ", " + z, 2,
+									sr.getScaledHeight() - (fr.FONT_HEIGHT * 2) - 2, 0x00ff00);
+						}
+						if (mc.player.dimension == 1) {
+							fr.drawStringWithShadow(x + ", " + y + ", " + z, 2,
+									(sr.getScaledHeight() - fr.FONT_HEIGHT) - 2, 0x800080);
+						}
+					} else {
+						if (mc.player.dimension == -1) {
+							fr.drawStringWithShadow(x + ", " + y + ", " + z, 2,
+									(sr.getScaledHeight() - fr.FONT_HEIGHT) - 2, 0xff0000);
+							fr.drawStringWithShadow(Double.valueOf(x) * 8 + ", " + y + ", " + Double.valueOf(z) * 8, 2,
+									sr.getScaledHeight() - (fr.FONT_HEIGHT * 2) - 2, 0x00ff00);
+						}
+						if (mc.player.dimension == 0) {
+							fr.drawStringWithShadow(Double.valueOf(x) / 8 + ", " + y + ", " + Double.valueOf(z) / 8, 2,
+									(sr.getScaledHeight() - fr.FONT_HEIGHT) - 2, 0xff0000);
+							fr.drawStringWithShadow(x + ", " + y + ", " + z, 2,
+									sr.getScaledHeight() - (fr.FONT_HEIGHT * 2) - 2, 0x00ff00);
+						}
+						if (mc.player.dimension == 1) {
+							fr.drawStringWithShadow(x + ", " + y + ", " + z, 2,
+									(sr.getScaledHeight() - fr.FONT_HEIGHT) - 2, 0x800080);
+						}
 					}
 				}
 			}

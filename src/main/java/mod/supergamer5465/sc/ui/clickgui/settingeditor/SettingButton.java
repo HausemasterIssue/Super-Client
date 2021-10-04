@@ -1,7 +1,8 @@
 package mod.supergamer5465.sc.ui.clickgui.settingeditor;
 
 import java.awt.Color;
-import java.util.*;
+import java.util.AbstractMap;
+import java.util.Map;
 import java.util.Map.Entry;
 
 import mod.supergamer5465.sc.event.ScEventBus;
@@ -9,11 +10,18 @@ import mod.supergamer5465.sc.event.events.ScEventSettings;
 import mod.supergamer5465.sc.misc.StringParser;
 import mod.supergamer5465.sc.module.Module;
 import mod.supergamer5465.sc.setting.Setting;
-import mod.supergamer5465.sc.setting.settings.*;
+import mod.supergamer5465.sc.setting.settings.BooleanSetting;
+import mod.supergamer5465.sc.setting.settings.ColorSetting;
+import mod.supergamer5465.sc.setting.settings.FloatSetting;
+import mod.supergamer5465.sc.setting.settings.IntSetting;
+import mod.supergamer5465.sc.setting.settings.ModeSetting;
+import mod.supergamer5465.sc.setting.settings.SearchBlockSelectorSetting;
+import mod.supergamer5465.sc.setting.settings.StringSetting;
 import mod.supergamer5465.sc.ui.clickgui.ClickGuiController;
-import mod.supergamer5465.sc.ui.clickgui.settingeditor.selectors.*;
+import mod.supergamer5465.sc.ui.clickgui.settingeditor.search.BlockSelectorGuiController;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.*;
+import net.minecraft.client.gui.GuiScreen;
+import net.minecraft.client.gui.GuiTextField;
 
 public class SettingButton {
 	private GuiTextField textField;
@@ -39,11 +47,9 @@ public class SettingButton {
 	BooleanSetting bSetting;
 	StringSetting sSetting;
 	ColorSetting cSetting;
-	EntitySelectorSetting entitySetting;
-	BlockSelectorSetting blockSetting;
+	SearchBlockSelectorSetting blockSetting;
 
 	BlockSelectorGuiController blockController;
-	EntitySelectorGuiController entityController;
 
 	public SettingButton(Module module, Setting setting, int x, int y, SettingFrame parent) {
 
@@ -67,10 +73,8 @@ public class SettingButton {
 			this.bSetting = (BooleanSetting) setting;
 		} else if (setting instanceof ColorSetting) {
 			this.cSetting = (ColorSetting) setting;
-		} else if (setting instanceof EntitySelectorSetting) {
-			this.entitySetting = (EntitySelectorSetting) setting;
-		} else if (setting instanceof BlockSelectorSetting) {
-			this.blockSetting = (BlockSelectorSetting) setting;
+		} else if (setting instanceof SearchBlockSelectorSetting) {
+			this.blockSetting = (SearchBlockSelectorSetting) setting;
 		}
 	}
 
@@ -232,9 +236,7 @@ public class SettingButton {
 						cSetting.blue = Integer.valueOf(cTextFieldBlue.getText());
 				}
 			}
-		} else if (setting instanceof EntitySelectorSetting) {
-			mc.fontRenderer.drawString(entitySetting.name, x + 2, y + 2, new Color(255, 255, 255).getRGB());
-		} else if (setting instanceof BlockSelectorSetting) {
+		} else if (setting instanceof SearchBlockSelectorSetting) {
 			mc.fontRenderer.drawString(blockSetting.name, x + 2, y + 2, new Color(255, 255, 255).getRGB());
 		}
 	}
@@ -271,12 +273,7 @@ public class SettingButton {
 			} else if (setting instanceof ColorSetting) {
 				mc.fontRenderer.drawString(cSetting.name + ": ", x + 2, y + 2,
 						new Color(cSetting.red, cSetting.green, cSetting.blue).getRGB());
-			} else if (setting instanceof EntitySelectorSetting) {
-				GuiScreen last = mc.currentScreen;
-				mc.currentScreen.onGuiClosed();
-				this.entityController = new EntitySelectorGuiController(last, entitySetting.colorSettings);
-				mc.displayGuiScreen(this.entityController);
-			} else if (setting instanceof BlockSelectorSetting) {
+			} else if (setting instanceof SearchBlockSelectorSetting) {
 				GuiScreen last = mc.currentScreen;
 				mc.currentScreen.onGuiClosed();
 				this.blockController = new BlockSelectorGuiController(last, blockSetting.colorSettings, blockSetting);
