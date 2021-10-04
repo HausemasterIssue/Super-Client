@@ -97,17 +97,22 @@ public class EntityTracers extends Module {
 
 	private int getColor(Entity e) {
 		if (e instanceof EntityPlayer) {
-			return new Color(playerColor.red, playerColor.green, playerColor.blue, 0.5f).getRGB();
+			return new Color((float) playerColor.red / 255, (float) playerColor.green / 255,
+					(float) playerColor.blue / 255, 0.5f).getRGB();
 		}
 		if ((EntityUtil.isHostileMob(e) || EntityUtil.isNeutralMob(e))) {
-			return new Color(monsterColor.red, monsterColor.green, monsterColor.blue, 0.5F).getRGB();
+			return new Color((float) monsterColor.red / 255, (float) monsterColor.green / 255,
+					(float) monsterColor.blue / 255, 0.5F).getRGB();
 		}
 		if (EntityUtil.isPassive(e)) {
-			return new Color(passiveColor.red, passiveColor.green, passiveColor.blue, 0.5F).getRGB();
+			return new Color((float) passiveColor.red / 255, (float) passiveColor.green / 255,
+					(float) passiveColor.blue / 255, 0.5F).getRGB();
 		}
 		if (e instanceof EntityItem) {
-			return new Color(itemColor.red, itemColor.green, itemColor.blue, 0.5F).getRGB();
+			return new Color((float) itemColor.red / 255, (float) itemColor.green / 255, (float) itemColor.blue / 255,
+					0.5F).getRGB();
 		}
-		return new Color(otherColor.red, otherColor.green, otherColor.blue, 0.5F).getRGB();
+		return new Color((float) otherColor.red / 255, (float) otherColor.green / 255, (float) otherColor.blue / 255,
+				0.5F).getRGB();
 	}
 }
