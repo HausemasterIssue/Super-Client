@@ -21,7 +21,6 @@ import mod.supergamer5465.sc.event.events.ScEventSettings;
 import mod.supergamer5465.sc.module.Category;
 import mod.supergamer5465.sc.module.Module;
 import mod.supergamer5465.sc.setting.settings.BooleanSetting;
-import mod.supergamer5465.sc.setting.settings.IntSetting;
 import mod.supergamer5465.sc.setting.settings.SearchBlockSelectorSetting;
 import mod.supergamer5465.sc.util.RenderUtil;
 import net.minecraft.block.Block;
@@ -56,15 +55,12 @@ public class Search extends Module {
 			new ArrayList<Block>(), new HashMap<Block, Integer>());
 	BooleanSetting outline = new BooleanSetting("Outline", this, true);
 	BooleanSetting tracer = new BooleanSetting("Tracer", this, true);
-	IntSetting searchLimit = new IntSetting("Search Limit", this, 200);
 
 	public Search() {
 		super("Search", "Highlights Blocks", Category.RENDER);
 
 		addSetting(blocks);
-		addSetting(outline);
 		addSetting(tracer);
-		addSetting(searchLimit);
 
 		this.to_search = new HashMap<Block, Integer>();
 		this.search_lock = new ReentrantReadWriteLock();
@@ -322,8 +318,9 @@ public class Search extends Module {
 			Vec3d forward = new Vec3d(0, 0, 1)
 					.rotatePitch(-(float) Math.toRadians(mc.getRenderViewEntity().rotationPitch))
 					.rotateYaw(-(float) Math.toRadians(mc.getRenderViewEntity().rotationYaw));
-			RenderUtil.drawLine3D((float) forward.x, (float) forward.y + mc.getRenderViewEntity().getEyeHeight(),
-					(float) forward.z, (float) pos.x, (float) pos.y, (float) pos.z, 0.85f, t.color);
+			if (this.tracer.isEnabled())
+				RenderUtil.drawLine3D((float) forward.x, (float) forward.y + mc.getRenderViewEntity().getEyeHeight(),
+						(float) forward.z, (float) pos.x, (float) pos.y, (float) pos.z, 0.85f, t.color);
 		}
 
 		mc.gameSettings.viewBobbing = bobbing;
