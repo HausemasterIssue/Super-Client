@@ -1,18 +1,34 @@
 package mod.supergamer5465.sc.config;
 
 import java.awt.Color;
-import java.io.*;
-import java.nio.file.*;
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
+import java.io.PrintWriter;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Map.Entry;
 
 import mod.supergamer5465.sc.Main;
 import mod.supergamer5465.sc.module.Module;
+import mod.supergamer5465.sc.module.modules.render.Search;
 import mod.supergamer5465.sc.setting.Setting;
-import mod.supergamer5465.sc.setting.settings.*;
+import mod.supergamer5465.sc.setting.settings.BooleanSetting;
+import mod.supergamer5465.sc.setting.settings.ColorSetting;
+import mod.supergamer5465.sc.setting.settings.FloatSetting;
+import mod.supergamer5465.sc.setting.settings.IntSetting;
+import mod.supergamer5465.sc.setting.settings.ModeSetting;
+import mod.supergamer5465.sc.setting.settings.SearchBlockSelectorSetting;
+import mod.supergamer5465.sc.setting.settings.StringSetting;
 import net.minecraft.block.Block;
 import net.minecraft.client.Minecraft;
-import net.minecraftforge.fml.common.registry.*;
+import net.minecraftforge.fml.common.registry.GameRegistry;
+
+// config issue?
 
 public class Config {
 	public static Path modFolder;
@@ -31,6 +47,7 @@ public class Config {
 	}
 
 	public void Save() {
+
 		ArrayList<String> save = new ArrayList<String>();
 
 		for (Module mod : Main.moduleManager.modules) {
@@ -74,26 +91,18 @@ public class Config {
 							+ col.blue);
 				}
 
-				if (setting instanceof BlockSelectorSetting) {
-					BlockSelectorSetting block = (BlockSelectorSetting) setting;
+				if (setting instanceof SearchBlockSelectorSetting) {
+					SearchBlockSelectorSetting block = (SearchBlockSelectorSetting) setting;
 					String list = "";
 					String colorList = "";
 					for (Block b : block.blocks) {
 						list += b.getLocalizedName() + "/";
 					}
-					for (Entry<Block, Color> e : block.colors.entrySet()) {
-						colorList += e.getValue().getRGB() + "," + e.getKey() + "/";
+					for (Entry<Block, Integer> e : block.colors.entrySet()) {
+						colorList += new Color(e.getValue()).getRed() + "." + new Color(e.getValue()).getGreen() + "."
+								+ new Color(e.getValue()).getBlue() + "," + e.getKey().getLocalizedName() + "/";
 					}
 					save.add("setting:" + mod.getName() + ":" + setting.name + ":" + list + ";" + colorList);
-				}
-
-				if (setting instanceof EntitySelectorSetting) {
-					EntitySelectorSetting entity = (EntitySelectorSetting) setting;
-					String list = "";
-					for (EntityEntry e : entity.entities) {
-						list += e.getName() + "/";
-					}
-					save.add("setting:" + mod.getName() + ":" + setting.name + ":" + list);
 				}
 			}
 		}
@@ -109,7 +118,6 @@ public class Config {
 		}
 	}
 
-	@SuppressWarnings("deprecation")
 	public void Load() {
 		ArrayList<String> lines = new ArrayList<String>();
 
@@ -141,7 +149,7 @@ public class Config {
 				if (m != null) {
 					Setting setting = Main.settingManager.getSettingByName(m, args[2]);
 					if (setting != null) {
-						Main.settingManager.rSetting(setting);
+						Main.settingManager.addSetting(setting);
 					}
 				}
 			}
@@ -184,26 +192,19 @@ public class Config {
 								+ col.blue);
 					}
 
-					if (setting instanceof BlockSelectorSetting) {
-						BlockSelectorSetting block = (BlockSelectorSetting) setting;
+					if (setting instanceof SearchBlockSelectorSetting) {
+						SearchBlockSelectorSetting block = (SearchBlockSelectorSetting) setting;
 						String list = "";
 						String colorList = "";
 						for (Block b : block.blocks) {
 							list += b.getLocalizedName() + "/";
 						}
-						for (Entry<Block, Color> e : block.colors.entrySet()) {
-							colorList += e.getValue().getRGB() + "," + e.getKey() + "/";
+						for (Entry<Block, Integer> e : block.colors.entrySet()) {
+							colorList += new Color(e.getValue()).getRed() + "." + new Color(e.getValue()).getGreen()
+									+ "." + new Color(e.getValue()).getBlue() + "," + e.getKey().getLocalizedName()
+									+ "/";
 						}
 						save.add("setting:" + mod.getName() + ":" + setting.name + ":" + list + ";" + colorList);
-					}
-
-					if (setting instanceof EntitySelectorSetting) {
-						EntitySelectorSetting entity = (EntitySelectorSetting) setting;
-						String list = "";
-						for (EntityEntry e : entity.entities) {
-							list += e.getName() + "/";
-						}
-						save.add("setting:" + mod.getName() + ":" + setting.name + ":" + list);
 					}
 				}
 			}
@@ -247,7 +248,7 @@ public class Config {
 				if (m != null) {
 					Setting setting = Main.settingManager.getSettingByName(m, args[2]);
 					if (setting != null) {
-						Main.settingManager.rSetting(setting);
+						Main.settingManager.addSetting(setting);
 						if (setting instanceof BooleanSetting) {
 							((BooleanSetting) setting).setEnabled(Boolean.parseBoolean(args[3]));
 						}
@@ -274,7 +275,7 @@ public class Config {
 							((ColorSetting) setting).blue = Integer.valueOf(args[3].split(",")[2]);
 						}
 
-						if (setting instanceof BlockSelectorSetting) {
+						if (setting instanceof SearchBlockSelectorSetting) {
 							if (args.length > 3) {
 								try {
 									if (args[3].contains(";")) {
@@ -283,7 +284,7 @@ public class Config {
 												for (Block b : GameRegistry.findRegistry(Block.class)
 														.getValuesCollection()) {
 													if (str.equalsIgnoreCase(b.getLocalizedName()))
-														((BlockSelectorSetting) setting).blocks.add(b);
+														((SearchBlockSelectorSetting) setting).blocks.add(b);
 												}
 											}
 										}
@@ -291,9 +292,15 @@ public class Config {
 											if (!str.isEmpty()) {
 												for (Block b : GameRegistry.findRegistry(Block.class)
 														.getValuesCollection()) {
-													if (str.split(",")[1].equalsIgnoreCase(b.getLocalizedName()))
-														((BlockSelectorSetting) setting).setColor(b,
-																new Color(Integer.valueOf(str)));
+													if (str.split(",")[1].equalsIgnoreCase(b.getLocalizedName())) {
+														String colors = str.split(",")[0];
+														((SearchBlockSelectorSetting) setting).setColor(b,
+																new Color(Integer.valueOf(colors.split("\\.")[0]),
+																		Integer.valueOf(colors.split("\\.")[1]),
+																		Integer.valueOf(
+																				colors.split("\\.")[2].split(",")[0]))
+																						.getRGB());
+													}
 												}
 											}
 										}
@@ -303,32 +310,29 @@ public class Config {
 												for (Block b : GameRegistry.findRegistry(Block.class)
 														.getValuesCollection()) {
 													if (str.equalsIgnoreCase(b.getLocalizedName()))
-														((BlockSelectorSetting) setting).blocks.add(b);
+														((SearchBlockSelectorSetting) setting).blocks.add(b);
 												}
 											}
 										}
 									}
-								} catch (ArrayIndexOutOfBoundsException e) {
-									// System.out.println("config issue");
+								} catch (Exception e) {
+									e.printStackTrace();
+									System.out.println(
+											"Config issue for search module, reverting to default search config");
 								}
 							}
-						}
+							((Search) setting.parent).to_search.clear();
 
-						if (setting instanceof EntitySelectorSetting) {
-							if (args.length >= 4) {
-								for (String str : args[3].split("/")) {
-									if (!str.isEmpty()) {
-										for (EntityEntry e : GameRegistry.findRegistry(EntityEntry.class).getValues()) {
-											if (e.getName() == str)
-												((EntitySelectorSetting) setting).entities.add(e);
-										}
-									}
-								}
+							for (Block b : ((SearchBlockSelectorSetting) setting).getBlocks()) {
+								int color;
+								color = ((SearchBlockSelectorSetting) setting).getColor(b);
+								((Search) setting.parent).to_search.put(b, color);
 							}
 						}
 					}
 				}
 			}
 		}
+		Main.configLoaded = true;
 	}
 }

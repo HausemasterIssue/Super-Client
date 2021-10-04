@@ -1,7 +1,8 @@
 package mod.supergamer5465.sc.setting.settings;
 
 import java.awt.Color;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Map.Entry;
 
 import mod.supergamer5465.sc.Main;
@@ -10,14 +11,14 @@ import mod.supergamer5465.sc.setting.Setting;
 import net.minecraft.block.Block;
 import net.minecraftforge.fml.common.registry.GameRegistry;
 
-public class BlockSelectorSetting extends Setting {
+public class SearchBlockSelectorSetting extends Setting {
 
 	public boolean colorSettings;
-	public ArrayList<Block> blocks;
-	public HashMap<Block, Color> colors;
+	public ArrayList<Block> blocks = new ArrayList<>();
+	public HashMap<Block, Integer> colors = new HashMap<>();
 
-	public BlockSelectorSetting(String name, Module parent, boolean colorSettings, ArrayList<Block> blocks,
-			HashMap<Block, Color> colors) {
+	public SearchBlockSelectorSetting(String name, Module parent, boolean colorSettings, ArrayList<Block> blocks,
+			HashMap<Block, Integer> colors) {
 		this.name = name;
 		this.parent = parent;
 		this.colorSettings = colorSettings;
@@ -26,7 +27,7 @@ public class BlockSelectorSetting extends Setting {
 			this.colors = colors;
 		}
 		for (Block b : GameRegistry.findRegistry(Block.class).getValuesCollection()) {
-			colors.put(b, new Color(255, 255, 255));
+			colors.put(b, new Color(255, 255, 255).getRGB());
 		}
 	}
 
@@ -38,25 +39,25 @@ public class BlockSelectorSetting extends Setting {
 		this.blocks = blocks;
 	}
 
-	public HashMap<Block, Color> getColors() {
+	public HashMap<Block, Integer> getColors() {
 		return colors;
 	}
 
-	public void setColors(HashMap<Block, Color> colors) {
+	public void setColors(HashMap<Block, Integer> colors) {
 		this.colors = colors;
 	}
 
-	public Color getColor(Block b) {
-		for (Entry<Block, Color> e : colors.entrySet()) {
+	public int getColor(Block b) {
+		for (Entry<Block, Integer> e : colors.entrySet()) {
 			if (e.getKey() == b) {
 				return e.getValue();
 			}
 		}
-		return null;
+		return 0;
 	}
 
-	public void setColor(Block b, Color c) {
-		for (Entry<Block, Color> e : colors.entrySet()) {
+	public void setColor(Block b, Integer c) {
+		for (Entry<Block, Integer> e : colors.entrySet()) {
 			if (e.getKey() == b) {
 				e.setValue(c);
 			}

@@ -1,6 +1,8 @@
 package mod.supergamer5465.sc.util;
 
-import club.minnced.discord.rpc.*;
+import club.minnced.discord.rpc.DiscordEventHandlers;
+import club.minnced.discord.rpc.DiscordRPC;
+import club.minnced.discord.rpc.DiscordRichPresence;
 
 public class ScDiscordRichPresence {
 	private static final DiscordRichPresence discordRichPresence = new DiscordRichPresence();

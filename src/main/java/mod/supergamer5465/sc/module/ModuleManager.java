@@ -1,16 +1,39 @@
 package mod.supergamer5465.sc.module;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
 
 import org.lwjgl.opengl.GL11;
 
 import mod.supergamer5465.sc.event.events.ScEventRender;
-import mod.supergamer5465.sc.module.modules.client.*;
-import mod.supergamer5465.sc.module.modules.combat.*;
-import mod.supergamer5465.sc.module.modules.movement.*;
-import mod.supergamer5465.sc.module.modules.player.*;
-import mod.supergamer5465.sc.module.modules.render.*;
-import mod.supergamer5465.sc.module.modules.utilities.*;
+import mod.supergamer5465.sc.module.modules.client.ClickGui;
+import mod.supergamer5465.sc.module.modules.client.DiscordRPC;
+import mod.supergamer5465.sc.module.modules.client.Hud;
+import mod.supergamer5465.sc.module.modules.combat.AutoTotem;
+import mod.supergamer5465.sc.module.modules.combat.CrystalAura;
+import mod.supergamer5465.sc.module.modules.combat.KillAura;
+import mod.supergamer5465.sc.module.modules.combat.Surround;
+import mod.supergamer5465.sc.module.modules.movement.AutoWalk;
+import mod.supergamer5465.sc.module.modules.movement.BoatFly;
+import mod.supergamer5465.sc.module.modules.movement.EntityRide;
+import mod.supergamer5465.sc.module.modules.movement.Flight;
+import mod.supergamer5465.sc.module.modules.movement.Jesus;
+import mod.supergamer5465.sc.module.modules.movement.Speed;
+import mod.supergamer5465.sc.module.modules.movement.Velocity;
+import mod.supergamer5465.sc.module.modules.player.AutoEat;
+import mod.supergamer5465.sc.module.modules.player.Scaffold;
+import mod.supergamer5465.sc.module.modules.render.EntityTracers;
+import mod.supergamer5465.sc.module.modules.render.ExtraTab;
+import mod.supergamer5465.sc.module.modules.render.Freecam;
+import mod.supergamer5465.sc.module.modules.render.FullBright;
+import mod.supergamer5465.sc.module.modules.render.LSD;
+import mod.supergamer5465.sc.module.modules.render.Nametags;
+import mod.supergamer5465.sc.module.modules.render.Search;
+import mod.supergamer5465.sc.module.modules.utilities.AutoFish;
+import mod.supergamer5465.sc.module.modules.utilities.ConcreteBot;
+import mod.supergamer5465.sc.module.modules.utilities.NoHunger;
+import mod.supergamer5465.sc.module.modules.utilities.Reconnect;
+import mod.supergamer5465.sc.module.modules.utilities.Spammer;
 import mod.supergamer5465.sc.util.RenderUtil;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.GlStateManager;
@@ -81,6 +104,7 @@ public class ModuleManager {
 		// this module is just an experiment and is not used in the current version of
 		// super client
 		// addModule(new NoteBot());
+		addModule(new LSD());
 	}
 
 	public void addModule(Module m) {
