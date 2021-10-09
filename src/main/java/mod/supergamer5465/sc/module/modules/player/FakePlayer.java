@@ -26,5 +26,12 @@ public class FakePlayer extends Module {
 		}
 	}
 	
+	@Override
+	public void onDisable() {
+		if(mc.player != null && mc.world != null) {
+			mc.world.removeEntity(newPlayer);
+		}
+	}
+	
 	
 }
