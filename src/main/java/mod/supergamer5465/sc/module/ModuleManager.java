@@ -21,6 +21,7 @@ import mod.supergamer5465.sc.module.modules.movement.Jesus;
 import mod.supergamer5465.sc.module.modules.movement.Speed;
 import mod.supergamer5465.sc.module.modules.movement.Velocity;
 import mod.supergamer5465.sc.module.modules.player.AutoEat;
+import mod.supergamer5465.sc.module.modules.player.FakePlayer;
 import mod.supergamer5465.sc.module.modules.player.Scaffold;
 import mod.supergamer5465.sc.module.modules.render.EntityTracers;
 import mod.supergamer5465.sc.module.modules.render.ExtraTab;
@@ -76,6 +77,7 @@ public class ModuleManager {
 		addModule(new Scaffold());
 		addModule(new AutoEat());
 		addModule(new NoHunger());
+		addModule(new FakePlayer());
 
 		// render
 		addModule(new EntityTracers());// TODO make full entity selection list gui component
