@@ -213,12 +213,12 @@ public class Search extends Module {
 		} else if (event.get_packet() instanceof SPacketUpdateTileEntity) { // New tile entity
 			SPacketUpdateTileEntity updt = (SPacketUpdateTileEntity) event.get_packet();
 
-			int color = this.isTargeted(Minecraft.getMinecraft().world.getBlockState(updt.getPos()), updt.getPos(),
+			Color color = this.isTargeted(Minecraft.getMinecraft().world.getBlockState(updt.getPos()), updt.getPos(),
 					updt.getNbtCompound());
 
 			this.targets_lock.writeLock().lock();
-			if (color != 0) {
-				this.targets.put(updt.getPos(), color);
+			if (color != null) {
+				this.targets.put(updt.getPos(), color.getRGB());
 			} else
 				this.targets.remove(updt.getPos());
 			this.targets_lock.writeLock().unlock();
@@ -226,11 +226,11 @@ public class Search extends Module {
 		} else if (event.get_packet() instanceof SPacketBlockChange) { // New Block
 			SPacketBlockChange change = (SPacketBlockChange) event.get_packet();
 
-			int color = this.isTargeted(change.getBlockState(), change.getBlockPosition(), null);
+			Color color = this.isTargeted(change.getBlockState(), change.getBlockPosition(), null);
 
 			this.targets_lock.writeLock().lock();
-			if (color != 0) {
-				this.targets.put(change.getBlockPosition(), color);
+			if (color != null) {
+				this.targets.put(change.getBlockPosition(), color.getRGB());
 
 			} else
 				this.targets.remove(change.getBlockPosition());
@@ -239,11 +239,11 @@ public class Search extends Module {
 			SPacketMultiBlockChange change = (SPacketMultiBlockChange) event.get_packet();
 			for (SPacketMultiBlockChange.BlockUpdateData up : change.getChangedBlocks()) {
 
-				int color = this.isTargeted(up.getBlockState(), up.getPos(), null);
+				Color color = this.isTargeted(up.getBlockState(), up.getPos(), null);
 
 				this.targets_lock.writeLock().lock();
-				if (color != 0) {
-					this.targets.put(up.getPos(), color);
+				if (color != null) {
+					this.targets.put(up.getPos(), color.getRGB());
 				} else
 					this.targets.remove(up.getPos());
 				this.targets_lock.writeLock().unlock();
@@ -372,11 +372,10 @@ public class Search extends Module {
 				for (int j = 0; j < 16; j++) {
 					for (int k = 0; k < 16; k++) {
 						BlockPos position = new BlockPos((chunk.x << 4) + i, (m << 4) + j, (chunk.z << 4) + k);
-						int color = this.isTargeted(storage.get(i, j, k), position, null);
-						if (blocks.blocks.contains(mc.world.getBlockState(position).getBlock())) {
+						Color color = this.isTargeted(storage.get(i, j, k), position, null);
+						if (blocks.blocks.contains(mc.world.getBlockState(position).getBlock()) && color != null) {
 							this.targets_lock.writeLock().lock();
-
-							this.targets.put(position, color);
+							this.targets.put(position, color.getRGB());
 							this.targets_lock.writeLock().unlock();
 						}
 					}
@@ -398,17 +397,17 @@ public class Search extends Module {
 	}
 
 	// Which color to use for highlighting given blockstate, null if none
-	public int isTargeted(IBlockState state, BlockPos position, NBTTagCompound updt_tag) {
+	public Color isTargeted(IBlockState state, BlockPos position, NBTTagCompound updt_tag) {
 		this.search_lock.readLock().lock();
 
-		int color = 0;
+		Color color = null;
 
 		if (state.getBlock() != null && this.to_search != null)
-			if (this.to_search.get(state.getBlock()) != null) {
-				color = new Color(blocks.colors.get(state.getBlock())).getRGB();
+			if (this.blocks.getBlocks().contains(state.getBlock())) {
+				color = new Color(blocks.colors.get(state.getBlock()));
 			} else {
 				this.search_lock.readLock().unlock();
-				return 0;
+				return null;
 			}
 
 		this.search_lock.readLock().unlock();

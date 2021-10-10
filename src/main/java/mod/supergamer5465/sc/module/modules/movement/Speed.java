@@ -74,7 +74,7 @@ public class Speed extends Module {
 				|| mc.player.capabilities.isFlying)
 			return;
 
-		float player_speed = 0.2873f;
+		float player_speed = 0.2873f * multiplier.value;
 		float move_forward = mc.player.movementInput.moveForward;
 		float move_strafe = mc.player.movementInput.moveStrafe;
 		float rotation_yaw = mc.player.rotationYaw;
