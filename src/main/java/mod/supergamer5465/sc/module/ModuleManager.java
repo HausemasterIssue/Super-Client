@@ -5,6 +5,7 @@ import java.util.List;
 
 import mod.supergamer5465.sc.module.modules.combat.*;
 import mod.supergamer5465.sc.module.modules.movement.*;
+import mod.supergamer5465.sc.module.modules.player.XCarry;
 import org.lwjgl.opengl.GL11;
 
 import mod.supergamer5465.sc.event.events.ScEventRender;
@@ -70,6 +71,7 @@ public class ModuleManager {
 		addModule(new AutoEat());
 		addModule(new NoHunger());
 		addModule(new FakePlayer());
+		addModule(new XCarry());
 
 		// render
 		addModule(new EntityTracers());// TODO make full entity selection list gui component
