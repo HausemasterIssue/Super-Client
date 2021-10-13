@@ -38,16 +38,20 @@ public class ElytraFlight extends Module {
 	public void onUpdateInput(ScUpdateEvent event) {
 
 		if (!Minecraft.getMinecraft().player.isElytraFlying()) return;
+
 		float yaw = Minecraft.getMinecraft().player.rotationYaw;
 		float pitch = Minecraft.getMinecraft().player.rotationPitch;
+
 		if (Minecraft.getMinecraft().gameSettings.keyBindForward.isKeyDown()) {
 			Minecraft.getMinecraft().player.motionX -= Math.sin(Math.toRadians(yaw)) * Math.cos(Math.toRadians(pitch)) * baseSpeed.getValue();
 			Minecraft.getMinecraft().player.motionZ += Math.cos(Math.toRadians(yaw)) * Math.cos(Math.toRadians(pitch)) * baseSpeed.getValue();
 		}
-		if (Minecraft.getMinecraft().gameSettings.keyBindJump.isKeyDown())
+		if (Minecraft.getMinecraft().gameSettings.keyBindJump.isKeyDown()) {
 			Minecraft.getMinecraft().player.motionY += upSpeed.getValue();
-		if (Minecraft.getMinecraft().gameSettings.keyBindSneak.isKeyDown())
+		}
+		if (Minecraft.getMinecraft().gameSettings.keyBindSneak.isKeyDown()) {
 			Minecraft.getMinecraft().player.motionY -= downSpeed.getValue();
+		}
 
 		if (noVelocity.isEnabled())
 			if (!Minecraft.getMinecraft().gameSettings.keyBindForward.isKeyDown() && !Minecraft.getMinecraft().gameSettings.keyBindJump.isKeyDown() && !Minecraft.getMinecraft().gameSettings.keyBindSneak.isKeyDown()) {
