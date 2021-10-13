@@ -54,6 +54,7 @@ public class ModuleManager {
 		addModule(new Surround());// TODO fix surround its broken
 		addModule(new AutoTotem());
 		addModule(new Anchor());
+		addModule(new Criticals());
 
 		// movement
 		addModule(new Speed());
@@ -64,6 +65,7 @@ public class ModuleManager {
 		addModule(new Velocity());
 		addModule(new ElytraFlight()); //Done elytrafly By John Xina
 		addModule(new BoatFly());
+		addModule(new Parkour());
 
 		// player
 		// TODO fix autoeat and nohunger
