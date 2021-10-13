@@ -3,23 +3,14 @@ package mod.supergamer5465.sc.module;
 import java.util.ArrayList;
 import java.util.List;
 
+import mod.supergamer5465.sc.module.modules.combat.*;
+import mod.supergamer5465.sc.module.modules.movement.*;
 import org.lwjgl.opengl.GL11;
 
 import mod.supergamer5465.sc.event.events.ScEventRender;
 import mod.supergamer5465.sc.module.modules.client.ClickGui;
 import mod.supergamer5465.sc.module.modules.client.DiscordRPC;
 import mod.supergamer5465.sc.module.modules.client.Hud;
-import mod.supergamer5465.sc.module.modules.combat.AutoTotem;
-import mod.supergamer5465.sc.module.modules.combat.CrystalAura;
-import mod.supergamer5465.sc.module.modules.combat.KillAura;
-import mod.supergamer5465.sc.module.modules.combat.Surround;
-import mod.supergamer5465.sc.module.modules.movement.AutoWalk;
-import mod.supergamer5465.sc.module.modules.movement.BoatFly;
-import mod.supergamer5465.sc.module.modules.movement.EntityRide;
-import mod.supergamer5465.sc.module.modules.movement.Flight;
-import mod.supergamer5465.sc.module.modules.movement.Jesus;
-import mod.supergamer5465.sc.module.modules.movement.Speed;
-import mod.supergamer5465.sc.module.modules.movement.Velocity;
 import mod.supergamer5465.sc.module.modules.player.AutoEat;
 import mod.supergamer5465.sc.module.modules.player.FakePlayer;
 import mod.supergamer5465.sc.module.modules.player.Scaffold;
@@ -61,6 +52,7 @@ public class ModuleManager {
 		addModule(new CrystalAura());// TODO skid phobos ca mine is retarded
 		addModule(new Surround());// TODO fix surround its broken
 		addModule(new AutoTotem());
+		addModule(new Anchor());
 
 		// movement
 		addModule(new Speed());
@@ -69,7 +61,7 @@ public class ModuleManager {
 		addModule(new AutoWalk());
 		addModule(new EntityRide());
 		addModule(new Velocity());
-		// TODO elytrafly
+		addModule(new ElytraFlight()); //Done elytrafly By John Xina
 		addModule(new BoatFly());
 
 		// player
