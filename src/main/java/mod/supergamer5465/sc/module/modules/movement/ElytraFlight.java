@@ -35,7 +35,7 @@ public class ElytraFlight extends Module {
 	}
 
 	@SubscribeEvent
-	public void onUpdateInput(final ScUpdateEvent event) {
+	public void onUpdateInput(ScUpdateEvent event) {
 
 		if (!Minecraft.getMinecraft().player.isElytraFlying()) return;
 		float yaw = Minecraft.getMinecraft().player.rotationYaw;
