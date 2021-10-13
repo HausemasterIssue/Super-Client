@@ -34,8 +34,8 @@ public class ElytraFlight extends Module {
 		this.addSetting(noVelocity);
 	}
 
-	@SubscribeEvent
-	public void onUpdateInput(ScUpdateEvent event) {
+	@Override
+	public void onUpdate() {
 
 		if (!Minecraft.getMinecraft().player.isElytraFlying()) return;
 
