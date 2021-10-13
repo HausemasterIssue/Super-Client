@@ -12,12 +12,9 @@ public class ScInventory {
 		mc.playerController.windowClick(mc.player.inventoryContainer.windowId, slot < 9 ? slot + 36 : slot, 0,
 				ClickType.PICKUP, mc.player);
 		mc.playerController.windowClick(mc.player.inventoryContainer.windowId, 45, 0, ClickType.PICKUP, mc.player);
+		mc.playerController.windowClick(mc.player.inventoryContainer.windowId, slot < 9 ? slot + 36 : slot, 0,
+				ClickType.PICKUP, mc.player);
 
-		if (!mc.player.inventory.getItemStack().isEmpty()) {
-			if (mc.player.inventory.getFirstEmptyStack() != -1) {
-				mc.playerController.windowClick(mc.player.inventoryContainer.windowId,
-						mc.player.inventory.getFirstEmptyStack(), 0, ClickType.PICKUP, mc.player);
-			}
-		}
+		mc.playerController.updateController();
 	}
 }
