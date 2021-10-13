@@ -21,6 +21,7 @@ public class Anchor extends Module {
 
 		this.addSetting(downSpeed);
 		this.addSetting(fallHeight);
+		this.addSetting(stopMovement);
 	}
 
 	@SubscribeEvent
