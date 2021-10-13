@@ -15,6 +15,7 @@
 		"ScMixinGuiPlayerTabOverlay",
 		"ScMixinAbstractHorse",
 		"ScMixinEntityLlama",
-		"ScMixinEntityPig"
+		"ScMixinEntityPig",
+		"ScMixinEntityLivingBase"
 	]
 }

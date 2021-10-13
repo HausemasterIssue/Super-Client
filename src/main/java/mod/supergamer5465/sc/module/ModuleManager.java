@@ -68,6 +68,7 @@ public class ModuleManager {
 		addModule(new Jesus());
 		addModule(new AutoWalk());
 		addModule(new EntityRide());
+		// TODO fix player push
 		addModule(new Velocity());
 		// TODO elytrafly
 		addModule(new BoatFly());
