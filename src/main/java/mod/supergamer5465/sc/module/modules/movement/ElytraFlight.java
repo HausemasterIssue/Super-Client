@@ -26,7 +26,7 @@ public class ElytraFlight extends Module {
 	BooleanSetting noVelocity = new BooleanSetting("noVelocity", this, true);
 
 	public ElytraFlight() {
-		super("AutoWalk", "Walk Automatically", Category.MOVEMENT);
+		super("ElytraFlight", "Fly with Elytras", Category.MOVEMENT);
 
 		this.addSetting(downSpeed);
 		this.addSetting(upSpeed);
