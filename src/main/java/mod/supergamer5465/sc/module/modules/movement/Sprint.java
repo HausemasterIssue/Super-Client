@@ -8,6 +8,9 @@ import net.minecraft.client.Minecraft;
 public class Sprint extends Module {
 	public Sprint() {
 		super("Sprint", "Automatically sprints", Category.MOVEMENT);
+		
+		this.addSetting(strict);
+		this.addSetting(hungerSafe);
 	}
 	
 	private static final Minecraft mc = Minecraft.getMinecraft();
