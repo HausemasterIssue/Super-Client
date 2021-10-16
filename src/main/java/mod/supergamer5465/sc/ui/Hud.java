@@ -1,6 +1,7 @@
 package mod.supergamer5465.sc.ui;
 
 import java.awt.Color;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 
@@ -35,6 +36,14 @@ public class Hud extends Gui {
 		}
 	}
 
+	final Comparator<Module> comparator = (a, b) -> {
+		final String firstName = a.getName();
+		final String secondName = b.getName();
+		final float dif = Minecraft.getMinecraft().fontRenderer.getStringWidth(secondName)
+				- Minecraft.getMinecraft().fontRenderer.getStringWidth(firstName);
+		return dif != 0 ? (int) dif : secondName.compareTo(firstName);
+	};
+
 	@SubscribeEvent
 	public void renderOverlay(RenderGameOverlayEvent event) {
 		if (Main.moduleManager.getModule("Hud").toggled) {
@@ -50,15 +59,20 @@ public class Hud extends Gui {
 				if (((BooleanSetting) Main.settingManager.getSettingByName(Main.moduleManager.getModule("Hud"),
 						"ArrayList")).enabled) {
 					int y = 2;
-					final int[] counter = { 1 };
+					ArrayList<Module> modules = new ArrayList<>();
 					for (Module mod : Main.moduleManager.getModuleList()) {
 						if (!mod.getName().equalsIgnoreCase("") && mod.isToggled()) {
-							fr.drawStringWithShadow(mod.getName(),
-									sr.getScaledWidth() - fr.getStringWidth(mod.getName()) - 2, y,
-									rainbow(counter[0] * 300));
-							y += fr.FONT_HEIGHT;
-							counter[0]++;
+							modules.add(mod);
 						}
+					}
+
+					modules.sort(comparator);
+
+					for (int i = 0; i < modules.size(); i++) {
+						Module m = modules.get(i);
+						fr.drawStringWithShadow(m.getName(), sr.getScaledWidth() - fr.getStringWidth(m.getName()) - 2,
+								y, rainbow(i * 300));
+						y += fr.FONT_HEIGHT;
 					}
 				}
 				if (((BooleanSetting) Main.settingManager.getSettingByName(Main.moduleManager.getModule("Hud"),

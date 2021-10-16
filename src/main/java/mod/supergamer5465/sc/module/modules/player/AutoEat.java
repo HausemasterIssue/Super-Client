@@ -57,6 +57,7 @@ public class AutoEat extends Module {
 			if (l_CanEat && l_Stack.getItem() instanceof ItemFood) {
 				mc.gameSettings.keyBindUseItem.pressed = true;
 				mc.playerController.processRightClick(mc.player, mc.world, EnumHand.MAIN_HAND);
+				mc.playerController.updateController();
 
 				m_WasEating = true;
 			}
