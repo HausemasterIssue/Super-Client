@@ -25,8 +25,8 @@ apply plugin: "org.spongepowered.mixin"
 apply plugin: "com.github.johnrengelman.shadow";
 
 version = '0.1.0'
-group = 'mod.supergamer5465.sc'
-archivesBaseName = 'sc'
+group = 'mod.imphack'
+archivesBaseName = 'imphack'
 
 sourceCompatibility = targetCompatibility = '1.8' // Need this here so eclipse task generates correctly.
 compileJava {
@@ -36,7 +36,7 @@ compileJava {
 minecraft {
     version  = "1.12.2-14.23.5.2768"
 	runDir   = "run"
-	coreMod  = "mod.supergamer5465.sc.mixin.ScMixinLoader"
+	coreMod  = "mod.imphack.mixin.ImpHackMixinLoader"
 	mappings = "stable_39"
 	makeObfSourceJar = false
 }
@@ -90,7 +90,7 @@ shadowJar {
 
 mixin {
 	defaultObfuscationEnv searge
-	add sourceSets.main, "mixins.sc.refmap.json"
+	add sourceSets.main, "mixins.imphack.refmap.json"
 }
 
 reobf {
@@ -120,17 +120,17 @@ processResources {
 }
 
 //doesn't work in dev environment but add for jar
-///*
+/*
 jar {
 	manifest {
 		attributes (
 			"FMLCorePluginContainsFMLMod" : "true",
 			"ForceLoadAsMod"              : "true",
-			"FMLCorePlugin"               : "mod.supergamer5465.sc.mixin.ScMixinLoader",
-			"MixinConfigs"                : "mixins.sc.json",
+			"FMLCorePlugin"               : "mod.imphack.mixin.ImpHackMixinLoader",
+			"MixinConfigs"                : "mixins.imphack.json",
 			"tweakClass"                  : "org.spongepowered.asm.launch.MixinTweaker",
 			"TweakOrder"                  : 0,
-			"FMLAT"                       : "super_at.cfg"
+			"FMLAT"                       : "imphack_at.cfg"
 		)
 	}
 }
