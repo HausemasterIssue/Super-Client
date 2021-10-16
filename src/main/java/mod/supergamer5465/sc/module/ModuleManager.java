@@ -3,18 +3,31 @@ package mod.supergamer5465.sc.module;
 import java.util.ArrayList;
 import java.util.List;
 
-import mod.supergamer5465.sc.module.modules.combat.*;
-import mod.supergamer5465.sc.module.modules.movement.*;
-import mod.supergamer5465.sc.module.modules.player.XCarry;
 import org.lwjgl.opengl.GL11;
 
 import mod.supergamer5465.sc.event.events.ScEventRender;
 import mod.supergamer5465.sc.module.modules.client.ClickGui;
 import mod.supergamer5465.sc.module.modules.client.DiscordRPC;
 import mod.supergamer5465.sc.module.modules.client.Hud;
+import mod.supergamer5465.sc.module.modules.combat.Anchor;
+import mod.supergamer5465.sc.module.modules.combat.AutoTotem;
+import mod.supergamer5465.sc.module.modules.combat.Criticals;
+import mod.supergamer5465.sc.module.modules.combat.CrystalAura;
+import mod.supergamer5465.sc.module.modules.combat.KillAura;
+import mod.supergamer5465.sc.module.modules.combat.Surround;
+import mod.supergamer5465.sc.module.modules.movement.AutoWalk;
+import mod.supergamer5465.sc.module.modules.movement.BoatFly;
+import mod.supergamer5465.sc.module.modules.movement.ElytraFlight;
+import mod.supergamer5465.sc.module.modules.movement.EntityRide;
+import mod.supergamer5465.sc.module.modules.movement.Flight;
+import mod.supergamer5465.sc.module.modules.movement.Jesus;
+import mod.supergamer5465.sc.module.modules.movement.Parkour;
+import mod.supergamer5465.sc.module.modules.movement.Speed;
+import mod.supergamer5465.sc.module.modules.movement.Velocity;
 import mod.supergamer5465.sc.module.modules.player.AutoEat;
 import mod.supergamer5465.sc.module.modules.player.FakePlayer;
 import mod.supergamer5465.sc.module.modules.player.Scaffold;
+import mod.supergamer5465.sc.module.modules.player.XCarry;
 import mod.supergamer5465.sc.module.modules.render.EntityTracers;
 import mod.supergamer5465.sc.module.modules.render.ExtraTab;
 import mod.supergamer5465.sc.module.modules.render.Freecam;
@@ -64,12 +77,12 @@ public class ModuleManager {
 		addModule(new EntityRide());
 		// TODO fix player push
 		addModule(new Velocity());
-		addModule(new ElytraFlight()); //Done elytrafly By John Xina
+		addModule(new ElytraFlight()); // Done elytrafly By John Xina
 		addModule(new BoatFly());
 		addModule(new Parkour());
 
 		// player
-		// TODO fix autoeat and nohunger
+		// TODO nohunger
 		addModule(new Scaffold());
 		addModule(new AutoEat());
 		addModule(new NoHunger());
@@ -77,7 +90,7 @@ public class ModuleManager {
 		addModule(new XCarry());
 
 		// render
-		addModule(new EntityTracers());// TODO make full entity selection list gui component
+		addModule(new EntityTracers());
 		addModule(new FullBright());
 		addModule(new Freecam());// TODO fix entity dismounting with shift in freecam/make it baritone
 									// compatible, fix character skin

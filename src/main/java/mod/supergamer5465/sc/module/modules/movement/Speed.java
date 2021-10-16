@@ -13,7 +13,7 @@ import net.minecraft.util.math.MathHelper;
 
 public class Speed extends Module {
 
-	ModeSetting mode = new ModeSetting("Mode", this, "strafe", new String[] { "strafe", "sprint" });
+	ModeSetting mode = new ModeSetting("Mode", this, "strafe", new String[] { "strafe" });
 	FloatSetting multiplier = new FloatSetting("Multiplier", this, 1f);
 	BooleanSetting inLiquid = new BooleanSetting("While In Liquids", this, true);
 	BooleanSetting jump = new BooleanSetting("Auto Jump", this, false);
@@ -33,11 +33,6 @@ public class Speed extends Module {
 		if (mc.player.isInWater() || mc.player.isInLava()) {
 			if (!inLiquid.enabled)
 				return;
-		}
-		if (mode.getMode().equalsIgnoreCase("sprint")) {
-			if (mc.player.movementInput.moveForward != 0 && !mc.player.isSneaking()
-					|| mc.player.movementInput.moveStrafe != 0 && !mc.player.isSneaking())
-				mc.player.setSprinting(true);
 		}
 		if (mode.getMode().equalsIgnoreCase("strafe")) {
 			if (mc.player.isRiding())
@@ -61,10 +56,6 @@ public class Speed extends Module {
 
 	@EventHandler
 	private Listener<ScEventMove> player_move = new Listener<>(event -> {
-
-		if (mode.getMode().equalsIgnoreCase("sprint"))
-			return;
-
 		if (mc.player.isInWater() || mc.player.isInLava()) {
 			if (!inLiquid.enabled)
 				return;
