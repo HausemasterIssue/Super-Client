@@ -35,6 +35,7 @@ public class AutoTotem extends Module {
 					if (item == Items.TOTEM_OF_UNDYING) {
 						mc.playerController.windowClick(0, i, 1, ClickType.PICKUP, mc.player);
                                 		mc.playerController.windowClick(0, 45, 1, ClickType.PICKUP, mc.player);
+						continue;
 					}
 				}
 				timer = System.currentTimeMillis();
