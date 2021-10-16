@@ -87,12 +87,11 @@ public class Nametags extends Module {
 		int red = 255;
 		int green = 255;
 		int blue = 255;
-		Float a = 0.5f;
+		Float a = 0.0f;
 
 		RenderUtil.drawRect((float) (-width - 2) - 1, (float) (-(mc.fontRenderer.FONT_HEIGHT + 1)) - 1, width + 3f,
 				2.5f, red, green, blue, a);
-		RenderUtil.drawRect((float) (-width - 2), (float) (-(mc.fontRenderer.FONT_HEIGHT + 1)), width + 2.0f, 1.5f,
-				1426063360);
+
 		GlStateManager.disableBlend();
 		final ItemStack renderMainHand = player.getHeldItemMainhand().copy();
 
