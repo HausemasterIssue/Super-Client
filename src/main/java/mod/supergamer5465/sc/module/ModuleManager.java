@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import mod.supergamer5465.sc.module.modules.combat.*;
+import mod.supergamer5465.sc.module.modules.hud.Welcome;
 import mod.supergamer5465.sc.module.modules.movement.*;
 import mod.supergamer5465.sc.module.modules.player.XCarry;
 import org.lwjgl.opengl.GL11;
@@ -75,6 +76,10 @@ public class ModuleManager {
 		addModule(new NoHunger());
 		addModule(new FakePlayer());
 		addModule(new XCarry());
+
+		//hud
+
+		addModule(new Welcome());
 
 		// render
 		addModule(new EntityTracers());// TODO make full entity selection list gui component
