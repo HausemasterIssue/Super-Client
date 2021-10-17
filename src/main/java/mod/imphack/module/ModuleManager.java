@@ -79,14 +79,14 @@ public class ModuleManager {
 		addModule(new AutoWalk());
 		addModule(new EntityRide());
 		addModule(new Sprint());
-		// TODO fix player push
+		// TODO fix player push in velocity
 		addModule(new Velocity());
 		addModule(new ElytraFlight()); // Done elytrafly By John Xina
 		addModule(new BoatFly());
 		addModule(new Parkour());
 
 		// player
-		// TODO nohunger
+		// TODO nohunger is broke
 		addModule(new Scaffold());
 		addModule(new AutoEat());
 		addModule(new NoHunger());
