@@ -2,7 +2,6 @@ package mod.imphack.module.modules.combat;
 
 import java.util.ArrayList;
 
-import javafx.event.ActionEvent;
 import mod.imphack.module.Category;
 import mod.imphack.module.Module;
 import mod.imphack.setting.settings.BooleanSetting;
@@ -17,7 +16,6 @@ import net.minecraft.entity.item.EntityEnderCrystal;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemEndCrystal;
-import net.minecraft.network.play.client.CPacketPlayerDigging;
 import net.minecraft.potion.Potion;
 import net.minecraft.util.CombatRules;
 import net.minecraft.util.DamageSource;
@@ -104,9 +102,9 @@ public class CrystalAura extends Module {
 							if (mc.world.getBlockState(minEntity.getPosition().add(i, 0, j)).getBlock()
 									.equals(Blocks.AIR)
 									&& (mc.world.getBlockState(minEntity.getPosition().add(i, -1, j)).getBlock()
-									.equals(Blocks.OBSIDIAN)
-									|| mc.world.getBlockState(minEntity.getPosition().add(i, -1, j)).getBlock()
-									.equals(Blocks.BEDROCK))) {
+											.equals(Blocks.OBSIDIAN)
+											|| mc.world.getBlockState(minEntity.getPosition().add(i, -1, j)).getBlock()
+													.equals(Blocks.BEDROCK))) {
 								mc.playerController.processRightClickBlock(mc.player, mc.world,
 										minEntity.getPosition().add(i, -1, j), EnumFacing.UP, mc.objectMouseOver.hitVec,
 										EnumHand.MAIN_HAND);
@@ -136,15 +134,20 @@ public class CrystalAura extends Module {
 			int difficulty = Minecraft.getMinecraft().world.getDifficulty().getId();
 			damage *= (difficulty == 0 ? 0 : (difficulty == 2 ? 1 : (difficulty == 1 ? 0.5f : 1.5f)));
 
-			return getReduction(entity, damage, new Explosion(Minecraft.getMinecraft().world, null, pos.x, pos.y, pos.z, 6F, false, true));
+			return getReduction(entity, damage,
+					new Explosion(Minecraft.getMinecraft().world, null, pos.x, pos.y, pos.z, 6F, false, true));
 		} catch (NullPointerException e) {
 			return 0;
 		}
 	}
 
 	private static float getReduction(EntityLivingBase entity, float damage, Explosion explosion) {
-		damage = CombatRules.getDamageAfterAbsorb(damage, (float) Minecraft.getMinecraft().player.getTotalArmorValue(), (float) Minecraft.getMinecraft().player.getEntityAttribute(SharedMonsterAttributes.ARMOR_TOUGHNESS).getAttributeValue());
-		damage *= (1.0F - (float) EnchantmentHelper.getEnchantmentModifierDamage(Minecraft.getMinecraft().player.getArmorInventoryList(), DamageSource.causeExplosionDamage(explosion)) / 25.0F);
+		damage = CombatRules.getDamageAfterAbsorb(damage, (float) Minecraft.getMinecraft().player.getTotalArmorValue(),
+				(float) Minecraft.getMinecraft().player.getEntityAttribute(SharedMonsterAttributes.ARMOR_TOUGHNESS)
+						.getAttributeValue());
+		damage *= (1.0F - (float) EnchantmentHelper.getEnchantmentModifierDamage(
+				Minecraft.getMinecraft().player.getArmorInventoryList(), DamageSource.causeExplosionDamage(explosion))
+				/ 25.0F);
 
 		if (Minecraft.getMinecraft().player.isPotionActive(Potion.getPotionById(11))) {
 			damage -= damage / 4;
