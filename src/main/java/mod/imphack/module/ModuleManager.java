@@ -3,6 +3,7 @@ package mod.imphack.module;
 import java.util.ArrayList;
 import java.util.List;
 
+import mod.imphack.module.modules.player.*;
 import org.lwjgl.opengl.GL11;
 
 import mod.imphack.event.events.ImpHackEventRender;
@@ -26,10 +27,6 @@ import mod.imphack.module.modules.movement.Parkour;
 import mod.imphack.module.modules.movement.Speed;
 import mod.imphack.module.modules.movement.Sprint;
 import mod.imphack.module.modules.movement.Velocity;
-import mod.imphack.module.modules.player.AutoEat;
-import mod.imphack.module.modules.player.FakePlayer;
-import mod.imphack.module.modules.player.Scaffold;
-import mod.imphack.module.modules.player.XCarry;
 import mod.imphack.module.modules.render.EntityTracers;
 import mod.imphack.module.modules.render.ExtraTab;
 import mod.imphack.module.modules.render.Freecam;
@@ -89,6 +86,7 @@ public class ModuleManager {
 		addModule(new Scaffold());
 		addModule(new AutoEat());
 		addModule(new NoHunger());
+		addModule(new Disabler());
 		addModule(new FakePlayer());
 		addModule(new XCarry());
 
