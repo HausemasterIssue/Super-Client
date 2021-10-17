@@ -12,7 +12,7 @@ import org.lwjgl.util.glu.Sphere;
 public class PenisESP extends Module {
 
   public PenisESP(){
-    super("PenisESP", "funny peen esp thingy", Category.RENDER);
+    super("PenisESP", "Basically a dildo", Category.RENDER);
   }
 
   private float pspin, pcumsize, pamount;
