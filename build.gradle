@@ -65,7 +65,7 @@ dependencies {
 
 	compile 'com.github.zeromemes:Alpine:1.9'
     
-    compile group: 'net.jodah', name: 'typetools', version: '0.5.0'
+    compile group: 'net.jodah', name: 'typetools', version: '0.6.3'
     
     compile("org.spongepowered:mixin:0.7.11-SNAPSHOT") {
 		exclude module: "launchwrapper"

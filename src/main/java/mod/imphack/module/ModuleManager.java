@@ -3,6 +3,7 @@ package mod.imphack.module;
 import java.util.ArrayList;
 import java.util.List;
 
+import mod.imphack.module.modules.render.*;
 import org.lwjgl.opengl.GL11;
 
 import mod.imphack.event.events.ImpHackEventRender;
@@ -31,13 +32,6 @@ import mod.imphack.module.modules.player.Disabler;
 import mod.imphack.module.modules.player.FakePlayer;
 import mod.imphack.module.modules.player.Scaffold;
 import mod.imphack.module.modules.player.XCarry;
-import mod.imphack.module.modules.render.EntityTracers;
-import mod.imphack.module.modules.render.ExtraTab;
-import mod.imphack.module.modules.render.Freecam;
-import mod.imphack.module.modules.render.FullBright;
-import mod.imphack.module.modules.render.LSD;
-import mod.imphack.module.modules.render.Nametags;
-import mod.imphack.module.modules.render.Search;
 import mod.imphack.module.modules.utilities.AutoFish;
 import mod.imphack.module.modules.utilities.ConcreteBot;
 import mod.imphack.module.modules.utilities.NoHunger;
@@ -105,6 +99,7 @@ public class ModuleManager {
 									// compatible, fix character skin
 		addModule(new Nametags());
 		addModule(new ExtraTab());
+		addModule(new PenisESP());
 		// TODO norender
 		// TODO newchunks
 		// TODO camera clip
