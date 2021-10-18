@@ -15,7 +15,7 @@ import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
 public class Disabler extends Module {
 	public Disabler() {
-		super("Disabler", "Prevent AntiCheat flags", Category.MOVEMENT);
+		super("Disabler", "Prevent AntiCheat flags", Category.PLAYER);
 	}
 
 	@SubscribeEvent
