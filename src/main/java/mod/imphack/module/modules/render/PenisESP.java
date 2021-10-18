@@ -16,57 +16,65 @@ public class PenisESP extends Module {
   }
 
   private float pspin, pcumsize, pamount;
+  private boolean panimation;
 
   @Override
   public void onEnable() {
     pspin = 0;
     pcumsize = 0;
     pamount = 0;
+    panimation = true;
   }
 
   @Override
-  public void render(ImpHackEventRender event) {
+  public void render(ImpHackEventRender ImpHackEventRender) {
+
     for (final Object o : mc.world.loadedEntityList) {
       if (o instanceof EntityPlayer) {
         final EntityPlayer player = (EntityPlayer)o;
         final double n = player.lastTickPosX + (player.posX - player.lastTickPosX) * mc.getRenderPartialTicks();
         mc.getRenderManager();
-        final double x = n - mc.getRenderManager().renderPosX; //literally public nigger module
+        final double x = n - ImpHackEventRender.get_render_pos().x;
         final double n2 = player.lastTickPosY + (player.posY - player.lastTickPosY) * mc.getRenderPartialTicks();
         mc.getRenderManager();
-        final double y = n2 - mc.getRenderManager().renderPosY;
+        final double y = n2 - ImpHackEventRender.get_render_pos().y;
         final double n3 = player.lastTickPosZ + (player.posZ - player.lastTickPosZ) * mc.getRenderPartialTicks();
         mc.getRenderManager();
-        final double z = n3 - mc.getRenderManager().renderPosZ;
+        final double z = n3 - ImpHackEventRender.get_render_pos().z;
         GL11.glPushMatrix();
         RenderHelper.disableStandardItemLighting();
         this.esp(player, x, y, z);
         RenderHelper.enableStandardItemLighting();
         GL11.glPopMatrix();
       }
-
-      ++pamount;
-      if (pamount > 25) {
-        ++pspin;
-        if (pspin > 50.0f) {
-          pspin = -50.0f;
+      if (panimation) {
+        ++pamount;
+        if (pamount > 25) {
+          ++pspin;
+          if (pspin > 50.0f) {
+            pspin = -50.0f;
+          }
+          else if (pspin < -50.0f) {
+            pspin = 50.0f;
+          }
+          pamount = 0;
         }
-        else if (pspin < -50.0f) {
-          pspin = 50.0f;
+        ++pcumsize;
+        if (pcumsize > 180.0f) {
+          pcumsize = -180.0f;
         }
-        pamount = 0;
-      }
-      ++pcumsize;
-      if (pcumsize > 180.0f) {
-        pcumsize = -180.0f;
+        else {
+          if (pcumsize >= -180.0f) {
+            continue;
+          }
+          pcumsize = 180.0f;
+        }
       }
       else {
-        if (pcumsize >= -180.0f) {
-          continue;
-        }
-        pcumsize = 180.0f;
+        pcumsize = 0.0f;
+        pamount = 0;
+        pspin = 0.0f;
       }
-
     }
   }
 
