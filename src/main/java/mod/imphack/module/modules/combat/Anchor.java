@@ -22,7 +22,7 @@ public class Anchor extends Module {
 	@Override
 	public void onUpdate() {
 		if (mc.player.fallDistance > fallHeight.getValue()) {
-			mc.player.motionY = downSpeed.getValue();
+			mc.player.motionY -= downSpeed.getValue();
 		}
 
 		if (stopMovement.isEnabled() && mc.player.fallDistance > fallHeight.getValue())
