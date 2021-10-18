@@ -11,7 +11,7 @@ import org.lwjgl.util.glu.Sphere;
 
 public class PenisESP extends Module {
 
-  public PenisESP(){
+  public PenisESP() {
     super("PenisESP", "Basically a dildo", Category.RENDER);
   }
 
@@ -20,9 +20,9 @@ public class PenisESP extends Module {
 
   @Override
   public void onEnable() {
-    pspin = 0;
-    pcumsize = 0;
-    pamount = 0;
+    pspin = 0.1f;
+    pcumsize = 1;
+    pamount = 10;
     panimation = true;
   }
 
@@ -31,49 +31,48 @@ public class PenisESP extends Module {
 
     for (final Object o : mc.world.loadedEntityList) {
       if (o instanceof EntityPlayer) {
-        final EntityPlayer player = (EntityPlayer)o;
-        final double n = player.lastTickPosX + (player.posX - player.lastTickPosX) * mc.getRenderPartialTicks();
-        mc.getRenderManager();
-        final double x = n - ImpHackEventRender.get_render_pos().x;
-        final double n2 = player.lastTickPosY + (player.posY - player.lastTickPosY) * mc.getRenderPartialTicks();
-        mc.getRenderManager();
-        final double y = n2 - ImpHackEventRender.get_render_pos().y;
-        final double n3 = player.lastTickPosZ + (player.posZ - player.lastTickPosZ) * mc.getRenderPartialTicks();
-        mc.getRenderManager();
-        final double z = n3 - ImpHackEventRender.get_render_pos().z;
-        GL11.glPushMatrix();
-        RenderHelper.disableStandardItemLighting();
-        this.esp(player, x, y, z);
-        RenderHelper.enableStandardItemLighting();
-        GL11.glPopMatrix();
-      }
-      if (panimation) {
-        ++pamount;
-        if (pamount > 25) {
-          ++pspin;
-          if (pspin > 50.0f) {
-            pspin = -50.0f;
+        final EntityPlayer player = (EntityPlayer) o;
+        if (!player.noClip) {
+          final double n = player.lastTickPosX + (player.posX - player.lastTickPosX) * mc.getRenderPartialTicks();
+          mc.getRenderManager();
+          final double x = n - ImpHackEventRender.get_render_pos().x;
+          final double n2 = player.lastTickPosY + (player.posY - player.lastTickPosY) * mc.getRenderPartialTicks();
+          mc.getRenderManager();
+          final double y = n2 - ImpHackEventRender.get_render_pos().y;
+          final double n3 = player.lastTickPosZ + (player.posZ - player.lastTickPosZ) * mc.getRenderPartialTicks();
+          mc.getRenderManager();
+          final double z = n3 - ImpHackEventRender.get_render_pos().z;
+          GL11.glPushMatrix();
+          RenderHelper.disableStandardItemLighting();
+          this.esp(player, x, y, z);
+          RenderHelper.enableStandardItemLighting();
+          GL11.glPopMatrix();
+        }
+        if (panimation) {
+          ++pamount;
+          if (pamount > 25) {
+            ++pspin;
+            if (pspin > 50.0f) {
+              pspin = -50.0f;
+            } else if (pspin < -50.0f) {
+              pspin = 50.0f;
+            }
+            pamount = 0;
           }
-          else if (pspin < -50.0f) {
-            pspin = 50.0f;
+          ++pcumsize;
+          if (pcumsize > 180.0f) {
+            pcumsize = -180.0f;
+          } else {
+            if (pcumsize >= -180.0f) {
+              continue;
+            }
+            pcumsize = 180.0f;
           }
+        } else {
+          pcumsize = 0.0f;
           pamount = 0;
+          pspin = 0.0f;
         }
-        ++pcumsize;
-        if (pcumsize > 180.0f) {
-          pcumsize = -180.0f;
-        }
-        else {
-          if (pcumsize >= -180.0f) {
-            continue;
-          }
-          pcumsize = 180.0f;
-        }
-      }
-      else {
-        pcumsize = 0.0f;
-        pamount = 0;
-        pspin = 0.0f;
       }
     }
   }

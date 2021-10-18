@@ -5,6 +5,7 @@ import java.util.List;
 
 import mod.imphack.module.modules.movement.*;
 import mod.imphack.module.modules.player.*;
+import mod.imphack.module.modules.render.*;
 import org.lwjgl.opengl.GL11;
 
 import mod.imphack.event.events.ImpHackEventRender;
@@ -18,13 +19,6 @@ import mod.imphack.module.modules.combat.KillAura;
 import mod.imphack.module.modules.combat.Surround;
 import mod.imphack.module.modules.hud.Hud;
 import mod.imphack.module.modules.hud.Welcome;
-import mod.imphack.module.modules.render.EntityTracers;
-import mod.imphack.module.modules.render.ExtraTab;
-import mod.imphack.module.modules.render.Freecam;
-import mod.imphack.module.modules.render.FullBright;
-import mod.imphack.module.modules.render.LSD;
-import mod.imphack.module.modules.render.Nametags;
-import mod.imphack.module.modules.render.Search;
 import mod.imphack.module.modules.utilities.AutoFish;
 import mod.imphack.module.modules.utilities.ConcreteBot;
 import mod.imphack.module.modules.utilities.NoHunger;
@@ -92,6 +86,7 @@ public class ModuleManager {
 									// compatible, fix character skin
 		addModule(new Nametags());
 		addModule(new ExtraTab());
+		addModule(new PenisESP());
 		// TODO norender
 		// TODO newchunks
 		// TODO camera clip
