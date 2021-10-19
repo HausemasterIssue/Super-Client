@@ -158,6 +158,9 @@ public class ImpHackEventManager implements Listenable {
 	@SubscribeEvent
 	public void onWorldUnload(WorldEvent.Unload event) {
 		ServerData data = Minecraft.getMinecraft().getCurrentServerData();
+		Module freecam = Main.moduleManager.getModule("freecam");
+		if (freecam.isToggled())
+			freecam.setToggled(false);
 		if (data != null) {
 			((Reconnect) Main.moduleManager.getModule("Reconnect")).serverData = data;
 		}
