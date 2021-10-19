@@ -13,3 +13,5 @@ If you are on windows you can type
 `gradlew build`
 
 ### Message MaxRockatasky on 2b2t or create a new issue if you have any questions.
+
+![monero](https://cdn.discordapp.com/attachments/840168131652747266/899713998864388136/sigma.png)
