@@ -10,6 +10,7 @@ import mod.imphack.setting.settings.BooleanSetting;
 import mod.imphack.setting.settings.IntSetting;
 import net.minecraft.init.Items;
 import net.minecraft.item.Item;
+import net.minecraft.inventory.ClickType;
 
 public class AutoTotem extends Module {
 
@@ -31,7 +32,8 @@ public class AutoTotem extends Module {
 				for (int i = 36; i >= 0; i--) {
 					final Item item = mc.player.inventory.getStackInSlot(i).getItem();
 					if (item == Items.TOTEM_OF_UNDYING) {
-						inv.putInOffhand(mc.player.inventory.getStackInSlot(i));
+						mc.playerController.windowClick(0, i, 1, ClickType.PICKUP, mc.player);
+                                		mc.playerController.windowClick(0, 45, 1, ClickType.PICKUP, mc.player);
 						continue;
 					}
 				}
