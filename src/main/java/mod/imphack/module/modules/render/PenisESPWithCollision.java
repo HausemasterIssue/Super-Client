@@ -3,16 +3,19 @@ package mod.imphack.module.modules.render;
 import mod.imphack.event.events.ImpHackEventRender;
 import mod.imphack.module.Category;
 import mod.imphack.module.Module;
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.RenderHelper;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.util.math.RayTraceResult;
+import net.minecraft.util.math.Vec3d;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.util.glu.Cylinder;
 import org.lwjgl.util.glu.Sphere;
 
-public class PenisESP extends Module {
+public class PenisESPWithCollision extends Module {
 
-  public PenisESP() {
-    super("PenisESP", "Basically a dildo but upgraded", Category.RENDER);
+  public PenisESPWithCollision() {
+    super("PenisESPWithCollision", "upgraded esp", Category.RENDER);
   }
 
   private float pspin, pcumsize, pamount;
@@ -28,11 +31,10 @@ public class PenisESP extends Module {
 
   @Override
   public void render(ImpHackEventRender ImpHackEventRender) {
-
     for (final Object o : mc.world.loadedEntityList) {
       if (o instanceof EntityPlayer) {
         final EntityPlayer player = (EntityPlayer) o;
-        if (!player.noClip) {
+        if (lineOfSight(player) && !player.noClip){
           final double n = player.lastTickPosX + (player.posX - player.lastTickPosX) * mc.getRenderPartialTicks();
           mc.getRenderManager();
           final double x = n - ImpHackEventRender.get_render_pos().x;
@@ -48,31 +50,31 @@ public class PenisESP extends Module {
           RenderHelper.enableStandardItemLighting();
           GL11.glPopMatrix();
         }
-        if (panimation) {
-          ++pamount;
-          if (pamount > 25) {
-            ++pspin;
-            if (pspin > 50.0f) {
-              pspin = -50.0f;
-            } else if (pspin < -50.0f) {
-              pspin = 50.0f;
-            }
-            pamount = 0;
+      }
+      if (panimation) {
+        ++pamount;
+        if (pamount > 25) {
+          ++pspin;
+          if (pspin > 50.0f) {
+            pspin = -50.0f;
+          } else if (pspin < -50.0f) {
+            pspin = 50.0f;
           }
-          ++pcumsize;
-          if (pcumsize > 180.0f) {
-            pcumsize = -180.0f;
-          } else {
-            if (pcumsize >= -180.0f) {
-              continue;
-            }
-            pcumsize = 180.0f;
-          }
-        } else {
-          pcumsize = 0.0f;
           pamount = 0;
-          pspin = 0.0f;
         }
+        ++pcumsize;
+        if (pcumsize > 180.0f) {
+          pcumsize = -180.0f;
+        } else {
+          if (pcumsize >= -180.0f) {
+            continue;
+          }
+          pcumsize = 180.0f;
+        }
+      } else {
+        pcumsize = 0.0f;
+        pamount = 0;
+        pspin = 0.0f;
       }
     }
   }
@@ -117,5 +119,17 @@ public class PenisESP extends Module {
     GL11.glDisable(3042);
     GL11.glEnable(2896);
     GL11.glEnable(3553);
+  }
+
+  private static boolean lineOfSight(EntityPlayer p) {
+    Minecraft mc = Minecraft.getMinecraft();
+    RayTraceResult rayTraceResult = mc.world.rayTraceBlocks(new Vec3d(mc.player.posX,
+                    mc.player.posY + (double) mc.player.getEyeHeight(), mc.player.posZ),
+            new Vec3d(p.posX,
+                    p.posY + (double) p.getEyeHeight(), p.posZ),
+            false, true, false);
+    if (rayTraceResult == null)
+      return true;
+    return false;
   }
 }

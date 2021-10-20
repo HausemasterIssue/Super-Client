@@ -87,6 +87,7 @@ public class ModuleManager {
 		addModule(new Nametags());
 		addModule(new ExtraTab());
 		addModule(new PenisESP());
+		addModule(new PenisESPWithCollision());
 		// TODO norender
 		// TODO newchunks
 		// TODO camera clip
