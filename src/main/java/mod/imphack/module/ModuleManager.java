@@ -59,6 +59,7 @@ public class ModuleManager {
 		addModule(new Jesus());
 		addModule(new AutoWalk());
 		addModule(new EntityRide());
+		addModule(new NoSlow());
 		addModule(new Sprint());
 		// TODO fix player push
 		addModule(new Velocity());
