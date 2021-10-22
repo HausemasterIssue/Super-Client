@@ -28,8 +28,8 @@ public class ImpHackDiscordRichPresence {
 			discordRPC.Discord_Initialize(discordID, eventHandlers, true, null);
 
 			discordRichPresence.startTimestamp = Main.startTimeStamp / 1000L;
+			discordRichPresence.details = null;
 			discordRichPresence.largeImageKey = "icon";
-			discordRichPresence.smallImageKey = "icon";
 			discordRichPresence.state = null;
 		}
 		
