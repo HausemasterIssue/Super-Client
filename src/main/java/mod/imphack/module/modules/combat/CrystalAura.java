@@ -1,12 +1,16 @@
 package mod.imphack.module.modules.combat;
 
+import java.lang.reflect.Field;
 import java.util.ArrayList;
 
+import mod.imphack.event.events.ImpHackEventPacket;
 import mod.imphack.module.Category;
 import mod.imphack.module.Module;
 import mod.imphack.setting.settings.BooleanSetting;
 import mod.imphack.setting.settings.FloatSetting;
 import mod.imphack.setting.settings.IntSetting;
+import mod.imphack.util.ReflectionUtil;
+import net.minecraft.advancements.critereon.CuredZombieVillagerTrigger;
 import net.minecraft.client.Minecraft;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.Entity;
@@ -16,16 +20,20 @@ import net.minecraft.entity.item.EntityEnderCrystal;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemEndCrystal;
+import net.minecraft.network.play.client.CPacketPlayer;
 import net.minecraft.potion.Potion;
 import net.minecraft.util.CombatRules;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumHand;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.Explosion;
+import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
 public class CrystalAura extends Module {
+	
 	public CrystalAura() {
 		super("CrystalAura", "AutoPlaces Crystals", Category.COMBAT);
 
@@ -36,6 +44,7 @@ public class CrystalAura extends Module {
 		addSetting(health);
 		addSetting(highPing);
 		addSetting(maxDamage);
+		addSetting(Rotations);
 	}
 
 	IntSetting crystalSpeed = new IntSetting("Crystal Speed", this, 1000);
@@ -45,9 +54,34 @@ public class CrystalAura extends Module {
 	BooleanSetting place = new BooleanSetting("Place", this, true);
 	BooleanSetting highPing = new BooleanSetting("High Ping Optimize", this, true);
 	BooleanSetting playersOnly = new BooleanSetting("Attack Players Only", this, true);
+	BooleanSetting Rotations = new BooleanSetting("Rotations", this, true);
 
 	private long currentMS = 0L;
 	private long lastMS = -1L;
+	
+	//Rotations
+	CPacketPlayer cpacketp = new CPacketPlayer();
+	private float nextYaw = 0;
+	private float nextPitch = 0;
+	private boolean nextRotation = false;
+	private Field yaw;
+	private Field pitch;
+	private Field rotating;
+	
+	@Override
+	public void onEnable() {
+		try {
+			this.yaw = ReflectionUtil.getField(cpacketp.getClass(), "yaw");
+			this.pitch = ReflectionUtil.getField(cpacketp.getClass(), "pitch");
+			this.rotating =  ReflectionUtil.getField(cpacketp.getClass(), "rotating");
+			ReflectionUtil.makeAccessible(yaw);
+			ReflectionUtil.makeAccessible(pitch);
+			ReflectionUtil.makeAccessible(rotating);
+		} catch (NoSuchFieldException e) {
+			System.err.println("[ERROR] Couldn't find field" + e.getCause());
+			e.printStackTrace();
+		}
+	}
 
 	@Override
 	public void onUpdate() {
@@ -105,6 +139,9 @@ public class CrystalAura extends Module {
 											.equals(Blocks.OBSIDIAN)
 											|| mc.world.getBlockState(minEntity.getPosition().add(i, -1, j)).getBlock()
 													.equals(Blocks.BEDROCK))) {
+								if(Rotations.isEnabled())
+									rotateToBlock(minEntity.getPosition().add(i, -1, j));
+									
 								mc.playerController.processRightClickBlock(mc.player, mc.world,
 										minEntity.getPosition().add(i, -1, j), EnumFacing.UP, mc.objectMouseOver.hitVec,
 										EnumHand.MAIN_HAND);
@@ -117,6 +154,20 @@ public class CrystalAura extends Module {
 					mc.world.removeAllEntities();
 					mc.world.getLoadedEntityList();
 				}
+			}
+		}
+	}
+	
+	@SubscribeEvent
+	public void onPacketSend(ImpHackEventPacket.SendPacket e) {
+		if(Rotations.isEnabled()) {
+			try {
+				yaw.setFloat(cpacketp, this.nextYaw);
+				pitch.setFloat(cpacketp, this.nextPitch);
+				rotating.setBoolean(cpacketp, true);
+			} catch (IllegalArgumentException | IllegalAccessException e1) {
+				System.err.println("[ERROR] couldn't set value for rotations");
+				e1.printStackTrace();
 			}
 		}
 	}
@@ -163,6 +214,23 @@ public class CrystalAura extends Module {
 			return 0;
 		}
 	}
+	
+    private void rotateToBlock(BlockPos pos) {
+    	float[] angle = calcAngle(mc.player.getPositionEyes(mc.getRenderPartialTicks()), new Vec3d((float) pos.getX() + 0.5f, (float) pos.getY() - 0.5f, (float) pos.getZ() + 0.5f));
+    	
+    	this.nextPitch = angle[1];
+    	this.nextYaw = angle[0];
+    	this.nextRotation = true;
+    	mc.player.rotationYawHead = angle[0];
+    }
+    
+    public static float[] calcAngle(Vec3d from, Vec3d to) {
+        double x = (to.x - from.x);
+        double y = (to.y - from.y) * -1.0;
+        double z = (to.z - from.z);
+        double distance = MathHelper.sqrt(x * x + z * z);
+        return new float[]{(float) MathHelper.wrapDegrees(Math.toDegrees(Math.atan2(z, x)) - 90.0), (float) MathHelper.wrapDegrees(Math.toDegrees(Math.atan2(y, distance)))};
+    }
 
 	public boolean hasDelayRun(long time) {
 		return (currentMS - lastMS) >= time;
