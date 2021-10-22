@@ -26,6 +26,8 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 @Mod(modid = Reference.MODID, name = Reference.NAME, version = Reference.VERSION)
 @SideOnly(Side.CLIENT)
 public class Main {
+	
+	public static long startTimeStamp = 0;
 
 	Minecraft mc = Minecraft.getMinecraft();
 
@@ -67,6 +69,8 @@ public class Main {
 		MinecraftForge.EVENT_BUS.register(eventManager);
 
 		ImpHackEventBus.EVENT_BUS.subscribe(eventManager);
+		
+		startTimeStamp = System.currentTimeMillis();
 	}
 
 	@EventHandler
