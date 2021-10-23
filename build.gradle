@@ -120,7 +120,7 @@ processResources {
 }
 
 //doesn't work in dev environment but add for jar
-///*
+/*
 jar {
 	manifest {
 		attributes (
