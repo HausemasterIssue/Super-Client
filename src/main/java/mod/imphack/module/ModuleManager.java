@@ -63,7 +63,7 @@ public class ModuleManager {
 		addModule(new Sprint());
 		// TODO fix player push
 		addModule(new Velocity());
-		addModule(new ElytraFlight()); // Done elytrafly By John Xina
+		addModule(new ElytraFlight());
 		addModule(new BoatFly());
 		addModule(new Parkour());
 
@@ -84,7 +84,7 @@ public class ModuleManager {
 		addModule(new EntityTracers());
 		addModule(new FullBright());
 		addModule(new Freecam());// TODO fix entity dismounting with shift in freecam/make it baritone
-									// compatible, fix character skin
+									// compatible, fix character skin, fix desync and glitch on disable
 		addModule(new Nametags());
 		addModule(new ExtraTab());
 		addModule(new PenisESP());

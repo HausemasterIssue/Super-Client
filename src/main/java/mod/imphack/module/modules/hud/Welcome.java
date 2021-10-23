@@ -12,7 +12,7 @@ import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 public class Welcome extends Module {
 
 	FloatSetting valueX = new FloatSetting("ValueX", this, 0.15f);
-	FloatSetting valueY = new FloatSetting("ValueX", this, 0.15f);
+	FloatSetting valueY = new FloatSetting("ValueY", this, 0.15f);
 
 	public Welcome() {
 		super("Welcomer", "Puts a nice welcome message for you", Category.HUD);
@@ -22,7 +22,7 @@ public class Welcome extends Module {
 	}
 
 	@SubscribeEvent
-	public void onRenderGUI(RenderGameOverlayEvent.Post event) {
+	public void onRenderGUI(RenderGameOverlayEvent.Text event) {
 
 		int textColor;
 
