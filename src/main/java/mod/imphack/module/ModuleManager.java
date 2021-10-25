@@ -38,7 +38,6 @@ import mod.imphack.module.modules.render.Freecam;
 import mod.imphack.module.modules.render.FullBright;
 import mod.imphack.module.modules.render.LSD;
 import mod.imphack.module.modules.render.Nametags;
-import mod.imphack.module.modules.render.PenisESP;
 import mod.imphack.module.modules.render.Search;
 import mod.imphack.module.modules.utilities.AutoFish;
 import mod.imphack.module.modules.utilities.ConcreteBot;
@@ -108,7 +107,6 @@ public class ModuleManager {
 									// compatible, fix character skin, fix desync and glitch on disable
 		addModule(new Nametags());
 		addModule(new ExtraTab());
-		addModule(new PenisESP());
 		// TODO norender
 		// TODO newchunks
 		// TODO camera clip
