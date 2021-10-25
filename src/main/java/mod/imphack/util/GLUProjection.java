@@ -316,7 +316,7 @@ public final class GLUProjection {
 		if (fv.x < 0.0D) {
 			yaw = 360.0D - yaw;
 		}
-		double pitch = 0.0D;
+		double pitch;
 		if ((-fv.y > 0.0D && yaw >= 90.0D && yaw < 270.0D) || (fv.y > 0.0D && !(yaw >= 90.0D && yaw < 270.0D))) {
 			pitch = Math.toDegrees(Math.atan2(nuv.cross(uv).length(), nuv.dot(uv)));
 		} else {

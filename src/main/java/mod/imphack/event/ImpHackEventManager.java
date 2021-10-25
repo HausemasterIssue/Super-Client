@@ -30,7 +30,6 @@ public class ImpHackEventManager implements Listenable {
 	@SubscribeEvent
 	public void onUpdate(LivingEvent.LivingUpdateEvent event) {
 		if (event.isCanceled()) {
-			return;
 		}
 	}
 
@@ -95,7 +94,6 @@ public class ImpHackEventManager implements Listenable {
 					}
 					if (keyCode == Keyboard.KEY_PERIOD) {
 						mc.displayGuiScreen(new GuiChat("."));
-						return;
 					}
 				}
 			}

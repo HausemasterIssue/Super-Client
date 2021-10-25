@@ -27,7 +27,6 @@ public class Velocity extends Module {
 		}
 		if (p_Event.get_packet() instanceof SPacketExplosion) {
 			p_Event.cancel();
-			return;
 		}
 	});
 

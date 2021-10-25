@@ -115,7 +115,6 @@ public class ConcreteBot extends Module {
 					new BlockPos(x.value + 0.5, y.value + 0.5, z.value + 0.5), EnumFacing.DOWN,
 					mc.objectMouseOver.hitVec, EnumHand.OFF_HAND);
 
-			return;
 		}
 	}
 

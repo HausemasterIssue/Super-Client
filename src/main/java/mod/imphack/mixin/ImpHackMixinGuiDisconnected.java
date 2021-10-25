@@ -17,7 +17,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 @Mixin(value = GuiDisconnected.class, priority = Integer.MAX_VALUE)
 public class ImpHackMixinGuiDisconnected extends ImpHackMixinGuiScreen {
 	@Shadow
-	public int textHeight;
+	private int textHeight;
 
 	private AutoReconnectButton ReconnectingButton;
 
