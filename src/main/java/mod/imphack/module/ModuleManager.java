@@ -3,9 +3,6 @@ package mod.imphack.module;
 import java.util.ArrayList;
 import java.util.List;
 
-import mod.imphack.module.modules.movement.*;
-import mod.imphack.module.modules.player.*;
-import mod.imphack.module.modules.render.*;
 import org.lwjgl.opengl.GL11;
 
 import mod.imphack.event.events.ImpHackEventRender;
@@ -19,6 +16,30 @@ import mod.imphack.module.modules.combat.KillAura;
 import mod.imphack.module.modules.combat.Surround;
 import mod.imphack.module.modules.hud.Hud;
 import mod.imphack.module.modules.hud.Welcome;
+import mod.imphack.module.modules.movement.AutoWalk;
+import mod.imphack.module.modules.movement.BoatFly;
+import mod.imphack.module.modules.movement.ElytraFlight;
+import mod.imphack.module.modules.movement.EntityRide;
+import mod.imphack.module.modules.movement.Flight;
+import mod.imphack.module.modules.movement.Jesus;
+import mod.imphack.module.modules.movement.NoSlow;
+import mod.imphack.module.modules.movement.Parkour;
+import mod.imphack.module.modules.movement.Speed;
+import mod.imphack.module.modules.movement.Sprint;
+import mod.imphack.module.modules.movement.Velocity;
+import mod.imphack.module.modules.player.AutoEat;
+import mod.imphack.module.modules.player.Disabler;
+import mod.imphack.module.modules.player.FakePlayer;
+import mod.imphack.module.modules.player.Scaffold;
+import mod.imphack.module.modules.player.XCarry;
+import mod.imphack.module.modules.render.EntityTracers;
+import mod.imphack.module.modules.render.ExtraTab;
+import mod.imphack.module.modules.render.Freecam;
+import mod.imphack.module.modules.render.FullBright;
+import mod.imphack.module.modules.render.LSD;
+import mod.imphack.module.modules.render.Nametags;
+import mod.imphack.module.modules.render.PenisESP;
+import mod.imphack.module.modules.render.Search;
 import mod.imphack.module.modules.utilities.AutoFish;
 import mod.imphack.module.modules.utilities.ConcreteBot;
 import mod.imphack.module.modules.utilities.NoHunger;
@@ -88,7 +109,6 @@ public class ModuleManager {
 		addModule(new Nametags());
 		addModule(new ExtraTab());
 		addModule(new PenisESP());
-		addModule(new PenisESPWithCollision());
 		// TODO norender
 		// TODO newchunks
 		// TODO camera clip

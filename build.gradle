@@ -24,7 +24,7 @@ apply plugin: 'eclipse'
 apply plugin: "org.spongepowered.mixin"
 apply plugin: "com.github.johnrengelman.shadow";
 
-version = '0.3.0'
+version = '0.3.1'
 group = 'mod.imphack'
 archivesBaseName = 'imphack'
 
