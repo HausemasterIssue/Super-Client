@@ -86,6 +86,7 @@ shadowJar {
 		include(dependency("org.javassist:javassist"))
 		include(dependency("org.spongepowered:mixin"))
 	}
+    exclude 'dummyThing', 'LICENSE.txt', 'org/**/*.html', 'META-INF/maven/**' // Removes unneeded files that are legit just useless text files.
 }
 
 mixin {
