@@ -37,7 +37,7 @@ public class BlockSelectorGuiFrame {
 
 		if (Main.settingManager.getSettingByName(Main.moduleManager.getModule("Search"), "Select Blocks") != null
 				&& controller.blocks.isEmpty()) {
-			if (controller.searchField == null || controller.searchField.getText() == "") {
+			if (controller.searchField == null || controller.searchField.getText().equals("")) {
 				for (Block b : ForgeRegistries.BLOCKS.getValuesCollection()) {
 
 					controller.blocks.add(new BlockButton(
@@ -124,11 +124,14 @@ public class BlockSelectorGuiFrame {
 		for (BlockButton b : controller.blocks) {
 			if (b != null && b.y + b.height >= 0 && b.y <= mc.displayHeight)
 				onScreen.add(b);
-			else if (b.textFieldRed != null && b.textFieldGreen != null && b.textFieldBlue != null) {
-				b.textFieldRed.setFocused(false);
-				b.textFieldGreen.setFocused(false);
-				b.textFieldBlue.setFocused(false);
-			}
+			else {
+                assert b != null;
+                if (b.textFieldRed != null && b.textFieldGreen != null && b.textFieldBlue != null) {
+                    b.textFieldRed.setFocused(false);
+                    b.textFieldGreen.setFocused(false);
+                    b.textFieldBlue.setFocused(false);
+                }
+            }
 		}
 
 		for (BlockButton b : onScreen) {

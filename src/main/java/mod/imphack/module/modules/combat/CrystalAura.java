@@ -30,6 +30,7 @@ import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
 import java.lang.reflect.Field;
 import java.util.ArrayList;
+import java.util.Objects;
 
 public class CrystalAura extends Module {
 	
@@ -122,6 +123,7 @@ public class CrystalAura extends Module {
 				float minDistance = 100f;
 
 				for (Entity e : attackEntityList) {
+					assert mc.player != null;
 					if (mc.player.getDistance(e) < minDistance) {
 						minEntity = e;
 						minDistance = mc.player.getDistance(e);
@@ -198,7 +200,7 @@ public class CrystalAura extends Module {
 				Minecraft.getMinecraft().player.getArmorInventoryList(), DamageSource.causeExplosionDamage(explosion))
 				/ 25.0F);
 
-		if (Minecraft.getMinecraft().player.isPotionActive(Potion.getPotionById(11))) {
+		if (Minecraft.getMinecraft().player.isPotionActive(Objects.requireNonNull(Potion.getPotionById(11)))) {
 			damage -= damage / 4;
 		}
 

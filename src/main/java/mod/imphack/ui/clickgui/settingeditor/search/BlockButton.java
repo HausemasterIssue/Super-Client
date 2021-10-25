@@ -101,6 +101,7 @@ public class BlockButton {
 				textFieldBlue = new GuiTextField(textBlue, mc.fontRenderer, this.x + 330, this.y + 4, 50,
 						this.mc.fontRenderer.FONT_HEIGHT + 4);
 			}
+			assert textFieldRed != null;
 			textFieldRed.setTextColor(new Color(255, 0, 0).getRGB());
 			textFieldGreen.setTextColor(new Color(0, 255, 0).getRGB());
 			textFieldBlue.setTextColor(new Color(0, 0, 255).getRGB());
@@ -300,7 +301,7 @@ public class BlockButton {
 				GlStateManager.popMatrix();
 			}
 		} else {
-			TileEntitySpecialRenderer<TileEntity> renderer = null;
+			TileEntitySpecialRenderer<TileEntity> renderer;
 			if (tile instanceof TileEntityEndGateway)
 				renderer = TileEntityRendererDispatcher.instance.getRenderer(TileEntityEndPortal.class); // Avoid
 																											// glitchy

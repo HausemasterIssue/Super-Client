@@ -7,6 +7,8 @@ import net.minecraft.entity.item.EntityBoat;
 import net.minecraft.network.play.client.CPacketPlayer;
 import net.minecraft.util.math.MathHelper;
 
+import java.util.Objects;
+
 public class BoatFly extends Module {
 
 	FloatSetting hSpeed = new FloatSetting("Horizontal Speed", this, 1.0f);
@@ -64,7 +66,7 @@ public class BoatFly extends Module {
 	}
 
 	private float YawRotationUtility() {
-		float rotationYaw = mc.player.getRidingEntity().rotationYaw;
+		float rotationYaw = Objects.requireNonNull(mc.player.getRidingEntity()).rotationYaw;
 
 		return rotationYaw * 0.017453292f;
 	}

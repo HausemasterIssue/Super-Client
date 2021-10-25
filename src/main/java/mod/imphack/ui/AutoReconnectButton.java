@@ -21,7 +21,7 @@ public class AutoReconnectButton extends GuiButton {
 	}
 
 	private final Reconnect Mod;
-	private Timer timer = new Timer();
+	private Timer timer;
 	private long reconnectTimer;
 
 	@Override
