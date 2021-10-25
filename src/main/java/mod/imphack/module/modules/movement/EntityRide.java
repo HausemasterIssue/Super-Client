@@ -11,9 +11,9 @@ import mod.imphack.setting.settings.FloatSetting;
 import net.minecraft.util.MovementInput;
 
 public class EntityRide extends Module {
-	BooleanSetting jesus = new BooleanSetting("Jesus", this, true);
-	BooleanSetting control = new BooleanSetting("Control", this, true);
-	FloatSetting speed = new FloatSetting("Speed", this, 0.5f);
+	final BooleanSetting jesus = new BooleanSetting("Jesus", this, true);
+	final BooleanSetting control = new BooleanSetting("Control", this, true);
+	final FloatSetting speed = new FloatSetting("Speed", this, 0.5f);
 
 	public EntityRide() {
 		super("EntityRide", "Utilities For Rideable Entities", Category.MOVEMENT);

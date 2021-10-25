@@ -47,20 +47,20 @@ public class CrystalAura extends Module {
 		addSetting(Rotations);
 	}
 
-	IntSetting crystalSpeed = new IntSetting("Crystal Speed", this, 1000);
-	FloatSetting crystalRange = new FloatSetting("Crystal Range", this, 4.0f);
-	FloatSetting health = new FloatSetting("AntiSuicide Health Cap", this, 4.0f);
-	FloatSetting maxDamage = new FloatSetting("Max Self Damage", this, 3.0f);
-	BooleanSetting place = new BooleanSetting("Place", this, true);
-	BooleanSetting highPing = new BooleanSetting("High Ping Optimize", this, true);
-	BooleanSetting playersOnly = new BooleanSetting("Attack Players Only", this, true);
-	BooleanSetting Rotations = new BooleanSetting("Rotations", this, true);
+	final IntSetting crystalSpeed = new IntSetting("Crystal Speed", this, 1000);
+	final FloatSetting crystalRange = new FloatSetting("Crystal Range", this, 4.0f);
+	final FloatSetting health = new FloatSetting("AntiSuicide Health Cap", this, 4.0f);
+	final FloatSetting maxDamage = new FloatSetting("Max Self Damage", this, 3.0f);
+	final BooleanSetting place = new BooleanSetting("Place", this, true);
+	final BooleanSetting highPing = new BooleanSetting("High Ping Optimize", this, true);
+	final BooleanSetting playersOnly = new BooleanSetting("Attack Players Only", this, true);
+	final BooleanSetting Rotations = new BooleanSetting("Rotations", this, true);
 
 	private long currentMS = 0L;
 	private long lastMS = -1L;
 	
 	//Rotations
-	CPacketPlayer cpacketp = new CPacketPlayer();
+	final CPacketPlayer cpacketp = new CPacketPlayer();
 	private float nextYaw = 0;
 	private float nextPitch = 0;
 	private Field yaw;

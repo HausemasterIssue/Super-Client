@@ -22,9 +22,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ModuleManager {
-	public static Minecraft mc = Minecraft.getMinecraft();
+	public static final Minecraft mc = Minecraft.getMinecraft();
 
-	public ArrayList<Module> modules;
+	public final ArrayList<Module> modules;
 
 	public ModuleManager() {
 		modules = new ArrayList <>();

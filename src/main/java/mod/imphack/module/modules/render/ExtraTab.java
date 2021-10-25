@@ -7,7 +7,7 @@ import net.minecraft.client.network.NetworkPlayerInfo;
 import net.minecraft.scoreboard.ScorePlayerTeam;
 
 public class ExtraTab extends Module {
-	public IntSetting size = new IntSetting("Size", this, 1000);
+	public final IntSetting size = new IntSetting("Size", this, 1000);
 
 	public ExtraTab() {
 		super("ExtraTab", "Extends Tab Menu", Category.RENDER);

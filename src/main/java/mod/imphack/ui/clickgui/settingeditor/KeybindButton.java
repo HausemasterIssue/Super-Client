@@ -9,15 +9,18 @@ import org.lwjgl.input.Keyboard;
 import java.awt.*;
 
 public class KeybindButton {
-	int x, y, width, height;
+	final int x;
+	int y;
+	final int width;
+	final int height;
 
-	Module module;
+	final Module module;
 
-	SettingFrame parent;
+	final SettingFrame parent;
 
-	Color color;
+	final Color color;
 
-	Minecraft mc = Minecraft.getMinecraft();
+	final Minecraft mc = Minecraft.getMinecraft();
 
 	public KeybindButton(Module module, int key, int x, int y, SettingFrame parent, Color c) {
 		this.module = module;

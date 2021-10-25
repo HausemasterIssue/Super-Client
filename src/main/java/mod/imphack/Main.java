@@ -33,7 +33,7 @@ public class Main {
 
 	public static ModuleManager moduleManager;
 	public static Config config;
-	public static Hud hud = new Hud();
+	public static final Hud hud = new Hud();
 	public static CommandManager cmdManager;
 	public static SettingManager settingManager;
 	public static ImpHackEventManager eventManager;

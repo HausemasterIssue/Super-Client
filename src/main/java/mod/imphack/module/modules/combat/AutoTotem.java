@@ -14,8 +14,8 @@ import net.minecraft.item.Item;
 
 public class AutoTotem extends Module {
 
-	IntSetting delay = new IntSetting("Delay (ms)", this, 100);
-	BooleanSetting chat = new BooleanSetting("Chat Totem Pop", this, true);
+	final IntSetting delay = new IntSetting("Delay (ms)", this, 100);
+	final BooleanSetting chat = new BooleanSetting("Chat Totem Pop", this, true);
 
 	long timer = System.currentTimeMillis();
 

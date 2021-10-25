@@ -25,15 +25,18 @@ public class SettingButton {
 	private GuiTextField cTextFieldGreen;
 	private GuiTextField cTextFieldBlue;
 
-	int x, y, width, height;
+	final int x;
+	int y;
+	final int width;
+	final int height;
 
-	Module module;
+	final Module module;
 
-	SettingFrame parent;
+	final SettingFrame parent;
 
-	Minecraft mc = Minecraft.getMinecraft();
+	final Minecraft mc = Minecraft.getMinecraft();
 
-	Setting setting;
+	final Setting setting;
 
 	ModeSetting mSetting;
 	IntSetting iSetting;

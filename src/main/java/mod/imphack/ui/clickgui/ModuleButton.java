@@ -6,13 +6,16 @@ import net.minecraft.client.Minecraft;
 import java.awt.*;
 
 public class ModuleButton {
-	public int x, y, width, height;
+	public final int x;
+	public int y;
+	public final int width;
+	public final int height;
 
-	public Module module;
+	public final Module module;
 
-	ClickGuiFrame parent;
+	final ClickGuiFrame parent;
 
-	Minecraft mc = Minecraft.getMinecraft();
+	final Minecraft mc = Minecraft.getMinecraft();
 
 	public ModuleButton(Module module, int x, int y, ClickGuiFrame parent) {
 		this.module = module;

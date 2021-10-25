@@ -5,7 +5,7 @@ import net.minecraft.client.gui.ScaledResolution;
 
 public class ImpHackEventGameOverlay extends ImpHackEventCancellable {
 
-	public float partial_ticks;
+	public final float partial_ticks;
 	private final ScaledResolution scaled_resolution;
 
 	public ImpHackEventGameOverlay(float partial_ticks, ScaledResolution scaled_resolution) {

@@ -30,13 +30,13 @@ public class Surround extends Module {
 		addSetting(tick_timeout);
 	}
 
-	BooleanSetting rotate = new BooleanSetting("Rotate", this, true);
-	BooleanSetting hybrid = new BooleanSetting("Hybrid", this, true);
-	BooleanSetting triggerable = new BooleanSetting("Toggle", this, true);
-	BooleanSetting center = new BooleanSetting("Center", this, false);
-	BooleanSetting block_head = new BooleanSetting("Block Face", this, false);
-	IntSetting tick_for_place = new IntSetting("Blocks per tick", this, 2);
-	IntSetting tick_timeout = new IntSetting("Ticks til timeout", this, 20);
+	final BooleanSetting rotate = new BooleanSetting("Rotate", this, true);
+	final BooleanSetting hybrid = new BooleanSetting("Hybrid", this, true);
+	final BooleanSetting triggerable = new BooleanSetting("Toggle", this, true);
+	final BooleanSetting center = new BooleanSetting("Center", this, false);
+	final BooleanSetting block_head = new BooleanSetting("Block Face", this, false);
+	final IntSetting tick_for_place = new IntSetting("Blocks per tick", this, 2);
+	final IntSetting tick_timeout = new IntSetting("Ticks til timeout", this, 20);
 
 	private int y_level = 0;
 	private int tick_runs = 0;
@@ -44,10 +44,10 @@ public class Surround extends Module {
 
 	private Vec3d center_block = Vec3d.ZERO;
 
-	Vec3d[] surround_targets = { new Vec3d(1, 0, 0), new Vec3d(0, 0, 1), new Vec3d(-1, 0, 0), new Vec3d(0, 0, -1),
+	final Vec3d[] surround_targets = { new Vec3d(1, 0, 0), new Vec3d(0, 0, 1), new Vec3d(-1, 0, 0), new Vec3d(0, 0, -1),
 			new Vec3d(1, -1, 0), new Vec3d(0, -1, 1), new Vec3d(-1, -1, 0), new Vec3d(0, -1, -1), new Vec3d(0, -1, 0) };
 
-	Vec3d[] surround_targets_face = { new Vec3d(1, 1, 0), new Vec3d(0, 1, 1), new Vec3d(-1, 1, 0), new Vec3d(0, 1, -1),
+	final Vec3d[] surround_targets_face = { new Vec3d(1, 1, 0), new Vec3d(0, 1, 1), new Vec3d(-1, 1, 0), new Vec3d(0, 1, -1),
 			new Vec3d(1, 0, 0), new Vec3d(0, 0, 1), new Vec3d(-1, 0, 0), new Vec3d(0, 0, -1), new Vec3d(1, -1, 0),
 			new Vec3d(0, -1, 1), new Vec3d(-1, -1, 0), new Vec3d(0, -1, -1), new Vec3d(0, -1, 0) };
 

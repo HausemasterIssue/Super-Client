@@ -15,8 +15,8 @@ public class Sprint extends Module {
 	
 	private static final Minecraft mc = Minecraft.getMinecraft();
 	
-	BooleanSetting strict = new BooleanSetting("Strict", this, true);
-	BooleanSetting hungerSafe = new BooleanSetting("HungerSafe", this, true);
+	final BooleanSetting strict = new BooleanSetting("Strict", this, true);
+	final BooleanSetting hungerSafe = new BooleanSetting("HungerSafe", this, true);
 	
 	public void onUpdate() {
 		if(mc.world != null) {

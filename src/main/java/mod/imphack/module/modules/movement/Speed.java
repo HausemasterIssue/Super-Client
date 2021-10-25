@@ -15,10 +15,10 @@ import java.util.Objects;
 
 public class Speed extends Module {
 
-	ModeSetting mode = new ModeSetting("Mode", this, "strafe", "strafe");
-	FloatSetting multiplier = new FloatSetting("Multiplier", this, 1f);
-	BooleanSetting inLiquid = new BooleanSetting("While In Liquids", this, true);
-	BooleanSetting jump = new BooleanSetting("Auto Jump", this, false);
+	final ModeSetting mode = new ModeSetting("Mode", this, "strafe", "strafe");
+	final FloatSetting multiplier = new FloatSetting("Multiplier", this, 1f);
+	final BooleanSetting inLiquid = new BooleanSetting("While In Liquids", this, true);
+	final BooleanSetting jump = new BooleanSetting("Auto Jump", this, false);
 
 	public Speed() {
 		super("Speed", "Boosts the default walking speed", Category.MOVEMENT);

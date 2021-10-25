@@ -7,9 +7,9 @@ import mod.imphack.setting.settings.FloatSetting;
 
 public class Anchor extends Module {
 
-	FloatSetting downSpeed = new FloatSetting("DownSpeed", this, 0.15f);
-	FloatSetting fallHeight = new FloatSetting("FallHeight", this, 2.0f);
-	BooleanSetting stopMovement = new BooleanSetting("StopMovement", this, true);
+	final FloatSetting downSpeed = new FloatSetting("DownSpeed", this, 0.15f);
+	final FloatSetting fallHeight = new FloatSetting("FallHeight", this, 2.0f);
+	final BooleanSetting stopMovement = new BooleanSetting("StopMovement", this, true);
 
 	public Anchor() {
 		super("Anchor", "Get in to holes quicker", Category.COMBAT);

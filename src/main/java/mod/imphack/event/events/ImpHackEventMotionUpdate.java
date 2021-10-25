@@ -4,7 +4,7 @@ import mod.imphack.event.ImpHackEventCancellable;
 
 public class ImpHackEventMotionUpdate extends ImpHackEventCancellable {
 
-	public int stage;
+	public final int stage;
 
 	public ImpHackEventMotionUpdate(int stage) {
 		super();

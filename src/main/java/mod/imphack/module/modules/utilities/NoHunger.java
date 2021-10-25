@@ -14,8 +14,8 @@ import static net.minecraft.network.play.client.CPacketEntityAction.Action.STOP_
 
 public class NoHunger extends Module {
 
-	BooleanSetting cancelSprint = new BooleanSetting("Cancel Sprint Packets", this, true);
-	BooleanSetting onGround = new BooleanSetting("On Ground", this, true);
+	final BooleanSetting cancelSprint = new BooleanSetting("Cancel Sprint Packets", this, true);
+	final BooleanSetting onGround = new BooleanSetting("On Ground", this, true);
 
 	public NoHunger() {
 		super("NoHunger", "Prevents You From Losing Hunger", Category.PLAYER);

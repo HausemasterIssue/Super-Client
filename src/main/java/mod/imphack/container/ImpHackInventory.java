@@ -5,7 +5,7 @@ import net.minecraft.inventory.ClickType;
 import net.minecraft.item.ItemStack;
 
 public class ImpHackInventory {
-	Minecraft mc = Minecraft.getMinecraft();
+	final Minecraft mc = Minecraft.getMinecraft();
 
 	public void putInOffhand(ItemStack stack) {
 		int slot = mc.player.inventory.getSlotFor(stack);

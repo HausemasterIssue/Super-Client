@@ -12,7 +12,7 @@ public class ClickGuiController extends GuiScreen {
 
 	private int scrollOffset;
 
-	public static ClickGuiController INSTANCE = new ClickGuiController();
+	public static final ClickGuiController INSTANCE = new ClickGuiController();
 
 	public SettingController settingController;
 

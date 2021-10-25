@@ -9,8 +9,8 @@ import java.nio.IntBuffer;
 
 public final class GLUProjection {
 	public static class Line {
-		public Vector3D sourcePoint = new Vector3D(0, 0, 0);
-		public Vector3D direction = new Vector3D(0, 0, 0);
+		public final Vector3D sourcePoint = new Vector3D(0, 0, 0);
+		public final Vector3D direction = new Vector3D(0, 0, 0);
 
 		public Line(double sx, double sy, double sz, double dx, double dy, double dz) {
 			this.sourcePoint.x = sx;

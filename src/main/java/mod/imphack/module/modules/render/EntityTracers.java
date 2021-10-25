@@ -21,17 +21,17 @@ import java.awt.*;
 public class EntityTracers extends Module {
 
 	IntSetting max = new IntSetting("Maximum Tracers", this, 50);
-	BooleanSetting monster = new BooleanSetting("Monsters", this, true);
-	BooleanSetting passive = new BooleanSetting("Passive Mobs", this, true);
-	BooleanSetting players = new BooleanSetting("Players", this, true);
-	BooleanSetting items = new BooleanSetting("Items", this, true);
-	BooleanSetting other = new BooleanSetting("Other Entities", this, true);
-	ColorSetting monsterColor = new ColorSetting("Monster Color", this, 255, 255, 255);
-	ColorSetting passiveColor = new ColorSetting("Passive Color", this, 255, 255, 255);
-	ColorSetting playerColor = new ColorSetting("Player Color", this, 255, 255, 255);
-	ColorSetting itemColor = new ColorSetting("Item Color", this, 255, 255, 255);
-	ColorSetting otherColor = new ColorSetting("Other Color", this, 255, 255, 255);
-	FloatSetting width = new FloatSetting("Tracer Width", this, 1f);
+	final BooleanSetting monster = new BooleanSetting("Monsters", this, true);
+	final BooleanSetting passive = new BooleanSetting("Passive Mobs", this, true);
+	final BooleanSetting players = new BooleanSetting("Players", this, true);
+	final BooleanSetting items = new BooleanSetting("Items", this, true);
+	final BooleanSetting other = new BooleanSetting("Other Entities", this, true);
+	final ColorSetting monsterColor = new ColorSetting("Monster Color", this, 255, 255, 255);
+	final ColorSetting passiveColor = new ColorSetting("Passive Color", this, 255, 255, 255);
+	final ColorSetting playerColor = new ColorSetting("Player Color", this, 255, 255, 255);
+	final ColorSetting itemColor = new ColorSetting("Item Color", this, 255, 255, 255);
+	final ColorSetting otherColor = new ColorSetting("Other Color", this, 255, 255, 255);
+	final FloatSetting width = new FloatSetting("Tracer Width", this, 1f);
 
 	public EntityTracers() {
 		super("Tracers", "Traces a line to entities", Category.RENDER);

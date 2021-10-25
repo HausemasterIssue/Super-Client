@@ -8,10 +8,10 @@ import net.minecraft.client.Minecraft;
 
 public class ElytraFlight extends Module {
 
-	FloatSetting downSpeed = new FloatSetting("DownSpeed", this, 0.15f);
-	FloatSetting upSpeed = new FloatSetting("UpSpeed", this, 2.0f);
-	FloatSetting baseSpeed = new FloatSetting("BaseSpeed", this, 0.15f);
-	BooleanSetting noVelocity = new BooleanSetting("noVelocity", this, true);
+	final FloatSetting downSpeed = new FloatSetting("DownSpeed", this, 0.15f);
+	final FloatSetting upSpeed = new FloatSetting("UpSpeed", this, 2.0f);
+	final FloatSetting baseSpeed = new FloatSetting("BaseSpeed", this, 0.15f);
+	final BooleanSetting noVelocity = new BooleanSetting("noVelocity", this, true);
 
 	public ElytraFlight() {
 		super("ElytraFlight", "Fly with Elytras", Category.MOVEMENT);

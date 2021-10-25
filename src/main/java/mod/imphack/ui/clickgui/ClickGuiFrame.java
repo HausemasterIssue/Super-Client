@@ -10,12 +10,15 @@ import java.awt.*;
 import java.util.ArrayList;
 
 public class ClickGuiFrame {
-	int x, y, width, height;
+	final int x;
+	int y;
+	final int width;
+	int height;
 
-	Category category;
-	Minecraft mc = Minecraft.getMinecraft();
+	final Category category;
+	final Minecraft mc = Minecraft.getMinecraft();
 
-	ArrayList<ModuleButton> moduleButtons;
+	final ArrayList<ModuleButton> moduleButtons;
 
 	public ClickGuiFrame(Category category, int x, int y) {
 		this.x = x;

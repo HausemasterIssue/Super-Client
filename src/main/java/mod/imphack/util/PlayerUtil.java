@@ -12,7 +12,7 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Vec3d;
 
 public class PlayerUtil {
-	static Minecraft mc = Minecraft.getMinecraft();
+	static final Minecraft mc = Minecraft.getMinecraft();
 
 	public static double getFallDistance(EntityPlayerSP player, WorldClient world) {
 		for (double i = player.serverPosY; i > 0; i--) {

@@ -19,10 +19,10 @@ import net.minecraftforge.common.MinecraftForge;
 
 public class KillAura extends Module {
 
-	BooleanSetting player = new BooleanSetting("Player", this, true);
-	BooleanSetting hostile = new BooleanSetting("Hostile", this, true);
-	BooleanSetting passive = new BooleanSetting("Passive", this, true);
-	BooleanSetting tps = new BooleanSetting("Sync TPS", this, true);
+	final BooleanSetting player = new BooleanSetting("Player", this, true);
+	final BooleanSetting hostile = new BooleanSetting("Hostile", this, true);
+	final BooleanSetting passive = new BooleanSetting("Passive", this, true);
+	final BooleanSetting tps = new BooleanSetting("Sync TPS", this, true);
 
 	public KillAura() {
 		super("KillAura", "Makes You Hit Entities", Category.COMBAT);
@@ -35,7 +35,7 @@ public class KillAura extends Module {
 
 	boolean start_verify = true;
 
-	EnumHand actual_hand = EnumHand.MAIN_HAND;
+	final EnumHand actual_hand = EnumHand.MAIN_HAND;
 
 	double tick = 0;
 

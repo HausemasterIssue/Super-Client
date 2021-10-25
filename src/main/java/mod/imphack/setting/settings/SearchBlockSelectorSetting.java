@@ -13,7 +13,7 @@ import java.util.Map.Entry;
 
 public class SearchBlockSelectorSetting extends Setting {
 
-	public boolean colorSettings;
+	public final boolean colorSettings;
 	public ArrayList<Block> blocks = new ArrayList<>();
 	public HashMap<Block, Integer> colors = new HashMap<>();
 

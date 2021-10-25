@@ -15,7 +15,7 @@ import java.awt.*;
 import java.util.Arrays;
 
 public class RenderUtil extends Tessellator {
-	public static RenderUtil INSTANCE = new RenderUtil();
+	public static final RenderUtil INSTANCE = new RenderUtil();
 
 	public RenderUtil() {
 		super(0x200000);

@@ -19,7 +19,7 @@ public class Criticals extends Module {
 		this.addSetting(mode);
 	}
 
-	ModeSetting mode = new ModeSetting("Mode", this, "NCPStrict", "NCPStrict", "Packet", "Jump");
+	final ModeSetting mode = new ModeSetting("Mode", this, "NCPStrict", "NCPStrict", "Packet", "Jump");
 
 	CPacketUseEntity packet;
 	final Minecraft mc = Minecraft.getMinecraft();

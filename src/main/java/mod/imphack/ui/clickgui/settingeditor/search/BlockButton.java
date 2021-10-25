@@ -39,15 +39,18 @@ public class BlockButton {
 
 	private final TileEntityFakeWorld world;
 
-	int x, y, width, height;
+	final int x;
+	int y;
+	final int width;
+	final int height;
 
-	Module module;
+	final Module module;
 
-	BlockSelectorGuiFrame parent;
+	final BlockSelectorGuiFrame parent;
 
-	Minecraft mc = Minecraft.getMinecraft();
+	final Minecraft mc = Minecraft.getMinecraft();
 
-	Block block;
+	final Block block;
 
 	GuiTextField textFieldRed;
 	GuiTextField textFieldGreen;

@@ -10,7 +10,7 @@ import net.minecraft.util.EnumHand;
 
 public class AutoEat extends Module {
 
-	IntSetting hunger = new IntSetting("Hunger", this, 17);
+	final IntSetting hunger = new IntSetting("Hunger", this, 17);
 
 	public AutoEat() {
 		super("AutoEat", "Eats Automatically", Category.PLAYER);

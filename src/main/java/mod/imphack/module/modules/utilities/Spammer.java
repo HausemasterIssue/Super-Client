@@ -15,7 +15,7 @@ import java.util.ArrayList;
 
 public class Spammer extends Module {
 
-	IntSetting delay = new IntSetting("Delay(s)", this, 300);
+	final IntSetting delay = new IntSetting("Delay(s)", this, 300);
 
 	public Spammer() {
 		super("Spammer", "Spams in the Chat", Category.UTILITIES);
@@ -25,7 +25,7 @@ public class Spammer extends Module {
 
 	private Path spammerFile = null;
 
-	Timer timer = new Timer();
+	final Timer timer = new Timer();
 
 	@Override
 	public void onEnable() {
@@ -58,7 +58,7 @@ public class Spammer extends Module {
 		timer.reset();
 	}
 
-	ArrayList<String> lines = new ArrayList<>();
+	final ArrayList<String> lines = new ArrayList<>();
 	int index = 0;
 
 	@Override
