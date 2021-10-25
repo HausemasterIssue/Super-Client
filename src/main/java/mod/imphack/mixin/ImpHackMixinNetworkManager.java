@@ -15,7 +15,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 @Mixin(value = NetworkManager.class)
 public class ImpHackMixinNetworkManager {
 	// Receive packet.
-	@Inject(method = "channelRead0**", at = @At("HEAD"), cancellable = true)
+	@Inject(method = "channelRead0*", at = @At("HEAD"), cancellable = true)
 	private void receive(ChannelHandlerContext context, Packet<?> packet, CallbackInfo callback) {
 		ImpHackEventPacket event_packet = new ImpHackEventPacket.ReceivePacket(packet);
 
