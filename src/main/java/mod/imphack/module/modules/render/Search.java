@@ -44,6 +44,7 @@ import java.util.*;
 import java.util.concurrent.locks.ReadWriteLock;
 import java.util.concurrent.locks.ReentrantReadWriteLock;
 
+@SuppressWarnings ("CanBeFinal")
 public class Search extends Module {
 
 	SearchBlockSelectorSetting blocks = new SearchBlockSelectorSetting("Select Blocks", this, true,
@@ -400,6 +401,7 @@ public class Search extends Module {
 	}
 
 	// A target to be highlighted, located at position
+	@SuppressWarnings ("CanBeFinal")
 	private static class Target {
 		public int color;
 		public BlockPos position;

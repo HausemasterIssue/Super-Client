@@ -17,14 +17,14 @@ public class BlockSelectorGuiController extends GuiScreen {
 
 	public ArrayList<BlockButton> blocks;
 
-	public boolean colorSettings;
-	public GuiScreen lastScreen;
+	public final boolean colorSettings;
+	public final GuiScreen lastScreen;
 
 	public int scrollOffset = 0;
 
 	public BlockSelectorGuiFrame frame;
 
-	public SearchBlockSelectorSetting setting;
+	public final SearchBlockSelectorSetting setting;
 
 	public GuiTextField searchField;
 

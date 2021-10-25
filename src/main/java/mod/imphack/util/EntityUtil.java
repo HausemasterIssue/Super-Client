@@ -14,7 +14,7 @@ import net.minecraft.util.math.Vec3d;
 
 public class EntityUtil {
 
-	static Minecraft mc = Minecraft.getMinecraft();
+	static final Minecraft mc = Minecraft.getMinecraft();
 
 	public static BlockPos getPlayerPosWithEntity() {
 		return new BlockPos(

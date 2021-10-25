@@ -8,7 +8,7 @@ import net.minecraft.client.entity.EntityOtherPlayerMP;
 
 public class FakePlayer extends Module {
 
-	StringSetting name = new StringSetting("FakePlayer name", this, "Jakethasnake52");
+	final StringSetting name = new StringSetting("FakePlayer name", this, "Jakethasnake52");
 
 	public FakePlayer() {
 		super("FakePlayer", "Spawns in a fake player", Category.PLAYER);

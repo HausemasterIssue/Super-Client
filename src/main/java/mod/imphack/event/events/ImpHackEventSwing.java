@@ -5,7 +5,7 @@ import net.minecraft.util.EnumHand;
 
 public class ImpHackEventSwing extends ImpHackEventCancellable {
 
-	public EnumHand hand;
+	public final EnumHand hand;
 
 	public ImpHackEventSwing(EnumHand hand) {
 		super();

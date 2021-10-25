@@ -13,9 +13,9 @@ import net.minecraftforge.common.MinecraftForge;
 
 public class Jesus extends Module {
 
-	ModeSetting mode = new ModeSetting("Mode", this, "bounce", "bounce", "packet", "spacebar");
-	FloatSetting speed = new FloatSetting("Float Speed", this, 1.0f);
-	BooleanSetting dmg = new BooleanSetting("Packet Anti-FallDamage", this, false);
+	final ModeSetting mode = new ModeSetting("Mode", this, "bounce", "bounce", "packet", "spacebar");
+	final FloatSetting speed = new FloatSetting("Float Speed", this, 1.0f);
+	final BooleanSetting dmg = new BooleanSetting("Packet Anti-FallDamage", this, false);
 
 	public Jesus() {
 		super("Jesus", "Keeps you afloat in water", Category.MOVEMENT);

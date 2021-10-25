@@ -22,10 +22,10 @@ public class SettingController extends GuiScreen {
 
 	private int scrollOffset = 0;
 
-	public static Map<GuiTextField, Module> textFields = new HashMap <>();
+	public static final Map<GuiTextField, Module> textFields = new HashMap <>();
 
 	// color settings only
-	public static Map<GuiTextField[], Entry<Module, Setting>> cTextFields = new HashMap <>();
+	public static final Map<GuiTextField[], Entry<Module, Setting>> cTextFields = new HashMap <>();
 
 	public SettingFrame frame;
 

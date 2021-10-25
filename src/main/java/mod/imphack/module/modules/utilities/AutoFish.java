@@ -17,10 +17,10 @@ public class AutoFish extends Module {
 	long reelTimer = 0;
 	long timeSinceCast = 0;
 
-	BooleanSetting findRod = new BooleanSetting("Hotbar Rod Finder", this, true);
-	BooleanSetting autoRepair = new BooleanSetting("Offhand Mending Repair", this, true);
-	IntSetting recastDelay = new IntSetting("Recast Delay (ms)", this, 5000);
-	IntSetting reelDelay = new IntSetting("Reel Delay (ms)", this, 300);
+	final BooleanSetting findRod = new BooleanSetting("Hotbar Rod Finder", this, true);
+	final BooleanSetting autoRepair = new BooleanSetting("Offhand Mending Repair", this, true);
+	final IntSetting recastDelay = new IntSetting("Recast Delay (ms)", this, 5000);
+	final IntSetting reelDelay = new IntSetting("Reel Delay (ms)", this, 300);
 
 	public AutoFish() {
 		super("AutoFish", "Fishes Automatically", Category.UTILITIES);

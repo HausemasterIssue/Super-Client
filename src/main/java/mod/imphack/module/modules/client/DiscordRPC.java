@@ -13,7 +13,7 @@ public class DiscordRPC extends Module {
 		addSetting(mode);
 	}
 	
-	public ModeSetting mode = new ModeSetting("Mode", this, "Imp", "Vanilla", "Imp");
+	public final ModeSetting mode = new ModeSetting("Mode", this, "Imp", "Vanilla", "Imp");
 
 	@Override
 	public void onEnable() {

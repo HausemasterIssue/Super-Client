@@ -26,7 +26,7 @@ import org.lwjgl.opengl.GL11;
 import java.util.Objects;
 
 public class Nametags extends Module {
-	FloatSetting scaleSetting = new FloatSetting("Scale", this, 10.0f);
+	final FloatSetting scaleSetting = new FloatSetting("Scale", this, 10.0f);
 
 	public Nametags() {
 		super("Nametags", "Adds More Features To Nametags", Category.RENDER);

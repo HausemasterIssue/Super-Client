@@ -10,7 +10,7 @@ import net.minecraft.util.text.TextComponentString;
 
 public class Client {
 
-	public static String commandPrefix = ".";
+	public static final String commandPrefix = ".";
 
 	public static String getCommandPrefix() {
 		return commandPrefix;

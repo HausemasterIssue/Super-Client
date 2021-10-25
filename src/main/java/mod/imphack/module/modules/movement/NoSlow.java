@@ -19,7 +19,7 @@ public class NoSlow extends Module {
 	this.addSetting(sneak);
     }
   
-    BooleanSetting sneak = new BooleanSetting("AirStrict", this, true);
+    final BooleanSetting sneak = new BooleanSetting("AirStrict", this, true);
   
     private boolean sneaking = false;
   

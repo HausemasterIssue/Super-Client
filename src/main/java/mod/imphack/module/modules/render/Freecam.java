@@ -24,9 +24,9 @@ import net.minecraftforge.event.entity.EntityJoinWorldEvent;
 
 public class Freecam extends Module {
 
-	FloatSetting speedSetting = new FloatSetting("Speed", this, 1.0f);
-	BooleanSetting view = new BooleanSetting("View", this, false);
-	BooleanSetting packetCancel = new BooleanSetting("Packet Cancel", this, true);
+	final FloatSetting speedSetting = new FloatSetting("Speed", this, 1.0f);
+	final BooleanSetting view = new BooleanSetting("View", this, false);
+	final BooleanSetting packetCancel = new BooleanSetting("Packet Cancel", this, true);
 
 	public Freecam() {
 		super("Freecam", "Allows Spectator Mode Outside The Body", Category.RENDER);

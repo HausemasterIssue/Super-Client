@@ -11,7 +11,7 @@ import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.util.math.Vec3d;
 
 public class BlockUtil {
-	static Minecraft mc = Minecraft.getMinecraft();
+	static final Minecraft mc = Minecraft.getMinecraft();
 
 	public static boolean isScaffoldPos(final BlockPos pos) {
 		return BlockUtil.mc.world.isAirBlock(pos)

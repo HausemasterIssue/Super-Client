@@ -10,7 +10,7 @@ import java.util.List;
 public class ModeSetting extends Setting {
 	public int index;
 
-	public List<String> modes;
+	public final List<String> modes;
 
 	public ModeSetting(String name, Module parent, String defaultMode, String... modes) {
 		this.name = name;

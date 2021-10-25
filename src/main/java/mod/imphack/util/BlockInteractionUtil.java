@@ -13,7 +13,7 @@ import net.minecraft.util.math.Vec3d;
 import static java.lang.Double.isNaN;
 
 public class BlockInteractionUtil {
-	static Minecraft mc = Minecraft.getMinecraft();
+	static final Minecraft mc = Minecraft.getMinecraft();
 
 	public static float[] getFacingRotations(int x, int y, int z, EnumFacing facing) {
 		return getRotationsForPosition(x + 0.5 + facing.getDirectionVec().getX() / 2.0,

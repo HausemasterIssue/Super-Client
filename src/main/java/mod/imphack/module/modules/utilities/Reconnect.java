@@ -7,7 +7,7 @@ import net.minecraft.client.multiplayer.ServerData;
 
 public class Reconnect extends Module {
 
-	public IntSetting timer = new IntSetting("Timer", this, 5000);
+	public final IntSetting timer = new IntSetting("Timer", this, 5000);
 
 	public ServerData serverData;
 

@@ -30,8 +30,8 @@ import java.util.Map;
 //this module is just an experiment and is not used in the current version of the client
 public class NoteBot extends Module {
 
-	ModeSetting mode = new ModeSetting("Mode", this, "Tune", "Tune", "Play", "Listen");
-	StringSetting file = new StringSetting("Filename", this, "example.mid");
+	final ModeSetting mode = new ModeSetting("Mode", this, "Tune", "Tune", "Play", "Listen");
+	final StringSetting file = new StringSetting("Filename", this, "example.mid");
 
 	public NoteBot() {
 		super("Note Bot", "Plays Note Blocks", Category.UTILITIES);
@@ -199,8 +199,8 @@ public class NoteBot extends Module {
 	}
 
 	static final int NOTE_ON = 0x90;
-	static int SET_TEMPO = 0x51;
-	static int TIME_SIGNATURE = 0x58;
+	static final int SET_TEMPO = 0x51;
+	static final int TIME_SIGNATURE = 0x58;
 	static int PATCH_CHANGE = 0xC0;
 
 	static Sequence seq;
@@ -383,10 +383,10 @@ public class NoteBot extends Module {
 
 	public static
 	class MusicChannel {
-		int id;
-		int instrument;
-		int originalinstrument;
-		ArrayList<MusicNote> notes;
+		final int id;
+		final int instrument;
+		final int originalinstrument;
+		final ArrayList<MusicNote> notes;
 
 		public MusicChannel(int id, int instrument, int originalinstrument) {
 			this.id = id;
@@ -442,8 +442,8 @@ public class NoteBot extends Module {
 
 	public static
 	class MusicNote {
-		int note;
-		int time;
+		final int note;
+		final int time;
 
 		public MusicNote(int note, int time) {
 			this.note = note;
@@ -460,9 +460,9 @@ public class NoteBot extends Module {
 	}
 
 	public class Music {
-		String name;
-		long length;
-		ArrayList<MusicChannel> channels;
+		final String name;
+		final long length;
+		final ArrayList<MusicChannel> channels;
 		float progress;
 
 		public Music() {

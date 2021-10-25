@@ -24,7 +24,7 @@ import net.minecraftforge.common.MinecraftForge;
 
 public class Scaffold extends Module {
 
-	BooleanSetting rotation = new BooleanSetting("Rotation", this, true);
+	final BooleanSetting rotation = new BooleanSetting("Rotation", this, true);
 	private final Timer timer = new Timer();
 
 	public Scaffold() {

@@ -18,11 +18,11 @@ import net.minecraftforge.fml.common.gameevent.TickEvent;
 
 public class ConcreteBot extends Module {
 
-	IntSetting x = new IntSetting("X", this, 0);
-	IntSetting y = new IntSetting("Y", this, 0);
-	IntSetting z = new IntSetting("Z", this, 0);
+	final IntSetting x = new IntSetting("X", this, 0);
+	final IntSetting y = new IntSetting("Y", this, 0);
+	final IntSetting z = new IntSetting("Z", this, 0);
 
-	GuiButton setPos = new GuiButton(10001, 0, 0, 0, mc.fontRenderer.FONT_HEIGHT + 2, "Set Current Position");
+	final GuiButton setPos = new GuiButton(10001, 0, 0, 0, mc.fontRenderer.FONT_HEIGHT + 2, "Set Current Position");
 
 	@Override
 	public void actionPerformed(GuiButton b) {

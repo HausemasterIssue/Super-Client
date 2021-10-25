@@ -16,15 +16,16 @@ import java.util.List;
 
 public class Module implements Listenable {
 
-	protected Minecraft mc = Minecraft.getMinecraft();
-	protected ImpHackInventory inv = new ImpHackInventory();
+	protected final Minecraft mc = Minecraft.getMinecraft();
+	protected final ImpHackInventory inv = new ImpHackInventory();
 
-	public String name, description;
+	public final String name;
+	public String description;
 	public int key;
 	private final Category category;
 	public boolean toggled;
-	public List<Setting> settings = new ArrayList <>();
-	public List<GuiButton> buttons = new ArrayList <>();
+	public final List<Setting> settings = new ArrayList <>();
+	public final List<GuiButton> buttons = new ArrayList <>();
 
 	public Module(String name, String description, Category category) {
 		super();

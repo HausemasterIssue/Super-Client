@@ -10,8 +10,8 @@ import org.lwjgl.opengl.GL11;
 
 public class Welcome extends Module {
 
-	FloatSetting valueX = new FloatSetting("ValueX", this, 0.15f);
-	FloatSetting valueY = new FloatSetting("ValueY", this, 0.15f);
+	final FloatSetting valueX = new FloatSetting("ValueX", this, 0.15f);
+	final FloatSetting valueY = new FloatSetting("ValueY", this, 0.15f);
 
 	public Welcome() {
 		super("Welcomer", "Puts a nice welcome message for you", Category.HUD);

@@ -9,10 +9,10 @@ import net.minecraft.util.math.MathHelper;
 
 public class Flight extends Module {
 
-	FloatSetting hSpeed = new FloatSetting("Horizontal Speed", this, 1.0f);
-	FloatSetting vSpeed = new FloatSetting("Vertical Speed", this, 1.0f);
-	FloatSetting glide = new FloatSetting("Downward Glide Speed", this, 0.0f);
-	BooleanSetting dmg = new BooleanSetting("Packet Anti-FallDamage", this, false);
+	final FloatSetting hSpeed = new FloatSetting("Horizontal Speed", this, 1.0f);
+	final FloatSetting vSpeed = new FloatSetting("Vertical Speed", this, 1.0f);
+	final FloatSetting glide = new FloatSetting("Downward Glide Speed", this, 0.0f);
+	final BooleanSetting dmg = new BooleanSetting("Packet Anti-FallDamage", this, false);
 
 	public Flight() {
 		super("Flight", "Allows Flight", Category.MOVEMENT);

@@ -11,13 +11,16 @@ import org.lwjgl.opengl.GL11;
 import java.util.ArrayList;
 
 public class BlockSelectorGuiFrame {
-	int x, y, width, height;
+	final int x;
+	int y;
+	final int width;
+	final int height;
 
-	Minecraft mc = Minecraft.getMinecraft();
+	final Minecraft mc = Minecraft.getMinecraft();
 
-	BlockSelectorGuiController controller;
+	final BlockSelectorGuiController controller;
 
-	String searchText;
+	final String searchText;
 
 	public BlockSelectorGuiFrame(int x, int y, BlockSelectorGuiController controller, String searchText) {
 

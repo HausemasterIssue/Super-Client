@@ -7,10 +7,10 @@ import java.util.Arrays;
 import java.util.List;
 
 public class WorldUtil {
-	public static List<Block> NONSOLID_BLOCKS = Arrays.asList(Blocks.AIR, Blocks.LAVA, Blocks.WATER, Blocks.SNOW_LAYER,
+	public static final List<Block> NONSOLID_BLOCKS = Arrays.asList(Blocks.AIR, Blocks.LAVA, Blocks.WATER, Blocks.SNOW_LAYER,
 			Blocks.FIRE, Blocks.TALLGRASS);
 
-	public static List<Block> RIGHTCLICKABLE_BLOCKS = Arrays.asList(Blocks.CHEST, Blocks.TRAPPED_CHEST,
+	public static final List<Block> RIGHTCLICKABLE_BLOCKS = Arrays.asList(Blocks.CHEST, Blocks.TRAPPED_CHEST,
 			Blocks.ENDER_CHEST, Blocks.WHITE_SHULKER_BOX, Blocks.ORANGE_SHULKER_BOX, Blocks.MAGENTA_SHULKER_BOX,
 			Blocks.LIGHT_BLUE_SHULKER_BOX, Blocks.YELLOW_SHULKER_BOX, Blocks.LIME_SHULKER_BOX, Blocks.PINK_SHULKER_BOX,
 			Blocks.GRAY_SHULKER_BOX, Blocks.CYAN_SHULKER_BOX, Blocks.PURPLE_SHULKER_BOX, Blocks.BLUE_SHULKER_BOX,

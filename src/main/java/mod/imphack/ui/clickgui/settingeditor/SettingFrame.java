@@ -11,16 +11,19 @@ import java.awt.*;
 import java.util.ArrayList;
 
 public class SettingFrame {
-	int x, y, width, height;
+	final int x;
+	int y;
+	final int width;
+	int height;
 
-	Minecraft mc = Minecraft.getMinecraft();
+	final Minecraft mc = Minecraft.getMinecraft();
 
-	Module module;
+	final Module module;
 
-	ArrayList<SettingButton> settingButtons;
-	KeybindButton kbButton;
+	final ArrayList<SettingButton> settingButtons;
+	final KeybindButton kbButton;
 
-	Color kbColor;
+	final Color kbColor;
 
 	public SettingFrame(Module m, int x, int y, Color kbColor) {
 		this.x = x;

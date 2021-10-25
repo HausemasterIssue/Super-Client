@@ -11,8 +11,8 @@ import java.util.Objects;
 
 public class BoatFly extends Module {
 
-	FloatSetting hSpeed = new FloatSetting("Horizontal Speed", this, 1.0f);
-	FloatSetting vSpeed = new FloatSetting("Vertical Speed", this, 1.0f);
+	final FloatSetting hSpeed = new FloatSetting("Horizontal Speed", this, 1.0f);
+	final FloatSetting vSpeed = new FloatSetting("Vertical Speed", this, 1.0f);
 
 	public BoatFly() {
 		super("BoatFly", "Allows Flight In Boats", Category.MOVEMENT);
