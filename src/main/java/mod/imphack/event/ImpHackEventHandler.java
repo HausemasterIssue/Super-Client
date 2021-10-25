@@ -1,13 +1,13 @@
 package mod.imphack.event;
 
-import java.util.Arrays;
-
 import me.zero.alpine.listener.EventHandler;
 import me.zero.alpine.listener.Listenable;
 import me.zero.alpine.listener.Listener;
 import mod.imphack.event.events.ImpHackEventPacket;
 import net.minecraft.network.play.server.SPacketTimeUpdate;
 import net.minecraft.util.math.MathHelper;
+
+import java.util.Arrays;
 
 public class ImpHackEventHandler implements Listenable {
 	public static ImpHackEventHandler INSTANCE;
@@ -18,7 +18,7 @@ public class ImpHackEventHandler implements Listenable {
 	private int next_index = 0;
 
 	@EventHandler
-	private Listener<ImpHackEventPacket.ReceivePacket> receive_event_packet = new Listener<>(event -> {
+	private final Listener<ImpHackEventPacket.ReceivePacket> receive_event_packet = new Listener<>(event -> {
 		if (event.get_packet() instanceof SPacketTimeUpdate) {
 			INSTANCE.update_time();
 		}

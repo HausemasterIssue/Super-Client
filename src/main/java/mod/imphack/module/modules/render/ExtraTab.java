@@ -16,10 +16,9 @@ public class ExtraTab extends Module {
 	}
 
 	public static String getPlayerName(NetworkPlayerInfo networkPlayerInfoIn) {
-		String name = networkPlayerInfoIn.getDisplayName() != null
+		return networkPlayerInfoIn.getDisplayName() != null
 				? networkPlayerInfoIn.getDisplayName().getFormattedText()
 				: ScorePlayerTeam.formatPlayerName(networkPlayerInfoIn.getPlayerTeam(),
 						networkPlayerInfoIn.getGameProfile().getName());
-		return name;
 	}
 }

@@ -1,11 +1,11 @@
 package mod.imphack.util.notebot;
 
-import java.awt.Color;
-import java.util.ArrayList;
-
 import mod.imphack.module.modules.utilities.NoteBot;
 import mod.imphack.module.modules.utilities.NoteBot.MusicNote;
 import net.minecraft.util.math.BlockPos;
+
+import java.awt.*;
+import java.util.ArrayList;
 
 public class NbPlayer implements Runnable {
 	public static volatile boolean Running;
@@ -45,9 +45,7 @@ public class NbPlayer implements Runnable {
 
 					if (time >= notes.get(0).GetTime()) {
 						int notes_c = notes.size();
-						for (int i = 0; i < notes_c; i++) {
-							MusicNote note = notes.get(i);
-
+						for (MusicNote note : notes) {
 							int inst = channel.GetInstrument();
 
 							if (inst == 0) {

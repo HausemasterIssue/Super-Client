@@ -13,7 +13,7 @@ import net.minecraftforge.common.MinecraftForge;
 
 public class Jesus extends Module {
 
-	ModeSetting mode = new ModeSetting("Mode", this, "bounce", new String[] { "bounce", "packet", "spacebar" });
+	ModeSetting mode = new ModeSetting("Mode", this, "bounce", "bounce", "packet", "spacebar");
 	FloatSetting speed = new FloatSetting("Float Speed", this, 1.0f);
 	BooleanSetting dmg = new BooleanSetting("Packet Anti-FallDamage", this, false);
 
@@ -47,7 +47,7 @@ public class Jesus extends Module {
 		if (mode.getMode().equalsIgnoreCase("packet")) {
 			if (mc.world.getBlockState(new BlockPos(mc.player.posX, mc.player.posY - 0.2f, mc.player.posZ))
 					.getBlock() == Block.getBlockFromName("water") && mc.player.motionY < 0.0D) {
-				mc.player.posY += -mc.player.motionY;
+				mc.player.posY -= mc.player.motionY;
 				mc.player.motionY = 0;
 				if (dmg.enabled)
 					mc.player.fallDistance = 0;

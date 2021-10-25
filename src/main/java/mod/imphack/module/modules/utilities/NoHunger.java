@@ -1,8 +1,5 @@
 package mod.imphack.module.modules.utilities;
 
-import static net.minecraft.network.play.client.CPacketEntityAction.Action.START_SPRINTING;
-import static net.minecraft.network.play.client.CPacketEntityAction.Action.STOP_SPRINTING;
-
 import me.zero.alpine.listener.EventHandler;
 import me.zero.alpine.listener.Listener;
 import mod.imphack.event.events.ImpHackEventPacket;
@@ -11,6 +8,9 @@ import mod.imphack.module.Module;
 import mod.imphack.setting.settings.BooleanSetting;
 import net.minecraft.network.play.client.CPacketEntityAction;
 import net.minecraft.network.play.client.CPacketPlayer;
+
+import static net.minecraft.network.play.client.CPacketEntityAction.Action.START_SPRINTING;
+import static net.minecraft.network.play.client.CPacketEntityAction.Action.STOP_SPRINTING;
 
 public class NoHunger extends Module {
 
@@ -25,15 +25,11 @@ public class NoHunger extends Module {
 	}
 
 	@EventHandler
-	private Listener<ImpHackEventPacket.ReceivePacket> PacketEvent = new Listener<>(p_Event -> {
+	private final Listener<ImpHackEventPacket.ReceivePacket> PacketEvent = new Listener<>(p_Event -> {
 		if (p_Event.get_packet() instanceof CPacketPlayer && onGround.enabled && !mc.player.isElytraFlying()) {
 			final CPacketPlayer l_Packet = (CPacketPlayer) p_Event.get_packet();
 
-			if (mc.player.fallDistance > 0 || mc.playerController.getIsHittingBlock()) {
-				l_Packet.onGround = true;
-			} else {
-				l_Packet.onGround = false;
-			}
+			l_Packet.onGround = mc.player.fallDistance > 0 || mc.playerController.getIsHittingBlock();
 		}
 
 		if (p_Event.get_packet() instanceof CPacketEntityAction && cancelSprint.enabled) {

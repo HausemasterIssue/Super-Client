@@ -1,13 +1,12 @@
 package mod.imphack.mixin;
 
+import mod.imphack.event.ImpHackEventBus;
+import mod.imphack.event.events.ImpHackEventTotemPop;
+import net.minecraft.entity.EntityLivingBase;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
-
-import mod.imphack.event.ImpHackEventBus;
-import mod.imphack.event.events.ImpHackEventTotemPop;
-import net.minecraft.entity.EntityLivingBase;
 
 @Mixin(EntityLivingBase.class)
 public class ImpHackMixinEntityLivingBase {

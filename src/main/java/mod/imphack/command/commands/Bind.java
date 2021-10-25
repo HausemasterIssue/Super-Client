@@ -1,11 +1,10 @@
 package mod.imphack.command.commands;
 
-import org.lwjgl.input.Keyboard;
-
 import mod.imphack.Client;
 import mod.imphack.Main;
 import mod.imphack.command.Command;
 import mod.imphack.module.Module;
+import org.lwjgl.input.Keyboard;
 
 public class Bind extends Command {
 
@@ -25,7 +24,7 @@ public class Bind extends Command {
 	}
 
 	@Override
-	public void onCommand(String command, String[] args) throws Exception {
+	public void onCommand(String command, String[] args) {
 		if (args[0].equalsIgnoreCase("set")) {
 			args[2] = args[2].toUpperCase();
 			int key = Keyboard.getKeyIndex(args[2]);

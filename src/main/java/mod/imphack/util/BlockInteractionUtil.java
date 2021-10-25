@@ -1,7 +1,5 @@
 package mod.imphack.util;
 
-import static java.lang.Double.isNaN;
-
 import net.minecraft.block.Block;
 import net.minecraft.client.Minecraft;
 import net.minecraft.network.play.client.CPacketEntityAction;
@@ -11,6 +9,8 @@ import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumHand;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Vec3d;
+
+import static java.lang.Double.isNaN;
 
 public class BlockInteractionUtil {
 	static Minecraft mc = Minecraft.getMinecraft();

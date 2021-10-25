@@ -1,18 +1,18 @@
 package mod.imphack.command;
 
-import java.util.ArrayList;
-
 import mod.imphack.Client;
 import mod.imphack.command.commands.Bind;
 import mod.imphack.command.commands.Help;
 import mod.imphack.command.commands.Rotate;
 import mod.imphack.command.commands.Toggle;
 
+import java.util.ArrayList;
+
 public class CommandManager {
-	private ArrayList<Command> commands;
+	private final ArrayList<Command> commands;
 
 	public CommandManager() {
-		commands = new ArrayList<Command>();
+		commands = new ArrayList <>();
 
 		// add commands
 		addCommand(new Bind());

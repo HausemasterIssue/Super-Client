@@ -1,17 +1,5 @@
 package mod.imphack.module.modules.render;
 
-import java.awt.Color;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Map;
-import java.util.concurrent.locks.ReadWriteLock;
-import java.util.concurrent.locks.ReentrantReadWriteLock;
-
-import org.lwjgl.opengl.GL11;
-
 import me.zero.alpine.listener.EventHandler;
 import me.zero.alpine.listener.Listener;
 import mod.imphack.Main;
@@ -48,11 +36,18 @@ import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.world.ChunkEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.gameevent.TickEvent;
+import org.lwjgl.opengl.GL11;
+
+import java.awt.*;
+import java.util.List;
+import java.util.*;
+import java.util.concurrent.locks.ReadWriteLock;
+import java.util.concurrent.locks.ReentrantReadWriteLock;
 
 public class Search extends Module {
 
 	SearchBlockSelectorSetting blocks = new SearchBlockSelectorSetting("Select Blocks", this, true,
-			new ArrayList<Block>(), new HashMap<Block, Integer>());
+			new ArrayList <>(), new HashMap <>());
 	BooleanSetting outline = new BooleanSetting("Outline", this, true);
 	BooleanSetting tracer = new BooleanSetting("Tracer", this, true);
 
@@ -62,17 +57,17 @@ public class Search extends Module {
 		addSetting(blocks);
 		addSetting(tracer);
 
-		this.to_search = new HashMap<Block, Integer>();
+		this.to_search = new HashMap <>();
 		this.search_lock = new ReentrantReadWriteLock();
-		this.targets = new HashMap<BlockPos, Integer>();
+		this.targets = new HashMap <>();
 		this.targets_lock = new ReentrantReadWriteLock();
-		this.new_chunks = new ArrayList<ChunkPos>();
+		this.new_chunks = new ArrayList <>();
 		this.new_chunks_lock = new ReentrantReadWriteLock();
 		this.camera = new Frustum();
 	}
 
 	/* Map of Blocks to be searched */
-	private ReadWriteLock search_lock;
+	private final ReadWriteLock search_lock;
 	public Map<Block, Integer> to_search;
 
 	/* List of blocks that have been selected for highlighting */
@@ -83,7 +78,7 @@ public class Search extends Module {
 	private ReadWriteLock new_chunks_lock;
 	private List<ChunkPos> new_chunks;
 
-	private ICamera camera;
+	private final ICamera camera;
 
 	@Override
 	public void onUpdate() {
@@ -150,13 +145,7 @@ public class Search extends Module {
 		int x = event.getChunk().x, z = event.getChunk().z;
 
 		this.targets_lock.writeLock().lock();
-		Iterator<BlockPos> iterator = this.targets.keySet().iterator();
-		while (iterator.hasNext()) {
-			BlockPos position = iterator.next();
-			if ((position.getX() >> 4) == x && (position.getZ() >> 4) == z) {
-				iterator.remove();
-			}
-		}
+		this.targets.keySet().removeIf(position -> (position.getX() >> 4) == x && (position.getZ() >> 4) == z);
 		this.targets_lock.writeLock().unlock();
 	}
 
@@ -183,7 +172,7 @@ public class Search extends Module {
 		this.new_chunks_lock.writeLock().lock();
 		Iterator<ChunkPos> iterator = this.new_chunks.iterator();
 		while (iterator.hasNext()) {
-			ChunkPos position = (ChunkPos) iterator.next();
+			ChunkPos position = iterator.next();
 			Chunk c = provider.getLoadedChunk(position.x, position.z);
 			if (c != null) {
 				this.searchChunk(c);
@@ -194,7 +183,7 @@ public class Search extends Module {
 	}
 
 	@EventHandler
-	private Listener<ImpHackEventSettings> SettingEvent = new Listener<>(event -> {
+	private final Listener<ImpHackEventSettings> SettingEvent = new Listener<>(event -> {
 		this.onDisable();
 		this.onEnable();
 	});
@@ -204,7 +193,7 @@ public class Search extends Module {
 	 */
 
 	@EventHandler
-	private Listener<ImpHackEventPacket.ReceivePacket> PacketRecieveEvent = new Listener<>(event -> {
+	private final Listener<ImpHackEventPacket.ReceivePacket> PacketRecieveEvent = new Listener<>(event -> {
 		if (event.get_packet() instanceof SPacketChunkData) { // New chunk
 			SPacketChunkData chunk = (SPacketChunkData) event.get_packet();
 			this.new_chunks_lock.writeLock().lock();
@@ -276,7 +265,7 @@ public class Search extends Module {
 		GL11.glHint(GL11.GL_LINE_SMOOTH_HINT, GL11.GL_NICEST);
 		GL11.glLineWidth(1.5f);
 
-		List<Target> tracers = new LinkedList<Target>();
+		List<Target> tracers = new LinkedList <>();
 
 		this.targets_lock.readLock().lock();
 		for (BlockPos position : this.targets.keySet()) {
@@ -387,12 +376,7 @@ public class Search extends Module {
 	// Remove targets that were registered with given property
 	public void ClearFromTargets(int color) {
 		this.targets_lock.readLock().lock();
-		Iterator<BlockPos> i = this.targets.keySet().iterator();
-		while (i.hasNext()) {
-			BlockPos position = (BlockPos) i.next();
-			if (this.targets.get(position) == color)
-				i.remove();
-		}
+		this.targets.keySet().removeIf(position -> this.targets.get(position) == color);
 		this.targets_lock.readLock().unlock();
 	}
 

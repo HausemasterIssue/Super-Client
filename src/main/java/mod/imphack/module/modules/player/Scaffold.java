@@ -8,12 +8,7 @@ import mod.imphack.event.events.ImpHackEventMotionUpdate;
 import mod.imphack.module.Category;
 import mod.imphack.module.Module;
 import mod.imphack.setting.settings.BooleanSetting;
-import mod.imphack.util.BlockUtil;
-import mod.imphack.util.EntityUtil;
-import mod.imphack.util.InventoryUtil;
-import mod.imphack.util.MathUtil;
-import mod.imphack.util.Timer;
-import mod.imphack.util.WorldUtil;
+import mod.imphack.util.*;
 import net.minecraft.block.Block;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
@@ -51,7 +46,7 @@ public class Scaffold extends Module {
 	}
 
 	@EventHandler
-	private Listener<ImpHackEventMotionUpdate> player_move = new Listener<>(event -> {
+	private final Listener<ImpHackEventMotionUpdate> player_move = new Listener<>(event -> {
 
 		BlockPos playerBlock;
 		if (mc.world == null || event.stage == 0) {

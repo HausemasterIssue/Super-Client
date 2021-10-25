@@ -1,15 +1,15 @@
 package mod.imphack.setting.settings;
 
-import java.awt.Color;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map.Entry;
-
 import mod.imphack.Main;
 import mod.imphack.module.Module;
 import mod.imphack.setting.Setting;
 import net.minecraft.block.Block;
 import net.minecraftforge.fml.common.registry.GameRegistry;
+
+import java.awt.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map.Entry;
 
 public class SearchBlockSelectorSetting extends Setting {
 

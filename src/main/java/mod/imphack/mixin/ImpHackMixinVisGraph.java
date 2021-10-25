@@ -1,14 +1,13 @@
 package mod.imphack.mixin;
 
-import org.spongepowered.asm.mixin.Mixin;
-import org.spongepowered.asm.mixin.injection.At;
-import org.spongepowered.asm.mixin.injection.Inject;
-import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
-
 import mod.imphack.event.ImpHackEventBus;
 import mod.imphack.event.events.ImpHackEventSetOpaqueCube;
 import net.minecraft.client.renderer.chunk.VisGraph;
 import net.minecraft.util.math.BlockPos;
+import org.spongepowered.asm.mixin.Mixin;
+import org.spongepowered.asm.mixin.injection.At;
+import org.spongepowered.asm.mixin.injection.Inject;
+import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 @Mixin(VisGraph.class)
 public class ImpHackMixinVisGraph {

@@ -23,7 +23,7 @@ public class Help extends Command {
 	}
 
 	@Override
-	public void onCommand(String command, String[] args) throws Exception {
+	public void onCommand(String command, String[] args) {
 		if (args[0].isEmpty()) {
 			for (Module m : Main.moduleManager.getModuleList()) {
 				Client.addChatMessage("Module: " + m.getName() + " - " + m.getDescription());

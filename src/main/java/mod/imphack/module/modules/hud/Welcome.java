@@ -1,13 +1,12 @@
 package mod.imphack.module.modules.hud;
 
-import org.lwjgl.opengl.GL11;
-
 import mod.imphack.module.Category;
 import mod.imphack.module.Module;
 import mod.imphack.setting.settings.FloatSetting;
 import net.minecraft.client.Minecraft;
 import net.minecraftforge.client.event.RenderGameOverlayEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
+import org.lwjgl.opengl.GL11;
 
 public class Welcome extends Module {
 

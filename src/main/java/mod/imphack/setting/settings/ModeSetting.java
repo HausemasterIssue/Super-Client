@@ -1,11 +1,11 @@
 package mod.imphack.setting.settings;
 
-import java.util.Arrays;
-import java.util.List;
-
 import mod.imphack.Main;
 import mod.imphack.module.Module;
 import mod.imphack.setting.Setting;
+
+import java.util.Arrays;
+import java.util.List;
 
 public class ModeSetting extends Setting {
 	public int index;

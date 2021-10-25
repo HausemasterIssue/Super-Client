@@ -1,8 +1,8 @@
 package mod.imphack.util.notebot;
 
-import java.util.ArrayList;
-
 import net.minecraft.util.math.BlockPos;
+
+import java.util.ArrayList;
 
 public class NbInstrument {
 	public static boolean Tunning = false;
@@ -19,8 +19,8 @@ public class NbInstrument {
 	private static int id;
 
 	public NbInstrument(int id) {
-		notes = new ArrayList<NbNote>();
-		this.id = id;
+		notes = new ArrayList <>();
+		NbInstrument.id = id;
 	}
 
 	public int GetID() {
@@ -28,7 +28,7 @@ public class NbInstrument {
 	}
 
 	public static void TuneInstrument() {
-		ToTune = new ArrayList<NbNote>();
+		ToTune = new ArrayList <>();
 
 		for (NbNote note : notes) {
 			if (note.GetKnownPitch() != note.GetPitch())
@@ -40,7 +40,7 @@ public class NbInstrument {
 	}
 
 	public static void DiscoverInstrument() {
-		ToDiscover = new ArrayList<NbNote>();
+		ToDiscover = new ArrayList <>();
 		for (NbNote note : notes) {
 			note.SetValidated(false);
 			ToDiscover.add(note);

@@ -1,21 +1,14 @@
 package mod.imphack.util.notebot;
 
-import java.awt.Color;
-
-import javax.sound.midi.Instrument;
-import javax.sound.midi.MidiChannel;
-import javax.sound.midi.MidiSystem;
-import javax.sound.midi.MidiUnavailableException;
-import javax.sound.midi.Patch;
-import javax.sound.midi.Soundbank;
-import javax.sound.midi.Synthesizer;
-
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.entity.EntityPlayerSP;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumHand;
 import net.minecraft.util.math.BlockPos;
+
+import javax.sound.midi.*;
+import java.awt.*;
 
 public class NbUtil {
 
@@ -212,7 +205,7 @@ public class NbUtil {
 	public static String GetInstrumentName(int instrument) throws MidiUnavailableException {
 		Synthesizer synth = MidiSystem.getSynthesizer();
 
-		Instrument instruments[] = synth.getDefaultSoundbank().getInstruments();
+		Instrument[] instruments = synth.getDefaultSoundbank().getInstruments();
 
 		int inst = instrument - 1;
 

@@ -4,9 +4,9 @@ import net.minecraft.util.math.BlockPos;
 
 public class NbNote {
 	private int knownpitch;
-	private int pitch;
+	private final int pitch;
 	private boolean validated;
-	private BlockPos pos;
+	private final BlockPos pos;
 
 	public NbNote(int pitch, BlockPos pos) {
 		this.knownpitch = -1;

@@ -24,13 +24,13 @@ public class EntityRide extends Module {
 	}
 
 	@EventHandler
-	private Listener<ImpHackEventSteerEntity> OnSteerEntity = new Listener<>(p_Event -> {
+	private final Listener<ImpHackEventSteerEntity> OnSteerEntity = new Listener<>(p_Event -> {
 		if (control.enabled)
 			p_Event.cancel();
 	});
 
 	@EventHandler
-	private Listener<ImpHackEventHorseSaddled> OnHorseSaddled = new Listener<>(p_Event -> {
+	private final Listener<ImpHackEventHorseSaddled> OnHorseSaddled = new Listener<>(p_Event -> {
 		if (control.enabled)
 			p_Event.cancel();
 	});

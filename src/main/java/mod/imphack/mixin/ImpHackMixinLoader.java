@@ -1,14 +1,12 @@
 package mod.imphack.mixin;
 
-import java.util.Map;
-
-import javax.annotation.Nullable;
-
+import net.minecraftforge.fml.relauncher.IFMLLoadingPlugin;
 import org.spongepowered.asm.launch.MixinBootstrap;
 import org.spongepowered.asm.mixin.MixinEnvironment;
 import org.spongepowered.asm.mixin.Mixins;
 
-import net.minecraftforge.fml.relauncher.IFMLLoadingPlugin;
+import javax.annotation.Nullable;
+import java.util.Map;
 
 public class ImpHackMixinLoader implements IFMLLoadingPlugin {
 	public ImpHackMixinLoader() {

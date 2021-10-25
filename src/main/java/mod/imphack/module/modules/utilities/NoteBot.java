@@ -1,6 +1,22 @@
 package mod.imphack.module.modules.utilities;
 
-import java.awt.Color;
+import com.google.gson.*;
+import mod.imphack.Client;
+import mod.imphack.Main;
+import mod.imphack.event.ImpHackEventBus;
+import mod.imphack.module.Category;
+import mod.imphack.module.Module;
+import mod.imphack.setting.settings.ModeSetting;
+import mod.imphack.setting.settings.StringSetting;
+import mod.imphack.util.notebot.*;
+import net.minecraft.client.Minecraft;
+import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.event.world.NoteBlockEvent;
+import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
+import net.minecraftforge.fml.common.gameevent.TickEvent;
+
+import javax.sound.midi.*;
+import java.awt.*;
 import java.io.File;
 import java.io.IOException;
 import java.math.BigInteger;
@@ -11,43 +27,10 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
-import javax.sound.midi.InvalidMidiDataException;
-import javax.sound.midi.MetaMessage;
-import javax.sound.midi.MidiEvent;
-import javax.sound.midi.MidiSystem;
-import javax.sound.midi.Sequence;
-import javax.sound.midi.ShortMessage;
-import javax.sound.midi.Track;
-
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
-import com.google.gson.JsonArray;
-import com.google.gson.JsonElement;
-import com.google.gson.JsonObject;
-import com.google.gson.JsonParser;
-
-import mod.imphack.Client;
-import mod.imphack.Main;
-import mod.imphack.event.ImpHackEventBus;
-import mod.imphack.module.Category;
-import mod.imphack.module.Module;
-import mod.imphack.setting.settings.ModeSetting;
-import mod.imphack.setting.settings.StringSetting;
-import mod.imphack.util.notebot.NbInstrument;
-import mod.imphack.util.notebot.NbMapper;
-import mod.imphack.util.notebot.NbNote;
-import mod.imphack.util.notebot.NbPlayer;
-import mod.imphack.util.notebot.NbUtil;
-import net.minecraft.client.Minecraft;
-import net.minecraftforge.common.MinecraftForge;
-import net.minecraftforge.event.world.NoteBlockEvent;
-import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
-import net.minecraftforge.fml.common.gameevent.TickEvent;
-
 //this module is just an experiment and is not used in the current version of the client
 public class NoteBot extends Module {
 
-	ModeSetting mode = new ModeSetting("Mode", this, "Tune", new String[] { "Tune", "Play", "Listen" });
+	ModeSetting mode = new ModeSetting("Mode", this, "Tune", "Tune", "Play", "Listen");
 	StringSetting file = new StringSetting("Filename", this, "example.mid");
 
 	public NoteBot() {
@@ -58,7 +41,6 @@ public class NoteBot extends Module {
 	}
 
 	public static Path musicFolder;
-	private Path musicFile;
 
 	public static ArrayList<NbNote> ToTune;
 
@@ -78,6 +60,7 @@ public class NoteBot extends Module {
 
 		NbMapper.MapInstruments();
 
+		Path musicFile;
 		if (mode.is("Tune")) {
 
 			// TODO test
@@ -180,7 +163,7 @@ public class NoteBot extends Module {
 
 		} else if (mode.is("Play")) {
 			musicFolder = Minecraft.getMinecraft().gameDir.toPath().resolve("imphack" + File.separator + "notebot");
-			musicFile = Paths.get(musicFolder.toString() + File.separator + file.value);
+			musicFile = Paths.get(musicFolder + File.separator + file.value);
 			try {
 				Files.createDirectories(musicFolder);
 				if (!Files.exists(musicFile)) {
@@ -197,7 +180,7 @@ public class NoteBot extends Module {
 			}
 		} else if (mode.is("Listen")) {
 			musicFolder = Minecraft.getMinecraft().gameDir.toPath().resolve("imphack" + File.separator + "notebot");
-			musicFile = Paths.get(musicFolder.toString() + File.separator + file.value);
+			musicFile = Paths.get(musicFolder + File.separator + file.value);
 			try {
 				Files.createDirectories(musicFolder);
 				if (!Files.exists(musicFile)) {
@@ -236,7 +219,7 @@ public class NoteBot extends Module {
 		main.addProperty("Length", 0);
 		main.add("Data", data);
 
-		HashMap<Integer, JsonObject> jsonchannels = new HashMap<Integer, JsonObject>();
+		HashMap<Integer, JsonObject> jsonchannels = new HashMap <>();
 
 		long maxstamp = 0;
 
@@ -331,9 +314,8 @@ public class NoteBot extends Module {
 		main.addProperty("Length", maxstamp);
 
 		Gson gson = new GsonBuilder().setPrettyPrinting().create();
-		String finaljson = gson.toJson(main);
 
-		noteBotJson = finaljson;
+		noteBotJson = gson.toJson(main);
 	}
 
 	private static boolean IsPatchChange(MidiEvent event) {
@@ -342,10 +324,7 @@ public class NoteBot extends Module {
 
 		ShortMessage smsg = (ShortMessage) event.getMessage();
 
-		if (smsg.getStatus() >= 0xC0 && smsg.getStatus() <= 0xCF)
-			return true;
-
-		return false;
+		return smsg.getStatus() >= 0xC0 && smsg.getStatus() <= 0xCF;
 	}
 
 	private static boolean IsTempoChange(MidiEvent event) {
@@ -354,10 +333,7 @@ public class NoteBot extends Module {
 
 		MetaMessage mmsg = (MetaMessage) event.getMessage();
 
-		if (mmsg.getType() == SET_TEMPO)
-			return true;
-
-		return false;
+		return mmsg.getType() == SET_TEMPO;
 	}
 
 	private static boolean IsTimeSignature(MidiEvent event) {
@@ -366,10 +342,7 @@ public class NoteBot extends Module {
 
 		MetaMessage mmsg = (MetaMessage) event.getMessage();
 
-		if (mmsg.getType() == TIME_SIGNATURE)
-			return true;
-
-		return false;
+		return mmsg.getType() == TIME_SIGNATURE;
 	}
 
 	private static boolean IsNoteOn(MidiEvent event) {
@@ -378,10 +351,7 @@ public class NoteBot extends Module {
 
 		ShortMessage smsg = (ShortMessage) event.getMessage();
 
-		if (smsg.getCommand() == NOTE_ON)
-			return true;
-
-		return false;
+		return smsg.getCommand() == NOTE_ON;
 	}
 
 	String name;
@@ -422,7 +392,7 @@ public class NoteBot extends Module {
 			this.instrument = instrument;
 			this.originalinstrument = originalinstrument;
 
-			notes = new ArrayList<MusicNote>();
+			notes = new ArrayList <>();
 		}
 
 		public int GetInstrument() {
@@ -443,7 +413,7 @@ public class NoteBot extends Module {
 		}
 
 		public ArrayList<MusicNote> GetNextNotes() {
-			ArrayList<MusicNote> ret = new ArrayList<MusicNote>();
+			ArrayList<MusicNote> ret = new ArrayList <>();
 			if (notes.size() > 0) {
 				int time = -1;
 				int i = 0;
@@ -469,7 +439,8 @@ public class NoteBot extends Module {
 		}
 	}
 
-	public class MusicNote {
+	public static
+	class MusicNote {
 		int note;
 		int time;
 
@@ -494,7 +465,7 @@ public class NoteBot extends Module {
 		float progress;
 
 		public Music() {
-			channels = new ArrayList<MusicChannel>();
+			channels = new ArrayList <>();
 			progress = 0;
 
 			String content = noteBotJson;

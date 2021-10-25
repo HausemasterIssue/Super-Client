@@ -22,7 +22,7 @@ buildscript {
 apply plugin: 'net.minecraftforge.gradle.forge'
 apply plugin: 'eclipse'
 apply plugin: "org.spongepowered.mixin"
-apply plugin: "com.github.johnrengelman.shadow";
+apply plugin: "com.github.johnrengelman.shadow"
 
 version = '0.3.1'
 group = 'mod.imphack'
@@ -117,7 +117,7 @@ processResources {
 		exclude "mcmod.info"
 	}
 
-	rename "(.+_at.cfg)", 'META-INF/$1';
+	rename "(.+_at.cfg)", 'META-INF/$1'
 }
 
 //doesn't work in dev environment but add for jar

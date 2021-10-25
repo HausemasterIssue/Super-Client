@@ -1,14 +1,13 @@
 package mod.imphack.mixin;
 
-import org.spongepowered.asm.mixin.Mixin;
-import org.spongepowered.asm.mixin.injection.At;
-import org.spongepowered.asm.mixin.injection.Inject;
-import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
-
 import mod.imphack.event.ImpHackEventBus;
 import mod.imphack.event.events.ImpHackEventHorseSaddled;
 import mod.imphack.event.events.ImpHackEventSteerEntity;
 import net.minecraft.entity.passive.AbstractHorse;
+import org.spongepowered.asm.mixin.Mixin;
+import org.spongepowered.asm.mixin.injection.At;
+import org.spongepowered.asm.mixin.injection.Inject;
+import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 @Mixin(AbstractHorse.class)
 public class ImpHackMixinAbstractHorse {

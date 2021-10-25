@@ -1,7 +1,6 @@
 package mod.imphack.module.modules.player;
 
 import com.mojang.authlib.GameProfile;
-
 import mod.imphack.module.Category;
 import mod.imphack.module.Module;
 import mod.imphack.setting.settings.StringSetting;

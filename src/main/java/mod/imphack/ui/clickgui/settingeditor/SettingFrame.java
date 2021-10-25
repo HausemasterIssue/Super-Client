@@ -1,15 +1,14 @@
 package mod.imphack.ui.clickgui.settingeditor;
 
-import java.awt.Color;
-import java.util.ArrayList;
-
-import org.lwjgl.opengl.GL11;
-
 import mod.imphack.Main;
 import mod.imphack.module.Module;
 import mod.imphack.setting.Setting;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiButton;
+import org.lwjgl.opengl.GL11;
+
+import java.awt.*;
+import java.util.ArrayList;
 
 public class SettingFrame {
 	int x, y, width, height;

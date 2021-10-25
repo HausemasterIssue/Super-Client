@@ -10,7 +10,6 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.network.play.client.CPacketPlayer;
 import net.minecraft.network.play.client.CPacketUseEntity;
-import net.minecraft.world.World;
 
 public class Criticals extends Module {
 
@@ -20,7 +19,7 @@ public class Criticals extends Module {
 		this.addSetting(mode);
 	}
 
-	ModeSetting mode = new ModeSetting("Mode", this, "NCPStrict", new String[] { "NCPStrict", "Packet", "Jump" });
+	ModeSetting mode = new ModeSetting("Mode", this, "NCPStrict", "NCPStrict", "Packet", "Jump");
 
 	CPacketUseEntity packet;
 	final Minecraft mc = Minecraft.getMinecraft();
@@ -30,7 +29,7 @@ public class Criticals extends Module {
 		if (event.get_packet() instanceof CPacketUseEntity) {
 			if (mc.player != null
 					&& ((CPacketUseEntity) event.get_packet()).getAction() == CPacketUseEntity.Action.ATTACK
-					&& packet.getEntityFromWorld((World) this.mc.world) instanceof EntityLivingBase
+					&& packet.getEntityFromWorld(this.mc.world) instanceof EntityLivingBase
 					&& mc.player.onGround && !mc.player.isInLava() && !mc.player.isInWater()) {
 				if (mode.getMode().equalsIgnoreCase("NCPStrict")) {
 					mc.player.connection.sendPacket(new CPacketPlayer.Position(mc.player.posX,

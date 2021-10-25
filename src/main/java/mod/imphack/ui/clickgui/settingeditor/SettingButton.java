@@ -1,27 +1,21 @@
 package mod.imphack.ui.clickgui.settingeditor;
 
-import java.awt.Color;
-import java.util.AbstractMap;
-import java.util.Map;
-import java.util.Map.Entry;
-
 import mod.imphack.event.ImpHackEventBus;
 import mod.imphack.event.events.ImpHackEventSettings;
 import mod.imphack.misc.StringParser;
 import mod.imphack.module.Module;
 import mod.imphack.setting.Setting;
-import mod.imphack.setting.settings.BooleanSetting;
-import mod.imphack.setting.settings.ColorSetting;
-import mod.imphack.setting.settings.FloatSetting;
-import mod.imphack.setting.settings.IntSetting;
-import mod.imphack.setting.settings.ModeSetting;
-import mod.imphack.setting.settings.SearchBlockSelectorSetting;
-import mod.imphack.setting.settings.StringSetting;
+import mod.imphack.setting.settings.*;
 import mod.imphack.ui.clickgui.ClickGuiController;
 import mod.imphack.ui.clickgui.settingeditor.search.BlockSelectorGuiController;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.gui.GuiTextField;
+
+import java.awt.*;
+import java.util.AbstractMap;
+import java.util.Map;
+import java.util.Map.Entry;
 
 public class SettingButton {
 	private GuiTextField textField;
@@ -133,7 +127,7 @@ public class SettingButton {
 			}
 			if (textField.isFocused()) {
 				if (StringParser.isInteger(textField.getText())) {
-					iSetting.value = Integer.valueOf(textField.getText());
+					iSetting.value = Integer.parseInt(textField.getText());
 					textField.setTextColor(new Color(0, 255, 0).getRGB());
 
 				} else {
@@ -155,7 +149,7 @@ public class SettingButton {
 			}
 			if (textField.isFocused()) {
 				if (StringParser.isFloat(textField.getText())) {
-					fSetting.value = Float.valueOf(textField.getText());
+					fSetting.value = Float.parseFloat(textField.getText());
 					textField.setTextColor(new Color(0, 255, 0).getRGB());
 				} else {
 					textField.setTextColor(new Color(255, 0, 0).getRGB());
@@ -219,21 +213,21 @@ public class SettingButton {
 
 				if (cTextFieldRed.isFocused()) {
 					if (StringParser.isInteger(cTextFieldRed.getText())
-							&& Integer.valueOf(cTextFieldRed.getText()) <= 255
-							&& Integer.valueOf(cTextFieldRed.getText()) >= 0)
-						cSetting.red = Integer.valueOf(cTextFieldRed.getText());
+							&& Integer.parseInt(cTextFieldRed.getText()) <= 255
+							&& Integer.parseInt(cTextFieldRed.getText()) >= 0)
+						cSetting.red = Integer.parseInt(cTextFieldRed.getText());
 				}
 				if (cTextFieldGreen.isFocused()) {
 					if (StringParser.isInteger(cTextFieldGreen.getText())
-							&& Integer.valueOf(cTextFieldGreen.getText()) <= 255
-							&& Integer.valueOf(cTextFieldGreen.getText()) >= 0)
-						cSetting.green = Integer.valueOf(cTextFieldGreen.getText());
+							&& Integer.parseInt(cTextFieldGreen.getText()) <= 255
+							&& Integer.parseInt(cTextFieldGreen.getText()) >= 0)
+						cSetting.green = Integer.parseInt(cTextFieldGreen.getText());
 				}
 				if (cTextFieldBlue.isFocused()) {
 					if (StringParser.isInteger(cTextFieldBlue.getText())
-							&& Integer.valueOf(cTextFieldBlue.getText()) <= 255
-							&& Integer.valueOf(cTextFieldBlue.getText()) >= 0)
-						cSetting.blue = Integer.valueOf(cTextFieldBlue.getText());
+							&& Integer.parseInt(cTextFieldBlue.getText()) <= 255
+							&& Integer.parseInt(cTextFieldBlue.getText()) >= 0)
+						cSetting.blue = Integer.parseInt(cTextFieldBlue.getText());
 				}
 			}
 		} else if (setting instanceof SearchBlockSelectorSetting) {
@@ -263,11 +257,7 @@ public class SettingButton {
 				// we need to thin this down a bit so it doesn't overlap with other buttons
 				if (y >= this.y - 5 && y <= this.y + this.height - 5 && x >= this.x
 						&& x <= this.x + mc.fontRenderer.getStringWidth(bSetting.name)) {
-					if (bSetting.enabled) {
-						bSetting.setEnabled(false);
-					} else {
-						bSetting.setEnabled(true);
-					}
+					bSetting.setEnabled(!bSetting.enabled);
 				}
 				ClickGuiController.INSTANCE.settingController.refresh(false);
 			} else if (setting instanceof ColorSetting) {
