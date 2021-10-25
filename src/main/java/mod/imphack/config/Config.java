@@ -142,8 +142,7 @@ public class Config {
 				}
 			}
 		}
-		ArrayList<String> save = new ArrayList <>();
-		save.addAll(lines);
+		ArrayList <String> save = new ArrayList <>(lines);
 		for (Module mod : Main.moduleManager.getModuleList()) {
 			for (Setting setting : mod.settings) {
 				if (!Main.settingManager.getSettings().contains(setting)) {

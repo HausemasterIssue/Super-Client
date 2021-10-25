@@ -28,7 +28,6 @@ public class ModuleManager {
 
 	public ModuleManager() {
 		modules = new ArrayList <>();
-		modules.clear();
 
 		// client
 		addModule(new ClickGui());

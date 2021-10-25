@@ -305,7 +305,7 @@ public class Search extends Module {
 			Vec3d pos = new Vec3d(t.position).add(0.5, 0.5, 0.5).subtract(renderManager.viewerPosX,
 					renderManager.viewerPosY, renderManager.viewerPosZ);
 			Vec3d forward = new Vec3d(0, 0, 1)
-					.rotatePitch(-(float) Math.toRadians(mc.getRenderViewEntity().rotationPitch))
+					.rotatePitch(-(float) Math.toRadians(Objects.requireNonNull(mc.getRenderViewEntity()).rotationPitch))
 					.rotateYaw(-(float) Math.toRadians(mc.getRenderViewEntity().rotationYaw));
 			if (this.tracer.isEnabled())
 				RenderUtil.drawLine3D((float) forward.x, (float) forward.y + mc.getRenderViewEntity().getEyeHeight(),
@@ -339,7 +339,7 @@ public class Search extends Module {
 		this.targets.clear();
 		this.targets_lock.writeLock().unlock();
 
-		int x = (int) mc.getRenderViewEntity().posX >> 4, z = (int) mc.getRenderViewEntity().posZ >> 4;
+		int x = (int) Objects.requireNonNull(mc.getRenderViewEntity()).posX >> 4, z = (int) mc.getRenderViewEntity().posZ >> 4;
 		for (int i = x - mc.gameSettings.renderDistanceChunks; i <= x + mc.gameSettings.renderDistanceChunks; i++) {
 			for (int j = z - mc.gameSettings.renderDistanceChunks; j <= z + mc.gameSettings.renderDistanceChunks; j++) {
 				Chunk c = mc.world.getChunkProvider().getLoadedChunk(i, j);

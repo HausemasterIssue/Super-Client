@@ -265,6 +265,7 @@ public class SettingButton {
 						new Color(cSetting.red, cSetting.green, cSetting.blue).getRGB());
 			} else if (setting instanceof SearchBlockSelectorSetting) {
 				GuiScreen last = mc.currentScreen;
+				assert mc.currentScreen != null;
 				mc.currentScreen.onGuiClosed();
 				this.blockController = new BlockSelectorGuiController(last, blockSetting.colorSettings, blockSetting);
 				mc.displayGuiScreen(this.blockController);

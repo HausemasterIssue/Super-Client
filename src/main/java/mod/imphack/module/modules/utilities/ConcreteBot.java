@@ -26,12 +26,10 @@ public class ConcreteBot extends Module {
 
 	@Override
 	public void actionPerformed(GuiButton b) {
-		switch (b.id) {
-		case 10001:
+		if (b.id == 10001) {
 			x.value = mc.player.getPosition().getX();
 			y.value = mc.player.getPosition().getY();
 			z.value = mc.player.getPosition().getZ();
-			break;
 		}
 	}
 
@@ -68,12 +66,12 @@ public class ConcreteBot extends Module {
 		}
 
 		if (!(mc.player.getHeldItem(EnumHand.OFF_HAND)
-				.getDisplayName() == new ItemStack(Item.getItemFromBlock(Blocks.CONCRETE_POWDER)).getDisplayName())) {
+				.getDisplayName().equals(new ItemStack(Item.getItemFromBlock(Blocks.CONCRETE_POWDER)).getDisplayName()))) {
 			for (int i = 0; i < 36; i++) {
 				ItemStack stack = mc.player.inventory.getStackInSlot(i);
 				Item block = Item.getItemFromBlock(Blocks.CONCRETE_POWDER);
 
-				if (stack.getDisplayName() == new ItemStack(block).getDisplayName()) {
+				if (stack.getDisplayName().equals(new ItemStack(block).getDisplayName())) {
 					inv.putInOffhand(stack);
 					break;
 				}
@@ -81,7 +79,7 @@ public class ConcreteBot extends Module {
 		}
 
 		if (!(mc.player.getHeldItem(EnumHand.OFF_HAND)
-				.getDisplayName() == new ItemStack(Item.getItemFromBlock(Blocks.CONCRETE_POWDER)).getDisplayName())) {
+				.getDisplayName().equals(new ItemStack(Item.getItemFromBlock(Blocks.CONCRETE_POWDER)).getDisplayName()))) {
 			this.toggle();
 			return;
 		}

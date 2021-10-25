@@ -27,9 +27,9 @@ public class Timer {
 		return this.convertToMillis(System.nanoTime() - this.time);
 	}
 
-	public Timer reset() {
+	public
+	void reset() {
 		this.time = System.nanoTime();
-		return this;
 	}
 
 	public long convertToMillis(final long time) {

@@ -79,7 +79,7 @@ public class NbUtil {
 
 		TileEntity tile = mc.world.getTileEntity(pos);
 
-		if (tile == null || tile.getBlockType().getLocalizedName() == "tile.air")
+		if (tile == null || tile.getBlockType().getLocalizedName().equals("tile.air"))
 			return;
 
 		LookAt(pos.getX() + 0.5f, pos.getY() - 1f, pos.getZ() + 0.5f);
@@ -103,7 +103,7 @@ public class NbUtil {
 		// commented out
 		TileEntity tile = mc.world.getTileEntity(pos);
 
-		if (tile == null || tile.getBlockType().getLocalizedName() == "tile.air")
+		if (tile == null || tile.getBlockType().getLocalizedName().equals("tile.air"))
 			return;
 
 		LookAt(pos.getX() + 0.5f, pos.getY() - 1f, pos.getZ() + 0.5f);

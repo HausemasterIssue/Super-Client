@@ -223,8 +223,8 @@ public class NoteBot extends Module {
 
 		long maxstamp = 0;
 
-		int timesignum = 4;
-		int timesigden = 4;
+		int timesignum;
+		int timesigden;
 		int mspqn = 500000;
 
 		int res = seq.getResolution();
@@ -381,7 +381,8 @@ public class NoteBot extends Module {
 		// TODO add listener
 	}
 
-	public class MusicChannel {
+	public static
+	class MusicChannel {
 		int id;
 		int instrument;
 		int originalinstrument;
@@ -415,7 +416,7 @@ public class NoteBot extends Module {
 		public ArrayList<MusicNote> GetNextNotes() {
 			ArrayList<MusicNote> ret = new ArrayList <>();
 			if (notes.size() > 0) {
-				int time = -1;
+				int time;
 				int i = 0;
 
 				MusicNote note = notes.get(0);

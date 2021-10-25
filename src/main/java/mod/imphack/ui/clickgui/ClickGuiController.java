@@ -80,7 +80,7 @@ public class ClickGuiController extends GuiScreen {
 		super.keyTyped(typedChar, keyCode);
 		if (keyCode == 1) {
 			for (ClickGuiFrame c : frames) {
-				c.y = c.y -= scrollOffset;
+				c.y = c.y - scrollOffset;
 				for (ModuleButton m : c.moduleButtons) {
 					m.y -= scrollOffset;
 				}

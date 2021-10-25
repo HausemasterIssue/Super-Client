@@ -24,14 +24,14 @@ public class NoSlow extends Module {
     private boolean sneaking = false;
   
     public void onDisable() {
-        if(sneaking == true) {
+        if(sneaking) {
             mc.player.connection.sendPacket(new CPacketEntityAction(mc.player, CPacketEntityAction.Action.STOP_SNEAKING));
             sneaking = false; 
         }
     }
   
     public void onUpdate() {
-        if(!mc.player.isHandActive() && sneak.isEnabled() && sneaking == true) {
+        if(!mc.player.isHandActive() && sneak.isEnabled() && sneaking) {
             mc.player.connection.sendPacket(new CPacketEntityAction(mc.player, CPacketEntityAction.Action.STOP_SNEAKING));
             sneaking = false;
         }
@@ -47,7 +47,7 @@ public class NoSlow extends Module {
   
     @SubscribeEvent
     public void onUseItem(LivingEntityUseItemEvent event) {
-        if (sneaking == false && sneak.isEnabled()) {
+        if (!sneaking && sneak.isEnabled()) {
             mc.player.connection.sendPacket(new CPacketEntityAction(mc.player, CPacketEntityAction.Action.START_SNEAKING));
             sneaking = true;
         }
