@@ -28,7 +28,7 @@ public class ImpHackMixinGuiPlayerTabOverlay extends Gui {
 								list.size()) : toIndex);
 	}
 
-	@Inject(method = { "getPlayerName" }, at = @At(value = "HEAD"), cancellable = true)
+	@Inject(method = "getPlayerName", at = @At(value = "HEAD"), cancellable = true)
 	public void getPlayerNameHook(NetworkPlayerInfo networkPlayerInfoIn, CallbackInfoReturnable<String> info) {
 		if (Main.moduleManager.getModule("ExtraTab").isToggled()) {
 			info.setReturnValue(ExtraTab.getPlayerName(networkPlayerInfoIn));
