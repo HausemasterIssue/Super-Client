@@ -1,0 +1,21 @@
+{
+	"required"           : true,
+	"compatibilityLevel" : "JAVA_8",
+	"package"            : "mod.imphack.mixin",
+	"refmap"             : "mixins.imphack.refmap.json",
+	"mixins"             : [
+		"ImpHackMixinNetworkManager",
+		"ImpHackMixinEntity",
+		"ImpHackMixinEntityPlayerSP",
+		"ImpHackMixinVisGraph",
+		"ImpHackMixinWorld",
+		"ImpHackMixinGuiDisconnected",
+		"ImpHackMixinGuiScreen",
+		"ImpHackMixinRenderPlayer",
+		"ImpHackMixinGuiPlayerTabOverlay",
+		"ImpHackMixinAbstractHorse",
+		"ImpHackMixinEntityLlama",
+		"ImpHackMixinEntityPig",
+		"ImpHackMixinEntityLivingBase"
+	]
+}
