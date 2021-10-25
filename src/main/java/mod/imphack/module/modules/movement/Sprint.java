@@ -23,14 +23,12 @@ public class Sprint extends Module {
 			if(mc.gameSettings.keyBindForward.isKeyDown()) {
 				if(mc.player.collidedHorizontally && strict.isEnabled() || mc.player.getFoodStats().getFoodLevel() <= 6 && hungerSafe.isEnabled() || mc.player.isSneaking() || mc.player.isHandActive()) {
 					mc.player.setSprinting(false);
-					return;
 				} else {
 					mc.player.setSprinting(true);
 				}
 			} else {
-          mc.player.setSprinting(false); 
-          return;
-      }
+          mc.player.setSprinting(false);
+			}
 			
 		}
 				

@@ -102,8 +102,4 @@ public class NbInstrument {
 		}
 	}
 
-	public void PlayNote(int pitch) {
-
-	}
-
 }

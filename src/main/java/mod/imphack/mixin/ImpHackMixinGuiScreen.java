@@ -11,7 +11,7 @@ import java.util.List;
 @Mixin(GuiScreen.class)
 public abstract class ImpHackMixinGuiScreen {
 	@Shadow
-	protected List<GuiButton> buttonList;
+	public List<GuiButton> buttonList;
 
 	@Shadow
 	public int width;
@@ -20,5 +20,5 @@ public abstract class ImpHackMixinGuiScreen {
 	public int height;
 
 	@Shadow
-	protected FontRenderer fontRenderer;
+	public FontRenderer fontRenderer;
 }

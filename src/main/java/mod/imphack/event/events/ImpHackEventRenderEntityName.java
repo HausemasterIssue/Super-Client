@@ -16,9 +16,6 @@ public class ImpHackEventRenderEntityName extends ImpHackEventCancellable {
 		super();
 
 		Entity = entityIn;
-		x = X;
-		y = Y;
-		z = Z;
 		Name = name;
 		DistanceSq = distanceSq;
 	}

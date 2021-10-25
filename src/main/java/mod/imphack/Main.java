@@ -45,10 +45,6 @@ public class Main {
 	public Main instance;
 
 	@EventHandler
-	public void preInit(FMLPreInitializationEvent event) {
-	}
-
-	@EventHandler
 	public void init(FMLInitializationEvent event) {
 		if (event.getSide() == Side.SERVER)
 			return;
@@ -71,10 +67,6 @@ public class Main {
 		ImpHackEventBus.EVENT_BUS.subscribe(eventManager);
 		
 		startTimeStamp = System.currentTimeMillis();
-	}
-
-	@EventHandler
-	public void postInit(FMLPostInitializationEvent event) {
 	}
 
 	public ClickGuiController getGui() {

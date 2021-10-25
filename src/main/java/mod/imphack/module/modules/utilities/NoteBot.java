@@ -459,7 +459,8 @@ public class NoteBot extends Module {
 		}
 	}
 
-	public class Music {
+	public static
+	class Music {
 		final String name;
 		final long length;
 		final ArrayList<MusicChannel> channels;

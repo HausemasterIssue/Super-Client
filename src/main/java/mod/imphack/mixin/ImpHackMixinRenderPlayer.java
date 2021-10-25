@@ -11,7 +11,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 @Mixin(RenderPlayer.class)
 public class ImpHackMixinRenderPlayer {
-	@Inject(method = "renderEntityName", at = @At("HEAD"), cancellable = true)
+	@Inject(method = "renderEntityName*", at = @At("HEAD"), cancellable = true)
 	public void renderLivingLabel(AbstractClientPlayer entityIn, double x, double y, double z, String name,
 			double distanceSq, CallbackInfo info) {
 		ImpHackEventRenderEntityName l_Event = new ImpHackEventRenderEntityName(entityIn, x, y, z, name, distanceSq);
