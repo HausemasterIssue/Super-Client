@@ -1,14 +1,13 @@
 package mod.imphack.ui.clickgui;
 
-import java.awt.Color;
-import java.util.ArrayList;
-
-import org.lwjgl.opengl.GL11;
-
 import mod.imphack.Main;
 import mod.imphack.module.Category;
 import mod.imphack.module.Module;
 import net.minecraft.client.Minecraft;
+import org.lwjgl.opengl.GL11;
+
+import java.awt.*;
+import java.util.ArrayList;
 
 public class ClickGuiFrame {
 	int x, y, width, height;

@@ -9,8 +9,8 @@ import mod.imphack.module.Module;
 import mod.imphack.setting.settings.BooleanSetting;
 import mod.imphack.setting.settings.IntSetting;
 import net.minecraft.init.Items;
-import net.minecraft.item.Item;
 import net.minecraft.inventory.ClickType;
+import net.minecraft.item.Item;
 
 public class AutoTotem extends Module {
 
@@ -45,7 +45,7 @@ public class AutoTotem extends Module {
 	int totemCount = 0;
 
 	@EventHandler
-	private Listener<ImpHackEventTotemPop> totemPopEvent = new Listener<>(p_Event -> {
+	private final Listener<ImpHackEventTotemPop> totemPopEvent = new Listener<>(p_Event -> {
 		totemCount = 0;
 		if (chat.enabled) {
 			for (int i = 36; i >= 0; i--) {

@@ -1,14 +1,13 @@
 package mod.imphack.mixin;
 
-import org.spongepowered.asm.mixin.Mixin;
-import org.spongepowered.asm.mixin.Shadow;
-import org.spongepowered.asm.mixin.injection.At;
-import org.spongepowered.asm.mixin.injection.Redirect;
-
 import mod.imphack.event.ImpHackEventBus;
 import mod.imphack.event.events.ImpHackEventEntity;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.MoverType;
+import org.spongepowered.asm.mixin.Mixin;
+import org.spongepowered.asm.mixin.Shadow;
+import org.spongepowered.asm.mixin.injection.At;
+import org.spongepowered.asm.mixin.injection.Redirect;
 
 @Mixin(value = Entity.class)
 public class ImpHackMixinEntity {

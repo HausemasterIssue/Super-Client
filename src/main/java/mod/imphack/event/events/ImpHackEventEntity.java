@@ -4,7 +4,7 @@ import mod.imphack.event.ImpHackEventCancellable;
 import net.minecraft.entity.Entity;
 
 public class ImpHackEventEntity extends ImpHackEventCancellable {
-	private Entity entity;
+	private final Entity entity;
 
 	public ImpHackEventEntity(Entity entity) {
 		this.entity = entity;

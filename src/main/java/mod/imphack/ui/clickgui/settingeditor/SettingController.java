@@ -1,13 +1,5 @@
 package mod.imphack.ui.clickgui.settingeditor;
 
-import java.awt.Color;
-import java.io.IOException;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Map.Entry;
-
-import org.lwjgl.input.Mouse;
-
 import mod.imphack.Main;
 import mod.imphack.misc.StringParser;
 import mod.imphack.module.Module;
@@ -18,15 +10,22 @@ import mod.imphack.ui.clickgui.ModuleButton;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.gui.GuiTextField;
+import org.lwjgl.input.Mouse;
+
+import java.awt.*;
+import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Map.Entry;
 
 public class SettingController extends GuiScreen {
 
 	private int scrollOffset = 0;
 
-	public static Map<GuiTextField, Module> textFields = new HashMap<GuiTextField, Module>();
+	public static Map<GuiTextField, Module> textFields = new HashMap <>();
 
 	// color settings only
-	public static Map<GuiTextField[], Entry<Module, Setting>> cTextFields = new HashMap<GuiTextField[], Entry<Module, Setting>>();
+	public static Map<GuiTextField[], Entry<Module, Setting>> cTextFields = new HashMap <>();
 
 	public SettingFrame frame;
 
@@ -216,23 +215,23 @@ public class SettingController extends GuiScreen {
 
 			ColorSetting cSetting = (ColorSetting) entry.getValue().getValue();
 
-			if (!StringParser.isInteger(cTextFieldRed.getText()) || Integer.valueOf(cTextFieldRed.getText()) > 255
-					|| Integer.valueOf(cTextFieldRed.getText()) < 0) {
+			if (!StringParser.isInteger(cTextFieldRed.getText()) || Integer.parseInt(cTextFieldRed.getText()) > 255
+					|| Integer.parseInt(cTextFieldRed.getText()) < 0) {
 				cTextFieldRed.setText(Integer.toString(cSetting.red));
 			} else {
-				cSetting.red = Integer.valueOf(cTextFieldRed.getText());
+				cSetting.red = Integer.parseInt(cTextFieldRed.getText());
 			}
-			if (!StringParser.isInteger(cTextFieldGreen.getText()) || Integer.valueOf(cTextFieldGreen.getText()) > 255
-					|| Integer.valueOf(cTextFieldGreen.getText()) < 0) {
+			if (!StringParser.isInteger(cTextFieldGreen.getText()) || Integer.parseInt(cTextFieldGreen.getText()) > 255
+					|| Integer.parseInt(cTextFieldGreen.getText()) < 0) {
 				cTextFieldGreen.setText(Integer.toString(cSetting.green));
 			} else {
-				cSetting.green = Integer.valueOf(cTextFieldGreen.getText());
+				cSetting.green = Integer.parseInt(cTextFieldGreen.getText());
 			}
-			if (!StringParser.isInteger(cTextFieldBlue.getText()) || Integer.valueOf(cTextFieldBlue.getText()) > 255
-					|| Integer.valueOf(cTextFieldBlue.getText()) < 0) {
+			if (!StringParser.isInteger(cTextFieldBlue.getText()) || Integer.parseInt(cTextFieldBlue.getText()) > 255
+					|| Integer.parseInt(cTextFieldBlue.getText()) < 0) {
 				cTextFieldBlue.setText(Integer.toString(cSetting.blue));
 			} else {
-				cSetting.blue = Integer.valueOf(cTextFieldBlue.getText());
+				cSetting.blue = Integer.parseInt(cTextFieldBlue.getText());
 			}
 
 			if (entry.getValue().getKey() == frame.module) {

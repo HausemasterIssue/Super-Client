@@ -1,9 +1,5 @@
 package mod.imphack.module;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-
 import me.zero.alpine.listener.Listenable;
 import mod.imphack.Main;
 import mod.imphack.container.ImpHackInventory;
@@ -14,6 +10,10 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraftforge.common.MinecraftForge;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
 public class Module implements Listenable {
 
 	protected Minecraft mc = Minecraft.getMinecraft();
@@ -21,10 +21,10 @@ public class Module implements Listenable {
 
 	public String name, description;
 	public int key;
-	private Category category;
+	private final Category category;
 	public boolean toggled;
-	public List<Setting> settings = new ArrayList<Setting>();
-	public List<GuiButton> buttons = new ArrayList<GuiButton>();
+	public List<Setting> settings = new ArrayList <>();
+	public List<GuiButton> buttons = new ArrayList <>();
 
 	public Module(String name, String description, Category category) {
 		super();

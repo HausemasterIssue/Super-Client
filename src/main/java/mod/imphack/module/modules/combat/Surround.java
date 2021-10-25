@@ -119,11 +119,7 @@ public class Surround extends Module {
 				BlockPos targetPos = new BlockPos(mc.player.getPositionVector()).add(offsetPos.getX(), offsetPos.getY(),
 						offsetPos.getZ());
 
-				boolean try_to_place = true;
-
-				if (!mc.world.getBlockState(targetPos).getMaterial().isReplaceable()) {
-					try_to_place = false;
-				}
+				boolean try_to_place = mc.world.getBlockState(targetPos).getMaterial().isReplaceable();
 
 				for (Entity entity : mc.world.getEntitiesWithinAABBExcludingEntity(null,
 						new AxisAlignedBB(targetPos))) {

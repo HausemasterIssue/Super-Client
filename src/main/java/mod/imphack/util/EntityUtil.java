@@ -8,12 +8,7 @@ import net.minecraft.entity.EnumCreatureType;
 import net.minecraft.entity.monster.EntityEnderman;
 import net.minecraft.entity.monster.EntityIronGolem;
 import net.minecraft.entity.monster.EntityPigZombie;
-import net.minecraft.entity.passive.EntityAmbientCreature;
-import net.minecraft.entity.passive.EntityAnimal;
-import net.minecraft.entity.passive.EntitySquid;
-import net.minecraft.entity.passive.EntityTameable;
-import net.minecraft.entity.passive.EntityVillager;
-import net.minecraft.entity.passive.EntityWolf;
+import net.minecraft.entity.passive.*;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Vec3d;
 
@@ -37,9 +32,7 @@ public class EntityUtil {
 		if (e instanceof EntityAnimal || e instanceof EntityAgeable || e instanceof EntityTameable
 				|| e instanceof EntityAmbientCreature || e instanceof EntitySquid)
 			return true;
-		if (e instanceof EntityIronGolem && ((EntityIronGolem) e).getRevengeTarget() == null)
-			return true;
-		return false;
+		return e instanceof EntityIronGolem && ((EntityIronGolem) e).getRevengeTarget() == null;
 	}
 
 	public static boolean isLiving(Entity e) {

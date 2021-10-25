@@ -16,11 +16,11 @@ public class AutoReconnectButton extends GuiButton {
 		timer.reset();
 
 		Mod = (Reconnect) Main.moduleManager.getModule("Reconnect");
-		reconnectTimer = (long) ((IntSetting) Main.settingManager
+		reconnectTimer = ((IntSetting) Main.settingManager
 				.getSettingByName(Main.moduleManager.getModule("Reconnect"), "Timer")).value;
 	}
 
-	private Reconnect Mod;
+	private final Reconnect Mod;
 	private Timer timer = new Timer();
 	private long reconnectTimer;
 
@@ -29,10 +29,10 @@ public class AutoReconnectButton extends GuiButton {
 		super.drawButton(mc, mouseX, mouseY, partialTicks);
 
 		if (visible && ((Reconnect) Main.moduleManager.getModule("Reconnect")).serverData != null) {
-			reconnectTimer = (long) ((IntSetting) Main.settingManager
+			reconnectTimer = ((IntSetting) Main.settingManager
 					.getSettingByName(Main.moduleManager.getModule("Reconnect"), "Timer")).value;
 			if (Mod.toggled && timer.getPassedTimeMs() < reconnectTimer)
-				this.displayString = "AutoReconnect " + Long.toString((long) reconnectTimer - timer.getPassedTimeMs());
+				this.displayString = "AutoReconnect " + (reconnectTimer - timer.getPassedTimeMs());
 			else if (!Mod.toggled)
 				this.displayString = "Enable AutoReconnect";
 			else {

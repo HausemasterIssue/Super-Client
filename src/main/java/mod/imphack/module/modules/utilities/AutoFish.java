@@ -1,7 +1,5 @@
 package mod.imphack.module.modules.utilities;
 
-import java.util.Map;
-
 import mod.imphack.module.Category;
 import mod.imphack.module.Module;
 import mod.imphack.setting.settings.BooleanSetting;
@@ -11,6 +9,8 @@ import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.item.ItemFishingRod;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumHand;
+
+import java.util.Map;
 
 public class AutoFish extends Module {
 	long recastTimer = 0;

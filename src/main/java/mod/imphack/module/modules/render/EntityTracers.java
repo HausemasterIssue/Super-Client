@@ -1,7 +1,5 @@
 package mod.imphack.module.modules.render;
 
-import java.awt.Color;
-
 import mod.imphack.event.events.ImpHackEventRender;
 import mod.imphack.module.Category;
 import mod.imphack.module.Module;
@@ -17,6 +15,8 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.math.Vec3d;
+
+import java.awt.*;
 
 public class EntityTracers extends Module {
 

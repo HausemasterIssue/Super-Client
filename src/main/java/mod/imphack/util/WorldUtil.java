@@ -1,10 +1,10 @@
 package mod.imphack.util;
 
-import java.util.Arrays;
-import java.util.List;
-
 import net.minecraft.block.Block;
 import net.minecraft.init.Blocks;
+
+import java.util.Arrays;
+import java.util.List;
 
 public class WorldUtil {
 	public static List<Block> NONSOLID_BLOCKS = Arrays.asList(Blocks.AIR, Blocks.LAVA, Blocks.WATER, Blocks.SNOW_LAYER,

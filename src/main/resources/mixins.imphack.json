@@ -4,18 +4,18 @@
 	"package"            : "mod.imphack.mixin",
 	"refmap"             : "mixins.imphack.refmap.json",
 	"mixins"             : [
-		"ImpHackMixinNetworkManager",
-		"ImpHackMixinEntity",
-		"ImpHackMixinEntityPlayerSP",
-		"ImpHackMixinVisGraph",
-		"ImpHackMixinWorld",
-		"ImpHackMixinGuiDisconnected",
-		"ImpHackMixinGuiScreen",
-		"ImpHackMixinRenderPlayer",
-		"ImpHackMixinGuiPlayerTabOverlay",
 		"ImpHackMixinAbstractHorse",
+		"ImpHackMixinEntity",
+		"ImpHackMixinEntityLivingBase",
 		"ImpHackMixinEntityLlama",
 		"ImpHackMixinEntityPig",
-		"ImpHackMixinEntityLivingBase"
+		"ImpHackMixinEntityPlayerSP",
+		"ImpHackMixinGuiDisconnected",
+		"ImpHackMixinGuiPlayerTabOverlay",
+		"ImpHackMixinGuiScreen",
+		"ImpHackMixinNetworkManager",
+		"ImpHackMixinRenderPlayer",
+		"ImpHackMixinVisGraph",
+		"ImpHackMixinWorld"
 	]
 }

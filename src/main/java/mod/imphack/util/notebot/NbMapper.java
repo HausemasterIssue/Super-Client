@@ -1,10 +1,5 @@
 package mod.imphack.util.notebot;
 
-import java.awt.Color;
-import java.util.ArrayList;
-
-import javax.vecmath.Vector3d;
-
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockNote;
 import net.minecraft.client.Minecraft;
@@ -12,6 +7,10 @@ import net.minecraft.client.entity.EntityPlayerSP;
 import net.minecraft.init.Blocks;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.math.BlockPos;
+
+import javax.vecmath.Vector3d;
+import java.awt.*;
+import java.util.ArrayList;
 
 public class NbMapper {
 	private static NbInstrument inst1, inst2, inst3, inst4, inst5, inst6, inst7, inst8, inst9, inst10, inst11, inst12,
@@ -157,7 +156,7 @@ public class NbMapper {
 
 		inst1 = new NbInstrument(1);
 
-		ArrayList<Block> blockList = new ArrayList<Block>();
+		ArrayList<Block> blockList = new ArrayList <>();
 
 		blockList.add(Blocks.PLANKS);
 
@@ -165,7 +164,7 @@ public class NbMapper {
 
 		inst2 = new NbInstrument(2);
 
-		blockList = new ArrayList<Block>();
+		blockList = new ArrayList <>();
 
 		blockList.add(Blocks.SAND);
 		blockList.add(Blocks.GRAVEL);
@@ -175,7 +174,7 @@ public class NbMapper {
 
 		inst3 = new NbInstrument(3);
 
-		blockList = new ArrayList<Block>();
+		blockList = new ArrayList <>();
 
 		blockList.add(Blocks.GLASS);
 		blockList.add(Blocks.SEA_LANTERN);
@@ -185,7 +184,7 @@ public class NbMapper {
 
 		inst4 = new NbInstrument(4);
 
-		blockList = new ArrayList<Block>();
+		blockList = new ArrayList <>();
 
 		blockList.add(Blocks.STONE);
 		blockList.add(Blocks.NETHERRACK);
@@ -209,7 +208,7 @@ public class NbMapper {
 
 		inst5 = new NbInstrument(5);
 
-		blockList = new ArrayList<Block>();
+		blockList = new ArrayList <>();
 
 		blockList.add(Blocks.GOLD_BLOCK);
 
@@ -217,7 +216,7 @@ public class NbMapper {
 
 		inst6 = new NbInstrument(6);
 
-		blockList = new ArrayList<Block>();
+		blockList = new ArrayList <>();
 
 		blockList.add(Blocks.CLAY);
 
@@ -225,7 +224,7 @@ public class NbMapper {
 
 		inst7 = new NbInstrument(7);
 
-		blockList = new ArrayList<Block>();
+		blockList = new ArrayList <>();
 
 		blockList.add(Blocks.PACKED_ICE);
 
@@ -233,7 +232,7 @@ public class NbMapper {
 
 		inst8 = new NbInstrument(8);
 
-		blockList = new ArrayList<Block>();
+		blockList = new ArrayList <>();
 
 		blockList.add(Blocks.WOOL);
 
@@ -241,7 +240,7 @@ public class NbMapper {
 
 		inst9 = new NbInstrument(9);
 
-		blockList = new ArrayList<Block>();
+		blockList = new ArrayList <>();
 
 		blockList.add(Blocks.BONE_BLOCK);
 
@@ -249,7 +248,7 @@ public class NbMapper {
 
 		inst10 = new NbInstrument(10);
 
-		blockList = new ArrayList<Block>();
+		blockList = new ArrayList <>();
 
 		blockList.add(Blocks.IRON_BLOCK);
 
@@ -257,7 +256,7 @@ public class NbMapper {
 
 		inst11 = new NbInstrument(11);
 
-		blockList = new ArrayList<Block>();
+		blockList = new ArrayList <>();
 
 		blockList.add(Blocks.SOUL_SAND);
 
@@ -265,7 +264,7 @@ public class NbMapper {
 
 		inst12 = new NbInstrument(12);
 
-		blockList = new ArrayList<Block>();
+		blockList = new ArrayList <>();
 
 		blockList.add(Blocks.PUMPKIN);
 
@@ -273,7 +272,7 @@ public class NbMapper {
 
 		inst13 = new NbInstrument(13);
 
-		blockList = new ArrayList<Block>();
+		blockList = new ArrayList <>();
 
 		blockList.add(Blocks.EMERALD_BLOCK);
 
@@ -281,7 +280,7 @@ public class NbMapper {
 
 		inst14 = new NbInstrument(14);
 
-		blockList = new ArrayList<Block>();
+		blockList = new ArrayList <>();
 
 		blockList.add(Blocks.HAY_BLOCK);
 
@@ -289,7 +288,7 @@ public class NbMapper {
 
 		inst15 = new NbInstrument(15);
 
-		blockList = new ArrayList<Block>();
+		blockList = new ArrayList <>();
 
 		blockList.add(Blocks.GLOWSTONE);
 
@@ -297,7 +296,7 @@ public class NbMapper {
 
 		inst16 = new NbInstrument(16);
 
-		blockList = new ArrayList<Block>();
+		blockList = new ArrayList <>();
 
 		blockList.add(Blocks.GLOWSTONE);
 		blockList.add(Blocks.HAY_BLOCK);

@@ -1,9 +1,5 @@
 package mod.imphack.ui.clickgui.settingeditor.search;
 
-import java.awt.Color;
-import java.util.ArrayList;
-import java.util.Map.Entry;
-
 import mod.imphack.Main;
 import mod.imphack.event.ImpHackEventBus;
 import mod.imphack.event.events.ImpHackEventSettings;
@@ -30,22 +26,18 @@ import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemStack;
-import net.minecraft.tileentity.TileEntity;
-import net.minecraft.tileentity.TileEntityBanner;
-import net.minecraft.tileentity.TileEntityBed;
-import net.minecraft.tileentity.TileEntityChest;
-import net.minecraft.tileentity.TileEntityEndGateway;
-import net.minecraft.tileentity.TileEntityEndPortal;
-import net.minecraft.tileentity.TileEntityEnderChest;
-import net.minecraft.tileentity.TileEntityShulkerBox;
-import net.minecraft.tileentity.TileEntitySkull;
+import net.minecraft.tileentity.*;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.common.registry.ForgeRegistries;
 
+import java.awt.*;
+import java.util.ArrayList;
+import java.util.Map.Entry;
+
 public class BlockButton {
 
-	private TileEntityFakeWorld world;
+	private final TileEntityFakeWorld world;
 
 	int x, y, width, height;
 
@@ -133,14 +125,14 @@ public class BlockButton {
 			textFieldBlue.drawTextBox();
 
 			if (textFieldRed.isFocused()) {
-				if (StringParser.isInteger(textFieldRed.getText()) && Integer.valueOf(textFieldRed.getText()) <= 255
-						&& Integer.valueOf(textFieldRed.getText()) >= 0) {
+				if (StringParser.isInteger(textFieldRed.getText()) && Integer.parseInt(textFieldRed.getText()) <= 255
+						&& Integer.parseInt(textFieldRed.getText()) >= 0) {
 					for (Entry<Block, Integer> e : ((SearchBlockSelectorSetting) Main.settingManager
 							.getSettingByName(Main.moduleManager.getModule("Search"), "Select Blocks")).colors
 									.entrySet()) {
 						if (e.getKey() == block) {
-							e.setValue(new Color(Integer.valueOf(textFieldRed.getText()),
-									Integer.valueOf(textFieldGreen.getText()), Integer.valueOf(textFieldBlue.getText()))
+							e.setValue(new Color(Integer.parseInt(textFieldRed.getText()),
+									Integer.parseInt(textFieldGreen.getText()), Integer.parseInt(textFieldBlue.getText()))
 											.getRGB());
 						}
 					}
@@ -151,14 +143,14 @@ public class BlockButton {
 				}
 			}
 			if (textFieldGreen.isFocused()) {
-				if (StringParser.isInteger(textFieldGreen.getText()) && Integer.valueOf(textFieldGreen.getText()) <= 255
-						&& Integer.valueOf(textFieldGreen.getText()) >= 0) {
+				if (StringParser.isInteger(textFieldGreen.getText()) && Integer.parseInt(textFieldGreen.getText()) <= 255
+						&& Integer.parseInt(textFieldGreen.getText()) >= 0) {
 					for (Entry<Block, Integer> e : ((SearchBlockSelectorSetting) Main.settingManager
 							.getSettingByName(Main.moduleManager.getModule("Search"), "Select Blocks")).colors
 									.entrySet()) {
 						if (e.getKey() == block) {
-							e.setValue(new Color(Integer.valueOf(textFieldRed.getText()),
-									Integer.valueOf(textFieldGreen.getText()), Integer.valueOf(textFieldBlue.getText()))
+							e.setValue(new Color(Integer.parseInt(textFieldRed.getText()),
+									Integer.parseInt(textFieldGreen.getText()), Integer.parseInt(textFieldBlue.getText()))
 											.getRGB());
 						}
 					}
@@ -169,14 +161,14 @@ public class BlockButton {
 				}
 			}
 			if (textFieldBlue.isFocused()) {
-				if (StringParser.isInteger(textFieldBlue.getText()) && Integer.valueOf(textFieldBlue.getText()) <= 255
-						&& Integer.valueOf(textFieldBlue.getText()) >= 0) {
+				if (StringParser.isInteger(textFieldBlue.getText()) && Integer.parseInt(textFieldBlue.getText()) <= 255
+						&& Integer.parseInt(textFieldBlue.getText()) >= 0) {
 					for (Entry<Block, Integer> e : ((SearchBlockSelectorSetting) Main.settingManager
 							.getSettingByName(Main.moduleManager.getModule("Search"), "Select Blocks")).colors
 									.entrySet()) {
 						if (e.getKey() == block) {
-							e.setValue(new Color(Integer.valueOf(textFieldRed.getText()),
-									Integer.valueOf(textFieldGreen.getText()), Integer.valueOf(textFieldBlue.getText()))
+							e.setValue(new Color(Integer.parseInt(textFieldRed.getText()),
+									Integer.parseInt(textFieldGreen.getText()), Integer.parseInt(textFieldBlue.getText()))
 											.getRGB());
 						}
 					}
@@ -194,16 +186,16 @@ public class BlockButton {
 		IBlockState state = block.getDefaultState();
 		try {
 			state = state.withProperty(BlockHorizontal.FACING, EnumFacing.SOUTH);
-		} catch (IllegalArgumentException e) {
+		} catch (IllegalArgumentException ignored) {
 		}
 		try {
 			state = state.withProperty(BlockDirectional.FACING, EnumFacing.SOUTH);
-		} catch (IllegalArgumentException e) {
+		} catch (IllegalArgumentException ignored) {
 		}
 
 		// Better than default state rendering
 		if (block instanceof BlockWall) {
-			state = state.withProperty(BlockWall.UP, Boolean.valueOf(true));
+			state = state.withProperty(BlockWall.UP, Boolean.TRUE);
 		} else if (block == Blocks.BED) {
 			state = state.withProperty(BlockHorizontal.FACING, EnumFacing.NORTH);
 		}
@@ -301,7 +293,7 @@ public class BlockButton {
 				GlStateManager.pushMatrix();
 				GlStateManager.disableCull();
 				TileEntitySkullRenderer.instance.renderSkull(0f, 0f, 0f,
-						(EnumFacing) (state.getValue(BlockDirectional.FACING)),
+						state.getValue(BlockDirectional.FACING),
 						(((TileEntitySkull) tile).getSkullRotation() * 360) / 16.0F,
 						((TileEntitySkull) tile).getSkullType(), this.mc.getSession().getProfile(), -1, 0f);
 				GlStateManager.enableCull();
@@ -317,7 +309,7 @@ public class BlockButton {
 																											// rendering
 			else
 				renderer = TileEntityRendererDispatcher.instance
-						.getRenderer((Class<? extends TileEntity>) tile.getClass());
+						.getRenderer(tile.getClass());
 			if (renderer != null)
 				renderer.render(tile, 0d, 0d, 0d, 0f, -1, 0f);
 		}
@@ -360,7 +352,7 @@ public class BlockButton {
 			}
 
 			Main.config.Save();
-			((BlockSelectorGuiController) parent.controller).refresh();
+			parent.controller.refresh();
 
 			ImpHackEventBus.EVENT_BUS.post(new ImpHackEventSettings(
 					Main.settingManager.getSettingByName(Main.moduleManager.getModule("Search"), "Select Blocks"),

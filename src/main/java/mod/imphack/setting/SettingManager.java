@@ -1,16 +1,16 @@
 package mod.imphack.setting;
 
-import java.util.ArrayList;
-
 import mod.imphack.Main;
 import mod.imphack.module.Module;
 import net.minecraft.client.gui.GuiScreen;
 
+import java.util.ArrayList;
+
 public class SettingManager extends GuiScreen {
-	private ArrayList<Setting> settings;
+	private final ArrayList<Setting> settings;
 
 	public SettingManager() {
-		this.settings = new ArrayList<Setting>();
+		this.settings = new ArrayList <>();
 	}
 
 	public void addSetting(Setting in) {
@@ -22,7 +22,7 @@ public class SettingManager extends GuiScreen {
 	}
 
 	public ArrayList<Setting> getSettingsByMod(Module mod) {
-		ArrayList<Setting> out = new ArrayList<Setting>();
+		ArrayList<Setting> out = new ArrayList <>();
 		for (Setting s : getSettings()) {
 			if (s.parent.equals(mod)) {
 				out.add(s);

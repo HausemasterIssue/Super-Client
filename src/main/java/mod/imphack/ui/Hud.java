@@ -1,10 +1,5 @@
 package mod.imphack.ui;
 
-import java.awt.Color;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
-
 import mod.imphack.Main;
 import mod.imphack.module.Module;
 import mod.imphack.setting.settings.BooleanSetting;
@@ -16,9 +11,14 @@ import net.minecraft.client.gui.ScaledResolution;
 import net.minecraftforge.client.event.RenderGameOverlayEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
+import java.awt.*;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+
 public class Hud extends Gui {
 
-	private Minecraft mc = Minecraft.getMinecraft();
+	private final Minecraft mc = Minecraft.getMinecraft();
 
 	public static class ModuleComparator implements Comparator<Module> {
 
@@ -47,7 +47,7 @@ public class Hud extends Gui {
 	@SubscribeEvent
 	public void renderOverlay(RenderGameOverlayEvent event) {
 		if (Main.moduleManager.getModule("Hud").toggled) {
-			Collections.sort(Main.moduleManager.modules, new ModuleComparator());
+			Main.moduleManager.modules.sort(new ModuleComparator());
 			ScaledResolution sr = new ScaledResolution(mc);
 			FontRenderer fr = mc.fontRenderer;
 
@@ -78,9 +78,9 @@ public class Hud extends Gui {
 				if (((BooleanSetting) Main.settingManager.getSettingByName(Main.moduleManager.getModule("Hud"),
 						"Coordinates")).enabled) {
 
-					Double x = mc.player.posX;
-					Double y = mc.player.posY;
-					Double z = mc.player.posZ;
+					double x = mc.player.posX;
+					double y = mc.player.posY;
+					double z = mc.player.posZ;
 
 					if (mc.player.dimension == -1) {
 						fr.drawStringWithShadow(round(x) + ", " + round(y) + ", " + round(z), 2,

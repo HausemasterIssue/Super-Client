@@ -23,7 +23,7 @@ public class Toggle extends Command {
 	}
 
 	@Override
-	public void onCommand(String command, String[] args) throws Exception {
+	public void onCommand(String command, String[] args) {
 		for (Module m : Main.moduleManager.getModuleList()) {
 			if (args[0].equalsIgnoreCase(m.getName())) {
 				m.toggle();

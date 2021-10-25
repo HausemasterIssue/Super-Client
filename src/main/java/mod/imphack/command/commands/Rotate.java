@@ -22,14 +22,14 @@ public class Rotate extends Command {
 	}
 
 	@Override
-	public void onCommand(String command, String[] args) throws Exception {
+	public void onCommand(String command, String[] args) {
 		if (args[0].isEmpty() || args[1].isEmpty()) {
 			Client.addChatMessage("No arguments found");
 			Client.addChatMessage(this.getSyntax());
 		} else {
-			Minecraft.getMinecraft().player.rotationPitch = Float.valueOf(args[0]);
-			Minecraft.getMinecraft().player.rotationYaw = Float.valueOf(args[1]);
-			Minecraft.getMinecraft().player.rotationYawHead = Float.valueOf(args[1]);
+			Minecraft.getMinecraft().player.rotationPitch = Float.parseFloat(args[0]);
+			Minecraft.getMinecraft().player.rotationYaw = Float.parseFloat(args[1]);
+			Minecraft.getMinecraft().player.rotationYawHead = Float.parseFloat(args[1]);
 			Client.addChatMessage("Rotated player");
 		}
 

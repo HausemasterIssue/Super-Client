@@ -1,16 +1,14 @@
 package mod.imphack.ui.clickgui.settingeditor.search;
 
-import java.util.ArrayList;
-
-import org.apache.commons.lang3.StringUtils;
-import org.lwjgl.opengl.GL11;
-
 import mod.imphack.Main;
-import mod.imphack.setting.settings.SearchBlockSelectorSetting;
 import net.minecraft.block.Block;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiTextField;
 import net.minecraftforge.fml.common.registry.ForgeRegistries;
+import org.apache.commons.lang3.StringUtils;
+import org.lwjgl.opengl.GL11;
+
+import java.util.ArrayList;
 
 public class BlockSelectorGuiFrame {
 	int x, y, width, height;
@@ -35,7 +33,7 @@ public class BlockSelectorGuiFrame {
 
 		offsetY += 20;
 
-		controller.blocks = new ArrayList<BlockButton>();
+		controller.blocks = new ArrayList <>();
 
 		if (Main.settingManager.getSettingByName(Main.moduleManager.getModule("Search"), "Select Blocks") != null
 				&& controller.blocks.isEmpty()) {
@@ -43,8 +41,8 @@ public class BlockSelectorGuiFrame {
 				for (Block b : ForgeRegistries.BLOCKS.getValuesCollection()) {
 
 					controller.blocks.add(new BlockButton(
-							((SearchBlockSelectorSetting) Main.settingManager
-									.getSettingByName(Main.moduleManager.getModule("Search"), "Select Blocks")).parent,
+							Main.settingManager
+									.getSettingByName(Main.moduleManager.getModule("Search"), "Select Blocks").parent,
 							this.x + 2, this.y + offsetY + controller.scrollOffset, this, b));
 					offsetY += 20;
 				}
@@ -52,8 +50,8 @@ public class BlockSelectorGuiFrame {
 				for (Block b : ForgeRegistries.BLOCKS.getValuesCollection()) {
 					if (StringUtils.containsIgnoreCase(b.getLocalizedName(), searchText)) {
 						controller.blocks.add(new BlockButton(
-								((SearchBlockSelectorSetting) Main.settingManager.getSettingByName(
-										Main.moduleManager.getModule("Search"), "Select Blocks")).parent,
+								Main.settingManager.getSettingByName(
+										Main.moduleManager.getModule("Search"), "Select Blocks").parent,
 								this.x + 2, this.y + offsetY + controller.scrollOffset, this, b));
 						offsetY += 20;
 					}

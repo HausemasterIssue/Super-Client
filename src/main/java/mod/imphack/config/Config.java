@@ -1,42 +1,31 @@
 package mod.imphack.config;
 
-import java.awt.Color;
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.io.IOException;
-import java.io.PrintWriter;
+import mod.imphack.Main;
+import mod.imphack.module.Module;
+import mod.imphack.module.modules.render.Search;
+import mod.imphack.setting.Setting;
+import mod.imphack.setting.settings.*;
+import net.minecraft.block.Block;
+import net.minecraft.client.Minecraft;
+import net.minecraftforge.fml.common.registry.GameRegistry;
+
+import java.awt.*;
+import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Map.Entry;
 
-import mod.imphack.Main;
-import mod.imphack.module.Module;
-import mod.imphack.module.modules.render.Search;
-import mod.imphack.setting.Setting;
-import mod.imphack.setting.settings.BooleanSetting;
-import mod.imphack.setting.settings.ColorSetting;
-import mod.imphack.setting.settings.FloatSetting;
-import mod.imphack.setting.settings.IntSetting;
-import mod.imphack.setting.settings.ModeSetting;
-import mod.imphack.setting.settings.SearchBlockSelectorSetting;
-import mod.imphack.setting.settings.StringSetting;
-import net.minecraft.block.Block;
-import net.minecraft.client.Minecraft;
-import net.minecraftforge.fml.common.registry.GameRegistry;
-
 // config issue?
 
 public class Config {
 	public static Path modFolder;
-	private Path configFile;
+	private final Path configFile;
 
 	public Config() {
 		modFolder = Minecraft.getMinecraft().gameDir.toPath().resolve("imphack");
-		configFile = Paths.get(modFolder.toString() + File.separator + "moduleConfig.txt");
+		configFile = Paths.get(modFolder + File.separator + "moduleConfig.txt");
 		try {
 			Files.createDirectories(modFolder);
 			if (!Files.exists(configFile))
@@ -48,7 +37,7 @@ public class Config {
 
 	public void Save() {
 
-		ArrayList<String> save = new ArrayList<String>();
+		ArrayList<String> save = new ArrayList <>();
 
 		for (Module mod : Main.moduleManager.modules) {
 			if (mod.getName().equalsIgnoreCase("ClickGUI")) {
@@ -93,14 +82,13 @@ public class Config {
 
 				if (setting instanceof SearchBlockSelectorSetting) {
 					SearchBlockSelectorSetting block = (SearchBlockSelectorSetting) setting;
-					String list = "";
-					String colorList = "";
+					StringBuilder list = new StringBuilder();
+					StringBuilder colorList = new StringBuilder();
 					for (Block b : block.blocks) {
-						list += b.getLocalizedName() + "/";
+						list.append(b.getLocalizedName()).append("/");
 					}
 					for (Entry<Block, Integer> e : block.colors.entrySet()) {
-						colorList += new Color(e.getValue()).getRed() + "." + new Color(e.getValue()).getGreen() + "."
-								+ new Color(e.getValue()).getBlue() + "," + e.getKey().getLocalizedName() + "/";
+						colorList.append(new Color(e.getValue()).getRed()).append(".").append(new Color(e.getValue()).getGreen()).append(".").append(new Color(e.getValue()).getBlue()).append(",").append(e.getKey().getLocalizedName()).append("/");
 					}
 					save.add("setting:" + mod.getName() + ":" + setting.name + ":" + list + ";" + colorList);
 				}
@@ -119,7 +107,7 @@ public class Config {
 	}
 
 	public void Load() {
-		ArrayList<String> lines = new ArrayList<String>();
+		ArrayList<String> lines = new ArrayList <>();
 
 		try {
 			BufferedReader reader = new BufferedReader(new FileReader(this.configFile.toFile()));
@@ -154,10 +142,8 @@ public class Config {
 				}
 			}
 		}
-		ArrayList<String> save = new ArrayList<String>();
-		for (String s : lines) {
-			save.add(s);
-		}
+		ArrayList<String> save = new ArrayList <>();
+		save.addAll(lines);
 		for (Module mod : Main.moduleManager.getModuleList()) {
 			for (Setting setting : mod.settings) {
 				if (!Main.settingManager.getSettings().contains(setting)) {
@@ -194,15 +180,13 @@ public class Config {
 
 					if (setting instanceof SearchBlockSelectorSetting) {
 						SearchBlockSelectorSetting block = (SearchBlockSelectorSetting) setting;
-						String list = "";
-						String colorList = "";
+						StringBuilder list = new StringBuilder();
+						StringBuilder colorList = new StringBuilder();
 						for (Block b : block.blocks) {
-							list += b.getLocalizedName() + "/";
+							list.append(b.getLocalizedName()).append("/");
 						}
 						for (Entry<Block, Integer> e : block.colors.entrySet()) {
-							colorList += new Color(e.getValue()).getRed() + "." + new Color(e.getValue()).getGreen()
-									+ "." + new Color(e.getValue()).getBlue() + "," + e.getKey().getLocalizedName()
-									+ "/";
+							colorList.append(new Color(e.getValue()).getRed()).append(".").append(new Color(e.getValue()).getGreen()).append(".").append(new Color(e.getValue()).getBlue()).append(",").append(e.getKey().getLocalizedName()).append("/");
 						}
 						save.add("setting:" + mod.getName() + ":" + setting.name + ":" + list + ";" + colorList);
 					}
@@ -221,7 +205,7 @@ public class Config {
 
 		Main.settingManager.clearSettings();
 
-		lines = new ArrayList<String>();
+		lines = new ArrayList <>();
 
 		try {
 			BufferedReader reader = new BufferedReader(new FileReader(this.configFile.toFile()));
@@ -254,11 +238,11 @@ public class Config {
 						}
 
 						if (setting instanceof IntSetting) {
-							((IntSetting) setting).setValue(Integer.valueOf(args[3]));
+							((IntSetting) setting).setValue(Integer.parseInt(args[3]));
 						}
 
 						if (setting instanceof FloatSetting) {
-							((FloatSetting) setting).setValue(Float.valueOf(args[3]));
+							((FloatSetting) setting).setValue(Float.parseFloat(args[3]));
 						}
 
 						if (setting instanceof StringSetting) {
@@ -270,9 +254,9 @@ public class Config {
 						}
 
 						if (setting instanceof ColorSetting) {
-							((ColorSetting) setting).red = Integer.valueOf(args[3].split(",")[0]);
-							((ColorSetting) setting).green = Integer.valueOf(args[3].split(",")[1]);
-							((ColorSetting) setting).blue = Integer.valueOf(args[3].split(",")[2]);
+							((ColorSetting) setting).red = Integer.parseInt(args[3].split(",")[0]);
+							((ColorSetting) setting).green = Integer.parseInt(args[3].split(",")[1]);
+							((ColorSetting) setting).blue = Integer.parseInt(args[3].split(",")[2]);
 						}
 
 						if (setting instanceof SearchBlockSelectorSetting) {
@@ -295,9 +279,9 @@ public class Config {
 													if (str.split(",")[1].equalsIgnoreCase(b.getLocalizedName())) {
 														String colors = str.split(",")[0];
 														((SearchBlockSelectorSetting) setting).setColor(b,
-																new Color(Integer.valueOf(colors.split("\\.")[0]),
-																		Integer.valueOf(colors.split("\\.")[1]),
-																		Integer.valueOf(
+																new Color(Integer.parseInt(colors.split("\\.")[0]),
+																		Integer.parseInt(colors.split("\\.")[1]),
+																		Integer.parseInt(
 																				colors.split("\\.")[2].split(",")[0]))
 																						.getRGB());
 													}

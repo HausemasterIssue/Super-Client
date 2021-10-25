@@ -1,5 +1,6 @@
 package mod.imphack.module.modules.render;
 
+import me.zero.alpine.event.type.Cancellable;
 import me.zero.alpine.listener.EventHandler;
 import me.zero.alpine.listener.Listener;
 import mod.imphack.event.events.ImpHackEventMove;
@@ -14,14 +15,7 @@ import mod.imphack.util.MathUtil;
 import net.minecraft.client.entity.EntityOtherPlayerMP;
 import net.minecraft.client.entity.EntityPlayerSP;
 import net.minecraft.entity.Entity;
-import net.minecraft.network.play.client.CPacketChatMessage;
-import net.minecraft.network.play.client.CPacketConfirmTeleport;
-import net.minecraft.network.play.client.CPacketKeepAlive;
-import net.minecraft.network.play.client.CPacketPlayer;
-import net.minecraft.network.play.client.CPacketPlayerTryUseItem;
-import net.minecraft.network.play.client.CPacketPlayerTryUseItemOnBlock;
-import net.minecraft.network.play.client.CPacketUseEntity;
-import net.minecraft.network.play.client.CPacketVehicleMove;
+import net.minecraft.network.play.client.*;
 import net.minecraft.network.play.server.SPacketPlayerPosLook;
 import net.minecraft.network.play.server.SPacketSetPassengers;
 import net.minecraft.util.math.AxisAlignedBB;
@@ -98,14 +92,10 @@ public class Freecam extends Module {
 	}
 
 	@EventHandler
-	private Listener<ImpHackEventMove> OnPlayerMove = new Listener<>(p_Event -> {
-		mc.player.noClip = true;
-	});
+	private final Listener<ImpHackEventMove> OnPlayerMove = new Listener<>(p_Event -> mc.player.noClip = true);
 
 	@EventHandler
-	private Listener<ImpHackEventSetOpaqueCube> OnEventSetOpaqueCube = new Listener<>(p_Event -> {
-		p_Event.cancel();
-	});
+	private final Listener<ImpHackEventSetOpaqueCube> OnEventSetOpaqueCube = new Listener<>(Cancellable::cancel);
 
 	@Override
 	public void onUpdate() {
@@ -137,14 +127,14 @@ public class Freecam extends Module {
 	}
 
 	@EventHandler
-	private Listener<EntityJoinWorldEvent> OnWorldEvent = new Listener<>(p_Event -> {
+	private final Listener<EntityJoinWorldEvent> OnWorldEvent = new Listener<>(p_Event -> {
 		if (p_Event.getEntity() == mc.player) {
 			toggle();
 		}
 	});
 
 	@EventHandler
-	private Listener<ImpHackEventPacket.ReceivePacket> PacketRecieveEvent = new Listener<>(event -> {
+	private final Listener<ImpHackEventPacket.ReceivePacket> PacketRecieveEvent = new Listener<>(event -> {
 		if (event.get_packet() instanceof SPacketSetPassengers) {
 			final SPacketSetPassengers packet = (SPacketSetPassengers) event.get_packet();
 			final Entity riding = mc.world.getEntityByID(packet.getEntityId());
@@ -167,7 +157,7 @@ public class Freecam extends Module {
 	});
 
 	@EventHandler
-	private Listener<ImpHackEventPacket.SendPacket> PacketSendEvent = new Listener<>(event -> {
+	private final Listener<ImpHackEventPacket.SendPacket> PacketSendEvent = new Listener<>(event -> {
 		if (this.packetCancel.enabled) {
 			if (event.get_packet() instanceof CPacketPlayer) {
 				event.cancel();
@@ -183,7 +173,7 @@ public class Freecam extends Module {
 	});
 
 	@EventHandler
-	private Listener<ImpHackEventPush> PushEvent = new Listener<>(event -> {
+	private final Listener<ImpHackEventPush> PushEvent = new Listener<>(event -> {
 		if (event.stage == 1)
 			event.cancel();
 	});

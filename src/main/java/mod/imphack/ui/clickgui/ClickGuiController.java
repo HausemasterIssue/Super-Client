@@ -1,13 +1,12 @@
 package mod.imphack.ui.clickgui;
 
-import java.io.IOException;
-import java.util.ArrayList;
-
-import org.lwjgl.input.Mouse;
-
 import mod.imphack.module.Category;
 import mod.imphack.ui.clickgui.settingeditor.SettingController;
 import net.minecraft.client.gui.GuiScreen;
+import org.lwjgl.input.Mouse;
+
+import java.io.IOException;
+import java.util.ArrayList;
 
 public class ClickGuiController extends GuiScreen {
 

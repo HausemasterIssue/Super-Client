@@ -1,10 +1,5 @@
 package mod.imphack.ui.clickgui.settingeditor.search;
 
-import java.io.IOException;
-import java.util.ArrayList;
-
-import org.lwjgl.input.Mouse;
-
 import mod.imphack.Main;
 import mod.imphack.event.ImpHackEventBus;
 import mod.imphack.event.events.ImpHackEventSettings;
@@ -13,6 +8,10 @@ import mod.imphack.setting.settings.SearchBlockSelectorSetting;
 import net.minecraft.block.Block;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.gui.GuiTextField;
+import org.lwjgl.input.Mouse;
+
+import java.io.IOException;
+import java.util.ArrayList;
 
 public class BlockSelectorGuiController extends GuiScreen {
 
@@ -103,10 +102,10 @@ public class BlockSelectorGuiController extends GuiScreen {
 			}
 
 			ImpHackEventBus.EVENT_BUS.post(new ImpHackEventSettings(
-					((SearchBlockSelectorSetting) Main.settingManager
-							.getSettingByName(Main.moduleManager.getModule("Search"), "Select Blocks")),
-					((SearchBlockSelectorSetting) Main.settingManager
-							.getSettingByName(Main.moduleManager.getModule("Search"), "Select Blocks")).parent));
+					Main.settingManager
+							.getSettingByName(Main.moduleManager.getModule("Search"), "Select Blocks"),
+					Main.settingManager
+							.getSettingByName(Main.moduleManager.getModule("Search"), "Select Blocks").parent));
 		}
 
 		ArrayList<BlockButton> onScreen = new ArrayList<>();
@@ -132,10 +131,10 @@ public class BlockSelectorGuiController extends GuiScreen {
 		}
 
 		ImpHackEventBus.EVENT_BUS.post(new ImpHackEventSettings(
-				((SearchBlockSelectorSetting) Main.settingManager
-						.getSettingByName(Main.moduleManager.getModule("Search"), "Select Blocks")),
-				((SearchBlockSelectorSetting) Main.settingManager
-						.getSettingByName(Main.moduleManager.getModule("Search"), "Select Blocks")).parent));
+				Main.settingManager
+						.getSettingByName(Main.moduleManager.getModule("Search"), "Select Blocks"),
+				Main.settingManager
+						.getSettingByName(Main.moduleManager.getModule("Search"), "Select Blocks").parent));
 	}
 
 	@Override
@@ -181,10 +180,10 @@ public class BlockSelectorGuiController extends GuiScreen {
 		 * b.textFieldBlue.height) { b.textFieldBlue.setFocused(true); } } }
 		 */
 
-		if (((SearchBlockSelectorSetting) this.setting).blocks != null)
-			for (Block b : ((SearchBlockSelectorSetting) this.setting).blocks) {
+		if (this.setting.blocks != null)
+			for (Block b : this.setting.blocks) {
 				int color;
-				color = ((SearchBlockSelectorSetting) this.setting).getColor(b);
+				color = this.setting.getColor(b);
 				((Search) this.setting.parent).to_search.put(b, color);
 			}
 

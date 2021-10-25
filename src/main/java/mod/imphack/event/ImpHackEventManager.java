@@ -1,7 +1,5 @@
 package mod.imphack.event;
 
-import org.lwjgl.input.Keyboard;
-
 import me.zero.alpine.listener.EventHandler;
 import me.zero.alpine.listener.Listenable;
 import me.zero.alpine.listener.Listener;
@@ -18,16 +16,13 @@ import net.minecraft.client.gui.GuiDisconnected;
 import net.minecraft.client.gui.ScaledResolution;
 import net.minecraft.client.multiplayer.ServerData;
 import net.minecraft.entity.passive.AbstractHorse;
-import net.minecraftforge.client.event.ClientChatEvent;
-import net.minecraftforge.client.event.GuiOpenEvent;
-import net.minecraftforge.client.event.InputUpdateEvent;
-import net.minecraftforge.client.event.RenderGameOverlayEvent;
-import net.minecraftforge.client.event.RenderWorldLastEvent;
+import net.minecraftforge.client.event.*;
 import net.minecraftforge.event.entity.living.LivingEvent;
 import net.minecraftforge.event.world.WorldEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.gameevent.InputEvent.KeyInputEvent;
 import net.minecraftforge.fml.common.gameevent.TickEvent;
+import org.lwjgl.input.Keyboard;
 
 public class ImpHackEventManager implements Listenable {
 	private final Minecraft mc = Minecraft.getMinecraft();
@@ -138,11 +133,11 @@ public class ImpHackEventManager implements Listenable {
 	}
 
 	@EventHandler
-	private Listener<ImpHackEventPacket.ReceivePacket> PacketRecvEvent = new Listener<>(p_Event -> {
+	private final Listener<ImpHackEventPacket.ReceivePacket> PacketRecvEvent = new Listener<>(p_Event -> {
 	});
 
 	@EventHandler
-	private Listener<ImpHackEventPacket.SendPacket> PacketSendEvent = new Listener<>(p_Event -> {
+	private final Listener<ImpHackEventPacket.SendPacket> PacketSendEvent = new Listener<>(p_Event -> {
 	});
 
 	@SubscribeEvent

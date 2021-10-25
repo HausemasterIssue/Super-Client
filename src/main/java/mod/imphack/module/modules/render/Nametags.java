@@ -1,9 +1,6 @@
 package mod.imphack.module.modules.render;
 
-import java.util.Objects;
-
-import org.lwjgl.opengl.GL11;
-
+import me.zero.alpine.event.type.Cancellable;
 import me.zero.alpine.listener.EventHandler;
 import me.zero.alpine.listener.Listener;
 import mod.imphack.event.events.ImpHackEventRender;
@@ -24,6 +21,9 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.item.ItemTool;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraft.util.text.TextFormatting;
+import org.lwjgl.opengl.GL11;
+
+import java.util.Objects;
 
 public class Nametags extends Module {
 	FloatSetting scaleSetting = new FloatSetting("Scale", this, 10.0f);
@@ -87,7 +87,7 @@ public class Nametags extends Module {
 		int red = 255;
 		int green = 255;
 		int blue = 255;
-		Float a = 0.0f;
+		float a = 0.0f;
 
 		RenderUtil.drawRect((float) (-width - 2) - 1, (float) (-(mc.fontRenderer.FONT_HEIGHT + 1)) - 1, width + 3f,
 				2.5f, red, green, blue, a);
@@ -309,8 +309,7 @@ public class Nametags extends Module {
 	}
 
 	private int getDisplayColour(final EntityPlayer player) {
-		int colour = -5592406;
-		return colour;
+		return -5592406;
 	}
 
 	private double interpolate(final double previous, final double current, final float delta) {
@@ -322,8 +321,6 @@ public class Nametags extends Module {
 	}
 
 	@EventHandler
-	private Listener<ImpHackEventRenderEntityName> player_nametag = new Listener<>(event -> {
-		event.cancel();
-	});
+	private final Listener<ImpHackEventRenderEntityName> player_nametag = new Listener<>(Cancellable::cancel);
 
 }

@@ -1,5 +1,6 @@
 package mod.imphack.module.modules.movement;
 
+import me.zero.alpine.event.type.Cancellable;
 import me.zero.alpine.listener.EventHandler;
 import me.zero.alpine.listener.Listener;
 import mod.imphack.event.events.ImpHackEventPacket;
@@ -16,7 +17,7 @@ public class Velocity extends Module {
 	}
 
 	@EventHandler
-	private Listener<ImpHackEventPacket.ReceivePacket> PacketEvent = new Listener<>(p_Event -> {
+	private final Listener<ImpHackEventPacket.ReceivePacket> PacketEvent = new Listener<>(p_Event -> {
 		if (p_Event.get_packet() instanceof SPacketEntityVelocity) {
 			final SPacketEntityVelocity packet = (SPacketEntityVelocity) p_Event.get_packet();
 			if (packet.getEntityID() == mc.player.getEntityId()) {
@@ -31,8 +32,6 @@ public class Velocity extends Module {
 	});
 
 	@EventHandler
-	private Listener<ImpHackEventPush> PushEvent = new Listener<>(p_Event -> {
-		p_Event.cancel();
-	});
+	private final Listener<ImpHackEventPush> PushEvent = new Listener<>(Cancellable::cancel);
 
 }

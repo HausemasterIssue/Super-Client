@@ -14,7 +14,7 @@ public class XCarry extends Module {
 	}
 
 	@EventHandler
-	private Listener<ImpHackEventPacket.ReceivePacket> PacketRecieveEvent = new Listener<>(event -> {
+	private final Listener<ImpHackEventPacket.ReceivePacket> PacketRecieveEvent = new Listener<>(event -> {
 
 		if (event.get_packet() instanceof CPacketCloseWindow)
 			event.cancel();
@@ -22,7 +22,7 @@ public class XCarry extends Module {
 	});
 
 	@EventHandler
-	private Listener<ImpHackEventPacket.SendPacket> PacketSendEvent = new Listener<>(event -> {
+	private final Listener<ImpHackEventPacket.SendPacket> PacketSendEvent = new Listener<>(event -> {
 
 		if (event.get_packet() instanceof CPacketCloseWindow)
 			event.cancel();

@@ -1,13 +1,12 @@
 package mod.imphack.ui.clickgui.settingeditor;
 
-import java.awt.Color;
-
-import org.lwjgl.input.Keyboard;
-
 import mod.imphack.Client;
 import mod.imphack.module.Module;
 import mod.imphack.ui.clickgui.ClickGuiController;
 import net.minecraft.client.Minecraft;
+import org.lwjgl.input.Keyboard;
+
+import java.awt.*;
 
 public class KeybindButton {
 	int x, y, width, height;

@@ -1,8 +1,5 @@
 package mod.imphack.module.modules.combat;
 
-import java.lang.reflect.Field;
-import java.util.ArrayList;
-
 import mod.imphack.event.events.ImpHackEventPacket;
 import mod.imphack.module.Category;
 import mod.imphack.module.Module;
@@ -10,7 +7,6 @@ import mod.imphack.setting.settings.BooleanSetting;
 import mod.imphack.setting.settings.FloatSetting;
 import mod.imphack.setting.settings.IntSetting;
 import mod.imphack.util.ReflectionUtil;
-import net.minecraft.advancements.critereon.CuredZombieVillagerTrigger;
 import net.minecraft.client.Minecraft;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.Entity;
@@ -31,6 +27,9 @@ import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.Explosion;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
+
+import java.lang.reflect.Field;
+import java.util.ArrayList;
 
 public class CrystalAura extends Module {
 	
@@ -63,7 +62,6 @@ public class CrystalAura extends Module {
 	CPacketPlayer cpacketp = new CPacketPlayer();
 	private float nextYaw = 0;
 	private float nextPitch = 0;
-	private boolean nextRotation = false;
 	private Field yaw;
 	private Field pitch;
 	private Field rotating;
@@ -96,7 +94,7 @@ public class CrystalAura extends Module {
 		}
 
 		currentMS = System.nanoTime() / 1000000;
-		if (hasDelayRun((long) (1000 / crystalSpeed.getValue()))) {
+		if (hasDelayRun(1000 / crystalSpeed.getValue())) {
 			for (Entity e : mc.world.loadedEntityList) {
 				if (mc.player.getDistance(e) < crystalRange.getValue()) {
 					if (e instanceof EntityEnderCrystal) {
@@ -109,7 +107,7 @@ public class CrystalAura extends Module {
 			}
 			if (place.enabled && mc.player.getHeldItemMainhand().getItem() instanceof ItemEndCrystal) {
 
-				ArrayList<Entity> attackEntityList = new ArrayList<Entity>();
+				ArrayList<Entity> attackEntityList = new ArrayList <>();
 
 				for (Entity e : mc.world.loadedEntityList) {
 					if (e instanceof EntityPlayer && e != mc.player && playersOnly.enabled) {
@@ -121,7 +119,7 @@ public class CrystalAura extends Module {
 				}
 
 				Entity minEntity = null;
-				Float minDistance = 100f;
+				float minDistance = 100f;
 
 				for (Entity e : attackEntityList) {
 					if (mc.player.getDistance(e) < minDistance) {
@@ -220,7 +218,7 @@ public class CrystalAura extends Module {
     	
     	this.nextPitch = angle[1];
     	this.nextYaw = angle[0];
-    	this.nextRotation = true;
+		boolean nextRotation = true;
     	mc.player.rotationYawHead = angle[0];
     }
     
