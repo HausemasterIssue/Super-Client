@@ -10,7 +10,11 @@ import mod.imphack.module.modules.movement.*;
 import mod.imphack.module.modules.player.*;
 import mod.imphack.module.modules.render.*;
 import mod.imphack.module.modules.utilities.*;
+<<<<<<< HEAD
 import mod.imphack.util.render.RenderUtil;
+=======
+import mod.imphack.util.RenderUtil;
+>>>>>>> branch 'master' of https://github.com/Supergamer5465/ImpHack-Revised.git
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.entity.Entity;

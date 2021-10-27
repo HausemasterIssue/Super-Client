@@ -53,10 +53,13 @@ public class EntityUtil {
 	public static Vec3d getInterpolatedAmount(Entity entity, double ticks) {
 		return getInterpolatedAmount(entity, ticks, ticks, ticks);
 	}
+<<<<<<< HEAD
 	
 	public static Vec3d getInterpolatedPos(Entity entity, float ticks) {
 		return new Vec3d(entity.lastTickPosX, entity.lastTickPosY, entity.lastTickPosZ).add(getInterpolatedAmount(entity, ticks));
 	}
+=======
+>>>>>>> branch 'master' of https://github.com/Supergamer5465/ImpHack-Revised.git
 
 	public static boolean isMobAggressive(Entity entity) {
 		if (entity instanceof EntityPigZombie) {
