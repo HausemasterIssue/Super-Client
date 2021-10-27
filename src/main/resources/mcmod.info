@@ -4,7 +4,7 @@
   "name" : "ImpHack Revised",
   "description" : "Client of the 2b2t Imperials",
   "version" : "0.3.1",
-  "mcversion" : "[1.12.2]",
+  "mcversion" : "1.12.2",
   "url" : "https://github.com/Supergamer5465/ImpHack-Revised",
   "updateUrl" : "",
   "authorList" : ["Supergamer5465", "SooStrator","John Xina", "Signam kid", "ACABMichael", "Bobo", "Fluffery", "Barrulik", "HausemasterIssue"],
