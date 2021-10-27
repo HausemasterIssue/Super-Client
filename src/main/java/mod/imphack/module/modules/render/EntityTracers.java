@@ -1,5 +1,7 @@
 package mod.imphack.module.modules.render;
 
+import java.awt.Color;
+
 import mod.imphack.event.events.ImpHackEventRender;
 import mod.imphack.module.Category;
 import mod.imphack.module.Module;
@@ -9,18 +11,12 @@ import mod.imphack.setting.settings.FloatSetting;
 import mod.imphack.setting.settings.IntSetting;
 import mod.imphack.util.EntityUtil;
 import mod.imphack.util.MathUtil;
-<<<<<<< HEAD
 import mod.imphack.util.render.RenderUtil;
-=======
-import mod.imphack.util.RenderUtil;
->>>>>>> branch 'master' of https://github.com/Supergamer5465/ImpHack-Revised.git
 import net.minecraft.client.Minecraft;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.math.Vec3d;
-
-import java.awt.*;
 
 public class EntityTracers extends Module {
 

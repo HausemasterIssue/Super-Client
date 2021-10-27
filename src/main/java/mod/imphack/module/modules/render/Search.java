@@ -1,5 +1,18 @@
 package mod.imphack.module.modules.render;
 
+import java.awt.Color;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Map;
+import java.util.Objects;
+import java.util.concurrent.locks.ReadWriteLock;
+import java.util.concurrent.locks.ReentrantReadWriteLock;
+
+import org.lwjgl.opengl.GL11;
+
 import me.zero.alpine.listener.EventHandler;
 import me.zero.alpine.listener.Listener;
 import mod.imphack.Main;
@@ -10,11 +23,7 @@ import mod.imphack.module.Category;
 import mod.imphack.module.Module;
 import mod.imphack.setting.settings.BooleanSetting;
 import mod.imphack.setting.settings.SearchBlockSelectorSetting;
-<<<<<<< HEAD
 import mod.imphack.util.render.RenderUtil;
-=======
-import mod.imphack.util.RenderUtil;
->>>>>>> branch 'master' of https://github.com/Supergamer5465/ImpHack-Revised.git
 import net.minecraft.block.Block;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.Minecraft;
@@ -40,19 +49,11 @@ import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.world.ChunkEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.gameevent.TickEvent;
-import org.lwjgl.opengl.GL11;
 
-import java.awt.*;
-import java.util.List;
-import java.util.*;
-import java.util.concurrent.locks.ReadWriteLock;
-import java.util.concurrent.locks.ReentrantReadWriteLock;
-
-@SuppressWarnings ("CanBeFinal")
 public class Search extends Module {
 
-	SearchBlockSelectorSetting blocks = new SearchBlockSelectorSetting("Select Blocks", this, true,
-			new ArrayList <>(), new HashMap <>());
+	SearchBlockSelectorSetting blocks = new SearchBlockSelectorSetting("Select Blocks", this, true, new ArrayList<>(),
+			new HashMap<>());
 	BooleanSetting outline = new BooleanSetting("Outline", this, true);
 	BooleanSetting tracer = new BooleanSetting("Tracer", this, true);
 
@@ -62,11 +63,11 @@ public class Search extends Module {
 		addSetting(blocks);
 		addSetting(tracer);
 
-		this.to_search = new HashMap <>();
+		this.to_search = new HashMap<>();
 		this.search_lock = new ReentrantReadWriteLock();
-		this.targets = new HashMap <>();
+		this.targets = new HashMap<>();
 		this.targets_lock = new ReentrantReadWriteLock();
-		this.new_chunks = new ArrayList <>();
+		this.new_chunks = new ArrayList<>();
 		this.new_chunks_lock = new ReentrantReadWriteLock();
 		this.camera = new Frustum();
 	}
@@ -270,7 +271,7 @@ public class Search extends Module {
 		GL11.glHint(GL11.GL_LINE_SMOOTH_HINT, GL11.GL_NICEST);
 		GL11.glLineWidth(1.5f);
 
-		List<Target> tracers = new LinkedList <>();
+		List<Target> tracers = new LinkedList<>();
 
 		this.targets_lock.readLock().lock();
 		for (BlockPos position : this.targets.keySet()) {
@@ -310,7 +311,8 @@ public class Search extends Module {
 			Vec3d pos = new Vec3d(t.position).add(0.5, 0.5, 0.5).subtract(renderManager.viewerPosX,
 					renderManager.viewerPosY, renderManager.viewerPosZ);
 			Vec3d forward = new Vec3d(0, 0, 1)
-					.rotatePitch(-(float) Math.toRadians(Objects.requireNonNull(mc.getRenderViewEntity()).rotationPitch))
+					.rotatePitch(
+							-(float) Math.toRadians(Objects.requireNonNull(mc.getRenderViewEntity()).rotationPitch))
 					.rotateYaw(-(float) Math.toRadians(mc.getRenderViewEntity().rotationYaw));
 			if (this.tracer.isEnabled())
 				RenderUtil.drawLine3D((float) forward.x, (float) forward.y + mc.getRenderViewEntity().getEyeHeight(),
@@ -344,7 +346,8 @@ public class Search extends Module {
 		this.targets.clear();
 		this.targets_lock.writeLock().unlock();
 
-		int x = (int) Objects.requireNonNull(mc.getRenderViewEntity()).posX >> 4, z = (int) mc.getRenderViewEntity().posZ >> 4;
+		int x = (int) Objects.requireNonNull(mc.getRenderViewEntity()).posX >> 4,
+				z = (int) mc.getRenderViewEntity().posZ >> 4;
 		for (int i = x - mc.gameSettings.renderDistanceChunks; i <= x + mc.gameSettings.renderDistanceChunks; i++) {
 			for (int j = z - mc.gameSettings.renderDistanceChunks; j <= z + mc.gameSettings.renderDistanceChunks; j++) {
 				Chunk c = mc.world.getChunkProvider().getLoadedChunk(i, j);
@@ -405,7 +408,7 @@ public class Search extends Module {
 	}
 
 	// A target to be highlighted, located at position
-	@SuppressWarnings ("CanBeFinal")
+	@SuppressWarnings("CanBeFinal")
 	private static class Target {
 		public int color;
 		public BlockPos position;

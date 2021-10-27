@@ -8,7 +8,10 @@ import net.minecraft.entity.EnumCreatureType;
 import net.minecraft.entity.monster.EntityEnderman;
 import net.minecraft.entity.monster.EntityIronGolem;
 import net.minecraft.entity.monster.EntityPigZombie;
-import net.minecraft.entity.passive.*;
+import net.minecraft.entity.passive.EntityAmbientCreature;
+import net.minecraft.entity.passive.EntitySquid;
+import net.minecraft.entity.passive.EntityVillager;
+import net.minecraft.entity.passive.EntityWolf;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Vec3d;
 
@@ -53,13 +56,11 @@ public class EntityUtil {
 	public static Vec3d getInterpolatedAmount(Entity entity, double ticks) {
 		return getInterpolatedAmount(entity, ticks, ticks, ticks);
 	}
-<<<<<<< HEAD
-	
+
 	public static Vec3d getInterpolatedPos(Entity entity, float ticks) {
-		return new Vec3d(entity.lastTickPosX, entity.lastTickPosY, entity.lastTickPosZ).add(getInterpolatedAmount(entity, ticks));
+		return new Vec3d(entity.lastTickPosX, entity.lastTickPosY, entity.lastTickPosZ)
+				.add(getInterpolatedAmount(entity, ticks));
 	}
-=======
->>>>>>> branch 'master' of https://github.com/Supergamer5465/ImpHack-Revised.git
 
 	public static boolean isMobAggressive(Entity entity) {
 		if (entity instanceof EntityPigZombie) {
