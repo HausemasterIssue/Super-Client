@@ -1,6 +1,41 @@
 package mod.imphack.ui.clickgui;
 
 import mod.imphack.module.Module;
+<<<<<<< HEAD
+import mod.imphack.util.font.FontUtils;
+import net.minecraft.client.Minecraft;
+
+import java.awt.*;
+
+public class ModuleButton {
+	public final int x;
+	public int y;
+	public final int width;
+	public final int height;
+
+	public final Module module;
+
+	final ClickGuiFrame parent;
+
+	final Minecraft mc = Minecraft.getMinecraft();
+	public static FontUtils font1 = new FontUtils("Confortaa", Font.PLAIN, 15);
+
+
+	public ModuleButton(Module module, int x, int y, ClickGuiFrame parent) {
+		this.module = module;
+		this.x = x;
+		this.y = y;
+		this.parent = parent;
+		this.width = parent.width;
+		this.height = 14;
+	}
+
+	public void draw(int mouseX, int mouseY) {
+		if (module.toggled) {
+			font1.drawString(module.getName(), x + 2, y + 2, new Color(255, 150, 50).getRGB());
+		} else {
+			font1.drawString(module.getName(), x + 2, y + 2, new Color(180, 240, 255).getRGB());
+=======
 import net.minecraft.client.Minecraft;
 
 import java.awt.*;
@@ -31,6 +66,7 @@ public class ModuleButton {
 			mc.fontRenderer.drawString(module.getName(), x + 2, y + 2, new Color(255, 150, 50).getRGB());
 		} else {
 			mc.fontRenderer.drawString(module.getName(), x + 2, y + 2, new Color(180, 240, 255).getRGB());
+>>>>>>> branch 'master' of https://github.com/Supergamer5465/ImpHack-Revised.git
 		}
 	}
 

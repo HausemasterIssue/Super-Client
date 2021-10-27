@@ -10,7 +10,11 @@ import mod.imphack.module.Category;
 import mod.imphack.module.Module;
 import mod.imphack.setting.settings.BooleanSetting;
 import mod.imphack.setting.settings.SearchBlockSelectorSetting;
+<<<<<<< HEAD
+import mod.imphack.util.render.RenderUtil;
+=======
 import mod.imphack.util.RenderUtil;
+>>>>>>> branch 'master' of https://github.com/Supergamer5465/ImpHack-Revised.git
 import net.minecraft.block.Block;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.Minecraft;

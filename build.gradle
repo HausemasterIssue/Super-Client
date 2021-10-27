@@ -120,7 +120,11 @@ processResources {
 	rename "(.+_at.cfg)", 'META-INF/$1'
 }
 
+<<<<<<< HEAD
+//doesn't work in dev environment but add for jar
+=======
 //doesn't work in development environment but add for jar
+>>>>>>> branch 'master' of https://github.com/Supergamer5465/ImpHack-Revised.git
 ///*
 jar {
 	manifest {

@@ -10,6 +10,51 @@ import mod.imphack.setting.SettingManager;
 import mod.imphack.ui.Hud;
 import mod.imphack.ui.clickgui.ClickGuiController;
 import mod.imphack.util.Reference;
+<<<<<<< HEAD
+import mod.imphack.util.font.ImpHackFontRenderer;
+import net.minecraft.client.Minecraft;
+import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.fml.common.Mod;
+import net.minecraftforge.fml.common.Mod.EventHandler;
+import net.minecraftforge.fml.common.Mod.Instance;
+import net.minecraftforge.fml.common.event.FMLInitializationEvent;
+import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
+import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
+
+//main class, contains all event handlers etc.
+
+@Mod(modid = Reference.MODID, name = Reference.NAME, version = Reference.VERSION)
+@SideOnly(Side.CLIENT)
+public class Main {
+	
+	public static long startTimeStamp = 0;
+	public static ImpHackFontRenderer customFontRenderer;
+
+	Minecraft mc = Minecraft.getMinecraft();
+
+	public static ModuleManager moduleManager;
+	public static Config config;
+	public static final Hud hud = new Hud();
+	public static CommandManager cmdManager;
+	public static SettingManager settingManager;
+	public static ImpHackEventManager eventManager;
+	private ClickGuiController gui;
+
+	public static boolean configLoaded = false;
+
+	@Instance
+	public Main instance;
+
+	@EventHandler
+	public void init(FMLInitializationEvent event) {
+		if (event.getSide() == Side.SERVER)
+			return;
+
+		ImpHackEventHandler.INSTANCE = new ImpHackEventHandler();
+		
+=======
 import net.minecraft.client.Minecraft;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.common.Mod;
@@ -50,6 +95,7 @@ public class Main {
 			return;
 
 		ImpHackEventHandler.INSTANCE = new ImpHackEventHandler();
+>>>>>>> branch 'master' of https://github.com/Supergamer5465/ImpHack-Revised.git
 
 		MinecraftForge.EVENT_BUS.register(instance);
 		MinecraftForge.EVENT_BUS.register(hud);
