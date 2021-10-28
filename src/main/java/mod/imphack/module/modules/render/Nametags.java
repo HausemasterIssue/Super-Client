@@ -177,7 +177,7 @@ public class Nametags extends Module {
 		GlStateManager.disableTexture2D();
 	}
 
-	// render item positions
+	// render item positions/s
 	private void renderItemsPos(EntityPlayer entityPlayer, int posX, int posY) {
 		ItemStack mainHandItem = entityPlayer.getHeldItemMainhand();
 		ItemStack offHandItem = entityPlayer.getHeldItemOffhand();
