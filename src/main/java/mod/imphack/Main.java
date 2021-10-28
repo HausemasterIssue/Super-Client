@@ -6,8 +6,10 @@ import mod.imphack.event.ImpHackEventBus;
 import mod.imphack.event.ImpHackEventHandler;
 import mod.imphack.event.ImpHackEventManager;
 import mod.imphack.module.ModuleManager;
+import mod.imphack.module.modules.hud.HudArrayList;
+import mod.imphack.module.modules.hud.HudCoords;
+import mod.imphack.module.modules.hud.HudWatermark;
 import mod.imphack.setting.SettingManager;
-import mod.imphack.ui.Hud;
 import mod.imphack.ui.clickgui.ClickGuiController;
 import mod.imphack.util.Reference;
 import mod.imphack.util.font.ImpHackFontRenderer;
@@ -33,7 +35,15 @@ public class Main {
 
 	public static ModuleManager moduleManager;
 	public static Config config;
-	public static final Hud hud = new Hud();
+	
+	
+	//Initilize HUD modules
+	public static final HudCoords hudCoords = new HudCoords();
+	public static final HudArrayList hudArrayList = new HudArrayList();
+	public static final HudWatermark hudVersion = new HudWatermark();
+
+	
+	
 	public static CommandManager cmdManager;
 	public static SettingManager settingManager;
 	public static ImpHackEventManager eventManager;
@@ -51,8 +61,14 @@ public class Main {
 
 		ImpHackEventHandler.INSTANCE = new ImpHackEventHandler();
 
+		//register HUD
 		MinecraftForge.EVENT_BUS.register(instance);
-		MinecraftForge.EVENT_BUS.register(hud);
+		MinecraftForge.EVENT_BUS.register(hudCoords);
+		MinecraftForge.EVENT_BUS.register(hudArrayList);
+		MinecraftForge.EVENT_BUS.register(hudVersion);
+
+
+		
 
 		moduleManager = new ModuleManager();
 		cmdManager = new CommandManager();
