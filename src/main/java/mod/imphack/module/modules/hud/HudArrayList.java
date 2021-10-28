@@ -1,6 +1,7 @@
 package mod.imphack.module.modules.hud;
 
 import java.awt.Color;
+import java.awt.Font;
 import java.util.ArrayList;
 import java.util.Comparator;
 
@@ -8,6 +9,7 @@ import mod.imphack.Main;
 import mod.imphack.module.Module;
 import mod.imphack.setting.settings.BooleanSetting;
 import mod.imphack.util.Reference;
+import mod.imphack.util.font.FontUtils;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.gui.Gui;
@@ -17,6 +19,8 @@ import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
 public class HudArrayList extends Gui{
 	
+	public static FontUtils font = new FontUtils("Confortaa", Font.PLAIN, 15);
+
 	private final Minecraft mc = Minecraft.getMinecraft();
 
 	public static class ModuleComparator implements Comparator<Module> {
@@ -66,7 +70,7 @@ public class HudArrayList extends Gui{
 
 					for (int i = 0; i < modules.size(); i++) {
 						Module m = modules.get(i);
-						fr.drawStringWithShadow(m.getName(), sr.getScaledWidth() - fr.getStringWidth(m.getName()) - 2,
+						font.drawStringWithShadow(m.getName(), sr.getScaledWidth() - fr.getStringWidth(m.getName()) - 2,
 								y, rainbow(i * 300));
 						y += fr.FONT_HEIGHT;
 					}

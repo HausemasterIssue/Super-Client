@@ -18,7 +18,7 @@ public class ModuleButton {
 	final ClickGuiFrame parent;
 
 	final Minecraft mc = Minecraft.getMinecraft();
-	public static FontUtils font1 = new FontUtils("Confortaa", Font.PLAIN, 15);
+	public static FontUtils font = new FontUtils("Confortaa", Font.PLAIN, 15);
 
 	public ModuleButton(Module module, int x, int y, ClickGuiFrame parent) {
 		this.module = module;
@@ -31,9 +31,9 @@ public class ModuleButton {
 
 	public void draw(int mouseX, int mouseY) {
 		if (module.toggled) {
-			font1.drawString(module.getName(), x + 2, y + 2, new Color(255, 150, 50).getRGB());
+			font.drawString(module.getName(), x + 2, y + 2, new Color(255, 150, 50).getRGB());
 		} else {
-			font1.drawString(module.getName(), x + 2, y + 2, new Color(180, 240, 255).getRGB());
+			font.drawString(module.getName(), x + 2, y + 2, new Color(180, 240, 255).getRGB());
 		}
 	}
 

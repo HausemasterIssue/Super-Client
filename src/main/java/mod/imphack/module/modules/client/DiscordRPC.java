@@ -17,7 +17,10 @@ public class DiscordRPC extends Module {
 
 	@Override
 	public void onEnable() {
-		ImpHackDiscordRichPresence.start(mode.getMode());
+			
+			ImpHackDiscordRichPresence.start(mode.getMode());
+
+		
 	}
 
 	@Override
