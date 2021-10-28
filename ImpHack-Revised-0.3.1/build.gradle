@@ -122,6 +122,8 @@ processResources {
 
 //doesn't work in development environment but add for jar
 ///*
+
+//
 jar {
 	manifest {
 		attributes (
