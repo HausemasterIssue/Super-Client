@@ -5,7 +5,6 @@ import java.awt.Font;
 
 import mod.imphack.Main;
 import mod.imphack.setting.settings.BooleanSetting;
-import mod.imphack.util.font.FontUtils;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.gui.Gui;
@@ -17,7 +16,6 @@ public class HudCoords extends Gui{
 	
 	private final Minecraft mc = Minecraft.getMinecraft();
 
-	public static FontUtils font = new FontUtils("Confortaa", Font.PLAIN, 15);
 
 	@SubscribeEvent
 	public void renderOverlay(RenderGameOverlayEvent event) {
@@ -36,28 +34,28 @@ public class HudCoords extends Gui{
 					double z = mc.player.posZ;
 
 					if (mc.player.dimension == -1) {
-						font.drawStringWithShadow("Overworld: ", 2, sr.getScaledHeight() - (FontUtils.getFontHeight(true) * 2) - 2, rainbow(counter[0]  * 300));
-						font.drawStringWithShadow("Nether: ", 2, sr.getScaledHeight() - (FontUtils.getFontHeight(true) ) - 2 , rainbow(counter[0]  * 300));
+						mc.fontRenderer.drawStringWithShadow("Overworld: ", 2, sr.getScaledHeight() - (fr.FONT_HEIGHT * 2) - 2, rainbow(counter[0]  * 300));
+						mc.fontRenderer.drawStringWithShadow("Nether: ", 2, sr.getScaledHeight() - (fr.FONT_HEIGHT ) - 2 , rainbow(counter[0]  * 300));
 
-						font.drawStringWithShadow(round(x) + ", " + round(y) + ", " + round(z), 42,
-								(sr.getScaledHeight() - FontUtils.getFontHeight(true)) - 2, rainbow(counter[0]  * 300));
-						font.drawStringWithShadow(round(x * 8) + ", " + round(y) + ", " + round(z * 8), 62,
-								sr.getScaledHeight() - (FontUtils.getFontHeight(true) * 2) - 2, rainbow(counter[0]  * 300));
+						mc.fontRenderer.drawStringWithShadow(round(x) + ", " + round(y) + ", " + round(z), 42,
+								(sr.getScaledHeight() - fr.FONT_HEIGHT) - 2, rainbow(counter[0]  * 300));
+						mc.fontRenderer.drawStringWithShadow(round(x * 8) + ", " + round(y) + ", " + round(z * 8), 62,
+								sr.getScaledHeight() - (fr.FONT_HEIGHT * 2) - 2, rainbow(counter[0]  * 300));
 					}
 					if (mc.player.dimension == 0) {
-						font.drawStringWithShadow("Overworld: ", 2, sr.getScaledHeight() - (FontUtils.getFontHeight(true)) - 2, rainbow(counter[0]  * 300));
-						font.drawStringWithShadow(round(x) + ", " + round(y) + ", " + round(z), 62,
-								sr.getScaledHeight() - (FontUtils.getFontHeight(true)) - 2, rainbow(counter[0]  * 300));
+						mc.fontRenderer.drawStringWithShadow("Overworld: ", 2, sr.getScaledHeight() - (fr.FONT_HEIGHT) - 2, rainbow(counter[0]  * 300));
+						mc.fontRenderer.drawStringWithShadow(round(x) + ", " + round(y) + ", " + round(z), 62,
+								sr.getScaledHeight() - (fr.FONT_HEIGHT) - 2, rainbow(counter[0]  * 300));
 						
-						font.drawStringWithShadow("Nether: ", 2, sr.getScaledHeight() - (FontUtils.getFontHeight(true) * 2) - 2 , rainbow(counter[0]  * 300));
-						font.drawStringWithShadow(round(x / 8) + ", " + round(y) + ", " + round(z / 8), 42,
-								(sr.getScaledHeight() - FontUtils.getFontHeight(true) * 2) - 2, rainbow(counter[0]  * 300));
+						mc.fontRenderer.drawStringWithShadow("Nether: ", 2, sr.getScaledHeight() - (fr.FONT_HEIGHT * 2) - 2 , rainbow(counter[0]  * 300));
+						mc.fontRenderer.drawStringWithShadow(round(x / 8) + ", " + round(y) + ", " + round(z / 8), 42,
+								(sr.getScaledHeight() - fr.FONT_HEIGHT * 2) - 2, rainbow(counter[0]  * 300));
 					}
 					if (mc.player.dimension == 1) {
-						font.drawStringWithShadow("Nether: ", 2, sr.getScaledHeight() - (FontUtils.getFontHeight(true) ) - 2 , rainbow(counter[0]  * 300));
+						mc.fontRenderer.drawStringWithShadow("Nether: ", 2, sr.getScaledHeight() - (fr.FONT_HEIGHT ) - 2 , rainbow(counter[0]  * 300));
 
-						font.drawStringWithShadow(round(x) + ", " + round(y) + ", " + round(z), 42,
-								(sr.getScaledHeight() - FontUtils.getFontHeight(true)) - 2, rainbow(counter[0]  * 300));
+						mc.fontRenderer.drawStringWithShadow(round(x) + ", " + round(y) + ", " + round(z), 42,
+								(sr.getScaledHeight() - fr.FONT_HEIGHT) - 2, rainbow(counter[0]  * 300));
 						counter[0]++;
 					}
 

@@ -16,7 +16,6 @@ import mod.imphack.module.Module;
 import mod.imphack.setting.settings.BooleanSetting;
 import mod.imphack.setting.settings.FloatSetting;
 import mod.imphack.setting.settings.IntSetting;
-import mod.imphack.util.font.FontUtils;
 import mod.imphack.util.render.ColorUtil;
 import mod.imphack.util.render.RenderUtil;
 import net.minecraft.client.renderer.GlStateManager;
@@ -54,7 +53,6 @@ public class Nametags extends Module {
 
 	}
 
-	public static FontUtils font = new FontUtils("Confortaa", Font.PLAIN, 15);
 
 	@Override
 	public void render(ImpHackEventRender event) {
@@ -172,7 +170,7 @@ public class Nametags extends Module {
 		GlStateManager.enableTexture2D();
 		GlStateManager.pushMatrix();
 		GlStateManager.scale(0.5, 0.5, 0.5);
-		font.drawStringWithShadow((damagePercent * 100) + "%", posX * 2, posY, 0xff00ff00);
+		mc.fontRenderer.drawStringWithShadow((damagePercent * 100) + "%", posX * 2, posY, 0xff00ff00);
 		GlStateManager.popMatrix();
 		GlStateManager.disableTexture2D();
 	}
@@ -224,7 +222,7 @@ public class Nametags extends Module {
 			if (durability.isEnabled() && mainHandItem.isItemStackDamageable()) {
 				renderItemDurability(mainHandItem, posX, armorY);
 			}
-			armorY -= (font.getFontHeight(true));
+			armorY -= (mc.fontRenderer.FONT_HEIGHT);
 			if (items.isEnabled() || (durability.isEnabled() && mainHandItem.isItemStackDamageable())) {
 				posX += 16;
 			}
@@ -283,16 +281,16 @@ public class Nametags extends Module {
 
 			if (protType.isEnabled()) {
 				if (enchantment.equals(Enchantments.BLAST_PROTECTION))
-					font.drawStringWithShadow(
+					mc.fontRenderer.drawStringWithShadow(
 							ChatFormatting.WHITE + findStringForEnchants(enchantment, level), posX * 2 + 13, posY + 0,
 							0xffffffff);
 			}
 			if (enchantment.equals(Enchantments.PROTECTION))
 
-				font.drawString(findStringForEnchants(enchantment, level), posX * 2 + 13, posY + 0, 0xffffffff);
+				mc.fontRenderer.drawString(findStringForEnchants(enchantment, level), posX * 2 + 13, posY + 0, 0xffffffff);
 
 			if (enchantment.equals(Enchantments.MENDING))
-				font.drawString(ChatFormatting.WHITE + findStringForEnchants(enchantment, level),
+				mc.fontRenderer.drawString(ChatFormatting.WHITE + findStringForEnchants(enchantment, level),
 						posX * 2 + 13, posY + 5, 0xffffffff);
 		}
 

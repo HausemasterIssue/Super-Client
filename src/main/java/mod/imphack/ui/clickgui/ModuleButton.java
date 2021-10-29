@@ -4,7 +4,6 @@ import java.awt.Color;
 import java.awt.Font;
 
 import mod.imphack.module.Module;
-import mod.imphack.util.font.FontUtils;
 import net.minecraft.client.Minecraft;
 
 public class ModuleButton {
@@ -18,7 +17,6 @@ public class ModuleButton {
 	final ClickGuiFrame parent;
 
 	final Minecraft mc = Minecraft.getMinecraft();
-	public static FontUtils font = new FontUtils("Confortaa", Font.PLAIN, 15);
 
 	public ModuleButton(Module module, int x, int y, ClickGuiFrame parent) {
 		this.module = module;
@@ -31,9 +29,9 @@ public class ModuleButton {
 
 	public void draw(int mouseX, int mouseY) {
 		if (module.toggled) {
-			font.drawString(module.getName(), x + 2, y + 2, new Color(255, 150, 50).getRGB());
+			mc.fontRenderer.drawString(module.getName(), x + 2, y + 2, new Color(255, 150, 50).getRGB());
 		} else {
-			font.drawString(module.getName(), x + 2, y + 2, new Color(180, 240, 255).getRGB());
+			mc.fontRenderer.drawString(module.getName(), x + 2, y + 2, new Color(180, 240, 255).getRGB());
 		}
 	}
 
