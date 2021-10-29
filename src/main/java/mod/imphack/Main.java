@@ -48,7 +48,6 @@ public class Main {
 	public static SettingManager settingManager;
 	public static ImpHackEventManager eventManager;
 	private ClickGuiController gui;
-
 	public static boolean configLoaded = false;
 
 	@Instance

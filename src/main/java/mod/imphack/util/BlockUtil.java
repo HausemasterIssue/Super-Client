@@ -3,6 +3,7 @@ package mod.imphack.util;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockLiquid;
 import net.minecraft.block.material.Material;
+import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.Minecraft;
 import net.minecraft.init.Blocks;
 import net.minecraft.util.EnumFacing;
@@ -43,5 +44,17 @@ public class BlockUtil {
 			return EnumFacing.DOWN;
 		}
 		return EnumFacing.UP;
+	}
+	
+	//BlockOverlay
+	
+	public static IBlockState getState(BlockPos pos)
+	{
+		return mc.world.getBlockState(pos);
+	}
+	
+	public static Block getBlock(BlockPos pos)
+	{
+		return getState(pos).getBlock();
 	}
 }

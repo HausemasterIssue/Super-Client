@@ -8,6 +8,7 @@ import mod.imphack.event.events.ImpHackEventRender;
 import mod.imphack.setting.Setting;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiButton;
+import net.minecraftforge.client.event.RenderWorldLastEvent;
 import net.minecraftforge.common.MinecraftForge;
 
 import java.util.ArrayList;
@@ -125,4 +126,9 @@ public class Module implements Listenable {
 
 	public void actionPerformed(GuiButton b) {
 	}
+
+    public void onRenderWorldLast(ImpHackEventRender event) {
+    	
+    }
+
 }

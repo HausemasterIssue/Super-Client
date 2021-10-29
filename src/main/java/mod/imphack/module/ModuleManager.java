@@ -6,44 +6,13 @@ import java.util.List;
 import org.lwjgl.opengl.GL11;
 
 import mod.imphack.event.events.ImpHackEventRender;
-import mod.imphack.module.modules.client.ClickGui;
-import mod.imphack.module.modules.client.DiscordRPC;
-import mod.imphack.module.modules.combat.Anchor;
-import mod.imphack.module.modules.combat.AutoTotem;
-import mod.imphack.module.modules.combat.Criticals;
-import mod.imphack.module.modules.combat.CrystalAura;
-import mod.imphack.module.modules.combat.KillAura;
-import mod.imphack.module.modules.combat.Surround;
-import mod.imphack.module.modules.hud.Hud;
-import mod.imphack.module.modules.hud.Welcome;
-import mod.imphack.module.modules.movement.AutoWalk;
-import mod.imphack.module.modules.movement.BoatFly;
-import mod.imphack.module.modules.movement.ElytraFlight;
-import mod.imphack.module.modules.movement.EntityRide;
-import mod.imphack.module.modules.movement.Flight;
-import mod.imphack.module.modules.movement.Jesus;
-import mod.imphack.module.modules.movement.NoSlow;
-import mod.imphack.module.modules.movement.Parkour;
-import mod.imphack.module.modules.movement.Speed;
-import mod.imphack.module.modules.movement.Sprint;
-import mod.imphack.module.modules.movement.Velocity;
-import mod.imphack.module.modules.player.AutoEat;
-import mod.imphack.module.modules.player.Disabler;
-import mod.imphack.module.modules.player.FakePlayer;
-import mod.imphack.module.modules.player.Scaffold;
-import mod.imphack.module.modules.player.XCarry;
-import mod.imphack.module.modules.render.EntityTracers;
-import mod.imphack.module.modules.render.ExtraTab;
-import mod.imphack.module.modules.render.Freecam;
-import mod.imphack.module.modules.render.FullBright;
-import mod.imphack.module.modules.render.LSD;
-import mod.imphack.module.modules.render.Nametags;
-import mod.imphack.module.modules.render.Search;
-import mod.imphack.module.modules.utilities.AutoFish;
-import mod.imphack.module.modules.utilities.ConcreteBot;
-import mod.imphack.module.modules.utilities.NoHunger;
-import mod.imphack.module.modules.utilities.Reconnect;
-import mod.imphack.module.modules.utilities.Spammer;
+import mod.imphack.module.modules.client.*;
+import mod.imphack.module.modules.combat.*;
+import mod.imphack.module.modules.hud.*;
+import mod.imphack.module.modules.movement.*;
+import mod.imphack.module.modules.player.*;
+import mod.imphack.module.modules.render.*;
+import mod.imphack.module.modules.utilities.*;
 import mod.imphack.util.render.RenderUtil;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.GlStateManager;
@@ -103,7 +72,7 @@ public class ModuleManager {
 		addModule(new EntityTracers());
 		addModule(new FullBright());
 		addModule(new Freecam());// TODO fix entity dismounting with shift in freecam/make it baritone
-									// compatible, fix character skin, fix desync and glitch on disable
+		addModule(new BlockOverlay());// compatible, fix character skin, fix desync and glitch on disable
 		addModule(new Nametags());
 		addModule(new ExtraTab());
 		// TODO norender

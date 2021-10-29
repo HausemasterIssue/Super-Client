@@ -7,6 +7,7 @@ import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.entity.RenderManager;
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
 import net.minecraft.entity.Entity;
+import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Vec3d;
 
@@ -22,6 +23,9 @@ import java.awt.*;
 import java.util.Arrays;
 
 public class RenderUtil extends Tessellator {
+	
+	private static final AxisAlignedBB DEFAULT_AABB = new AxisAlignedBB(0, 0, 0, 1, 1, 1);
+
 	
 	static Minecraft mc = Minecraft.getMinecraft();
 
@@ -597,5 +601,129 @@ public class RenderUtil extends Tessellator {
             GlStateManager.popMatrix();
         }
     }
+    
+    //BlockOverlay
+    
+    public static void drawSolidBox() {
+
+        drawSolidBox(DEFAULT_AABB);
+    }
+
+    public static void drawSolidBox(AxisAlignedBB bb) {
+
+    	GL11.glBegin(GL11.GL_QUADS);
+        {
+        	GL11.glVertex3d(bb.minX, bb.minY, bb.minZ);
+        	GL11.glVertex3d(bb.maxX, bb.minY, bb.minZ);
+        	GL11.glVertex3d(bb.maxX, bb.minY, bb.maxZ);
+        	GL11.glVertex3d(bb.minX, bb.minY, bb.maxZ);
+
+        	GL11.glVertex3d(bb.minX, bb.maxY, bb.minZ);
+        	GL11.glVertex3d(bb.minX, bb.maxY, bb.maxZ);
+        	GL11.glVertex3d(bb.maxX, bb.maxY, bb.maxZ);
+        	GL11.glVertex3d(bb.maxX, bb.maxY, bb.minZ);
+
+        	GL11.glVertex3d(bb.minX, bb.minY, bb.minZ);
+        	GL11.glVertex3d(bb.minX, bb.maxY, bb.minZ);
+        	GL11.glVertex3d(bb.maxX, bb.maxY, bb.minZ);
+        	GL11.glVertex3d(bb.maxX, bb.minY, bb.minZ);
+
+        	GL11.glVertex3d(bb.maxX, bb.minY, bb.minZ);
+            GL11.glVertex3d(bb.maxX, bb.maxY, bb.minZ);
+            GL11.glVertex3d(bb.maxX, bb.maxY, bb.maxZ);
+            GL11.glVertex3d(bb.maxX, bb.minY, bb.maxZ);
+
+            GL11.glVertex3d(bb.minX, bb.minY, bb.maxZ);
+            GL11.glVertex3d(bb.maxX, bb.minY, bb.maxZ);
+            GL11.glVertex3d(bb.maxX, bb.maxY, bb.maxZ);
+            GL11.glVertex3d(bb.minX, bb.maxY, bb.maxZ);
+
+            GL11.glVertex3d(bb.minX, bb.minY, bb.minZ);
+            GL11.glVertex3d(bb.minX, bb.minY, bb.maxZ);
+            GL11.glVertex3d(bb.minX, bb.maxY, bb.maxZ);
+            GL11.glVertex3d(bb.minX, bb.maxY, bb.minZ);
+        }
+        GL11.glEnd();
+    }
+
+    public static void drawOutlinedBox() {
+
+        drawOutlinedBox(DEFAULT_AABB);
+    }
+
+    public static void drawOutlinedBox(AxisAlignedBB bb) {
+
+    	GL11.glBegin(GL11.GL_LINES);
+        {
+        	GL11.glVertex3d(bb.minX, bb.minY, bb.minZ);
+        	GL11.glVertex3d(bb.maxX, bb.minY, bb.minZ);
+
+        	GL11.glVertex3d(bb.maxX, bb.minY, bb.minZ);
+        	GL11.glVertex3d(bb.maxX, bb.minY, bb.maxZ);
+
+        	GL11.glVertex3d(bb.maxX, bb.minY, bb.maxZ);
+        	GL11.glVertex3d(bb.minX, bb.minY, bb.maxZ);
+
+        	GL11.glVertex3d(bb.minX, bb.minY, bb.maxZ);
+        	GL11.glVertex3d(bb.minX, bb.minY, bb.minZ);
+
+        	GL11.glVertex3d(bb.minX, bb.minY, bb.minZ);
+            GL11.glVertex3d(bb.minX, bb.maxY, bb.minZ);
+
+            GL11.glVertex3d(bb.maxX, bb.minY, bb.minZ);
+            GL11.glVertex3d(bb.maxX, bb.maxY, bb.minZ);
+
+            GL11.glVertex3d(bb.maxX, bb.minY, bb.maxZ);
+            GL11.glVertex3d(bb.maxX, bb.maxY, bb.maxZ);
+
+            GL11.glVertex3d(bb.minX, bb.minY, bb.maxZ);
+            GL11.glVertex3d(bb.minX, bb.maxY, bb.maxZ);
+
+            GL11.glVertex3d(bb.minX, bb.maxY, bb.minZ);
+            GL11.glVertex3d(bb.maxX, bb.maxY, bb.minZ);
+
+            GL11.glVertex3d(bb.maxX, bb.maxY, bb.minZ);
+            GL11.glVertex3d(bb.maxX, bb.maxY, bb.maxZ);
+
+            GL11.glVertex3d(bb.maxX, bb.maxY, bb.maxZ);
+            GL11.glVertex3d(bb.minX, bb.maxY, bb.maxZ);
+
+            GL11.glVertex3d(bb.minX, bb.maxY, bb.maxZ);
+            GL11.glVertex3d(bb.minX, bb.maxY, bb.minZ);
+        }
+        GL11.glEnd();
+    }
+    
+    public static void drawBlockESP(BlockPos pos, float red, float green, float blue) {
+    	GL11.glPushMatrix();
+    	GL11.glEnable(GL11.GL_BLEND);
+    	GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
+    	GL11.glEnable(GL11.GL_LINE_SMOOTH);
+    	GL11.glLineWidth(1);
+    	GL11.glDisable(GL11.GL_TEXTURE_2D);
+    	GL11.glEnable(GL11.GL_CULL_FACE);
+    	GL11.glDisable(GL11.GL_DEPTH_TEST);
+    	GL11.glDisable(GL11.GL_LIGHTING);
+        double renderPosX = mc.getRenderManager().viewerPosX;
+        double renderPosY = mc.getRenderManager().viewerPosY;
+        double renderPosZ = mc.getRenderManager().viewerPosZ;
+
+        GL11.glTranslated(-renderPosX, -renderPosY, -renderPosZ);
+        GL11.glTranslated(pos.getX(), pos.getY(), pos.getZ());
+
+        GL11.glColor4f(red, green, blue, 0.30F);
+        drawSolidBox();
+        GL11.glColor4f(red, green, blue, 0.7F);
+        drawOutlinedBox();
+
+        GL11.glColor4f(1, 1, 1, 1);
+
+        GL11.glEnable(GL11.GL_LIGHTING);
+        GL11.glEnable(GL11.GL_DEPTH_TEST);
+        GL11.glEnable(GL11.GL_TEXTURE_2D);
+        GL11.glDisable(GL11.GL_BLEND);
+        GL11.glDisable(GL11.GL_LINE_SMOOTH);
+        GL11.glPopMatrix();
+	}
 
 }
