@@ -3,13 +3,13 @@ package mod.imphack.module.modules.combat;
 import me.zero.alpine.listener.EventHandler;
 import me.zero.alpine.listener.Listener;
 import mod.imphack.Client;
+import mod.imphack.container.ImpHackInventory;
 import mod.imphack.event.events.ImpHackEventTotemPop;
 import mod.imphack.module.Category;
 import mod.imphack.module.Module;
 import mod.imphack.setting.settings.BooleanSetting;
 import mod.imphack.setting.settings.IntSetting;
 import net.minecraft.init.Items;
-import net.minecraft.inventory.ClickType;
 import net.minecraft.item.Item;
 
 public class AutoTotem extends Module {
@@ -32,8 +32,7 @@ public class AutoTotem extends Module {
 				for (int i = 36; i >= 0; i--) {
 					final Item item = mc.player.inventory.getStackInSlot(i).getItem();
 					if (item == Items.TOTEM_OF_UNDYING) {
-						mc.playerController.windowClick(0, i, 1, ClickType.PICKUP, mc.player);
-                                		mc.playerController.windowClick(0, 45, 1, ClickType.PICKUP, mc.player);
+						ImpHackInventory.putInOffhand(mc.player.inventory.getStackInSlot(i));
 					}
 				}
 				timer = System.currentTimeMillis();

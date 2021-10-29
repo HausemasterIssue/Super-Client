@@ -5,16 +5,19 @@ import net.minecraft.inventory.ClickType;
 import net.minecraft.item.ItemStack;
 
 public class ImpHackInventory {
-	final Minecraft mc = Minecraft.getMinecraft();
 
-	public void putInOffhand(ItemStack stack) {
-		int slot = mc.player.inventory.getSlotFor(stack);
-		mc.playerController.windowClick(mc.player.inventoryContainer.windowId, slot < 9 ? slot + 36 : slot, 0,
-				ClickType.PICKUP, mc.player);
-		mc.playerController.windowClick(mc.player.inventoryContainer.windowId, 45, 0, ClickType.PICKUP, mc.player);
-		mc.playerController.windowClick(mc.player.inventoryContainer.windowId, slot < 9 ? slot + 36 : slot, 0,
-				ClickType.PICKUP, mc.player);
+	public static void putInOffhand(ItemStack stack) {
+		int slot = Minecraft.getMinecraft().player.inventory.getSlotFor(stack);
+		Minecraft.getMinecraft().playerController.windowClick(
+				Minecraft.getMinecraft().player.inventoryContainer.windowId, slot < 9 ? slot + 36 : slot, 0,
+				ClickType.PICKUP, Minecraft.getMinecraft().player);
+		Minecraft.getMinecraft().playerController.windowClick(
+				Minecraft.getMinecraft().player.inventoryContainer.windowId, 45, 0, ClickType.PICKUP,
+				Minecraft.getMinecraft().player);
+		Minecraft.getMinecraft().playerController.windowClick(
+				Minecraft.getMinecraft().player.inventoryContainer.windowId, slot < 9 ? slot + 36 : slot, 0,
+				ClickType.PICKUP, Minecraft.getMinecraft().player);
 
-		mc.playerController.updateController();
+		Minecraft.getMinecraft().playerController.updateController();
 	}
 }
