@@ -3,6 +3,7 @@ package mod.imphack.command;
 import mod.imphack.Client;
 import mod.imphack.command.commands.Bind;
 import mod.imphack.command.commands.Help;
+import mod.imphack.command.commands.Login;
 import mod.imphack.command.commands.Rotate;
 import mod.imphack.command.commands.Toggle;
 
@@ -19,6 +20,7 @@ public class CommandManager {
 		addCommand(new Toggle());
 		addCommand(new Help());
 		addCommand(new Rotate());
+		addCommand(new Login());
 	}
 
 	public void addCommand(Command c) {
