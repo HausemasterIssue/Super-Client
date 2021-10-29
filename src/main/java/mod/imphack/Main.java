@@ -37,7 +37,7 @@ public class Main {
 	public static Config config;
 	
 	
-	//Initilize HUD modules and HUD classes
+	//Initilize HUD modules
 	public static final HudCoords hudCoords = new HudCoords();
 	public static final HudArrayList hudArrayList = new HudArrayList();
 	public static final HudWatermark hudVersion = new HudWatermark();
