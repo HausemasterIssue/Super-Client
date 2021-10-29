@@ -3,6 +3,7 @@ package mod.imphack.module.modules.render;
 import java.awt.Font;
 
 import org.lwjgl.opengl.GL11;
+import org.newdawn.slick.tests.UnicodeFontTest;
 
 import com.mojang.realmsclient.gui.ChatFormatting;
 
@@ -53,7 +54,7 @@ public class Nametags extends Module {
 
 	}
 
-	public static FontUtils font1 = new FontUtils("Confortaa", Font.PLAIN, 15);
+	public static FontUtils font = new FontUtils("Confortaa", Font.PLAIN, 15);
 
 	@Override
 	public void render(ImpHackEventRender event) {
@@ -171,12 +172,12 @@ public class Nametags extends Module {
 		GlStateManager.enableTexture2D();
 		GlStateManager.pushMatrix();
 		GlStateManager.scale(0.5, 0.5, 0.5);
-		mc.fontRenderer.drawStringWithShadow((int) (damagePercent * 100) + "%", posX * 2, posY, 0xff00ff00);
+		font.drawStringWithShadow((damagePercent * 100) + "%", posX * 2, posY, 0xff00ff00);
 		GlStateManager.popMatrix();
 		GlStateManager.disableTexture2D();
 	}
 
-	// render item positions
+	// render item positions/s
 	private void renderItemsPos(EntityPlayer entityPlayer, int posX, int posY) {
 		ItemStack mainHandItem = entityPlayer.getHeldItemMainhand();
 		ItemStack offHandItem = entityPlayer.getHeldItemOffhand();
@@ -223,7 +224,7 @@ public class Nametags extends Module {
 			if (durability.isEnabled() && mainHandItem.isItemStackDamageable()) {
 				renderItemDurability(mainHandItem, posX, armorY);
 			}
-			armorY -= (mc.fontRenderer.FONT_HEIGHT);
+			armorY -= (font.getFontHeight(true));
 			if (items.isEnabled() || (durability.isEnabled() && mainHandItem.isItemStackDamageable())) {
 				posX += 16;
 			}
@@ -282,16 +283,16 @@ public class Nametags extends Module {
 
 			if (protType.isEnabled()) {
 				if (enchantment.equals(Enchantments.BLAST_PROTECTION))
-					mc.fontRenderer.drawStringWithShadow(
+					font.drawStringWithShadow(
 							ChatFormatting.WHITE + findStringForEnchants(enchantment, level), posX * 2 + 13, posY + 0,
 							0xffffffff);
 			}
 			if (enchantment.equals(Enchantments.PROTECTION))
 
-				font1.drawString(findStringForEnchants(enchantment, level), posX * 2 + 13, posY + 0, 0xffffffff);
+				font.drawString(findStringForEnchants(enchantment, level), posX * 2 + 13, posY + 0, 0xffffffff);
 
 			if (enchantment.equals(Enchantments.MENDING))
-				mc.fontRenderer.drawString(ChatFormatting.WHITE + findStringForEnchants(enchantment, level),
+				font.drawString(ChatFormatting.WHITE + findStringForEnchants(enchantment, level),
 						posX * 2 + 13, posY + 5, 0xffffffff);
 		}
 

@@ -107,7 +107,7 @@ public class BlockButton {
 			assert textFieldRed != null;
 			textFieldRed.setTextColor(new Color(255, 0, 0).getRGB());
 			textFieldGreen.setTextColor(new Color(0, 255, 0).getRGB());
-			textFieldBlue.setTextColor(new Color(0, 0, 255).getRGB());
+			textFieldBlue.setTextColor(new Color(0, 0, 254).getRGB());
 			textFieldRed.setEnabled(true);
 			textFieldGreen.setEnabled(true);
 			textFieldBlue.setEnabled(true);

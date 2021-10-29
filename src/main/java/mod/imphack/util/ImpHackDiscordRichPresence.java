@@ -24,6 +24,7 @@ public class ImpHackDiscordRichPresence {
 			discordRichPresence.smallImageKey = "skyrim";
 			discordRichPresence.state = null;
 		} else if (mode.equalsIgnoreCase("Vanilla")) {
+			
 			String discordID = "901118741436309505";
 			discordRPC.Discord_Initialize(discordID, eventHandlers, true, null);
 
