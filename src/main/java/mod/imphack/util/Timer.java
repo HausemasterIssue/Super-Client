@@ -2,7 +2,7 @@ package mod.imphack.util;
 
 public class Timer {
 	private long time;
-
+	private long lastMS = 0L;
 	public Timer() {
 		this.time = -1L;
 	}
@@ -38,5 +38,23 @@ public class Timer {
 
 	public long convertToNano(final long time) {
 		return time * 1000000L;
+	}
+	public boolean isDelay(long delay) {
+		if(System.currentTimeMillis() - lastMS >= delay) {
+			return true;
+		}
+		return false;
+	}
+	
+    public long getCurrentMS(){
+		return System.nanoTime() / 1000000L;
+	}
+	
+    public void setLastMS(long lastMS) {
+		this.lastMS = lastMS;
+	}
+	
+    public void setLastMS() {
+		this.lastMS = System.currentTimeMillis();
 	}
 }

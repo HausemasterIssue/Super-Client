@@ -8,6 +8,12 @@ public class ColorUtil extends Color {
 
     private static final long serialVersionUID = 1L;
 
+    
+    public static int rainbow(int delay) {
+		double rainbowState = Math.ceil((System.currentTimeMillis() + delay) / 50.0);
+		rainbowState %= 360;
+		return Color.getHSBColor((float) (rainbowState / 360.0f), 0.5f, 1f).getRGB();
+	}
     public ColorUtil (int rgb) {
         super(rgb);
     }
@@ -51,4 +57,11 @@ public class ColorUtil extends Color {
     public void glColor() {
         GlStateManager.color(getRed()/255.0f,getGreen()/255.0f,getBlue()/255.0f,getAlpha()/255.0f);
     }
+    public static int color(int r, int g, int b, int a) {
+		return new Color(r, g, b, a).getRGB();
+	}
+	
+	public static int color(float r, float g, float b, float a) {
+		return new Color(r, g, b, a).getRGB();
+	}
 }

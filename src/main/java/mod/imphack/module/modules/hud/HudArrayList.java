@@ -9,6 +9,7 @@ import mod.imphack.Main;
 import mod.imphack.module.Module;
 import mod.imphack.setting.settings.BooleanSetting;
 import mod.imphack.util.Reference;
+import mod.imphack.util.render.ColorUtil;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.gui.Gui;
@@ -69,7 +70,7 @@ public class HudArrayList extends Gui{
 					for (int i = 0; i < modules.size(); i++) {
 						Module m = modules.get(i);
 						mc.fontRenderer.drawStringWithShadow(m.getName(), sr.getScaledWidth() - fr.getStringWidth(m.getName()) - 2,
-								y, rainbow(i * 300));
+								y, ColorUtil.rainbow(300));
 						y += fr.FONT_HEIGHT;
 					}
 				}
@@ -83,11 +84,7 @@ public class HudArrayList extends Gui{
 				+ (Integer.valueOf(Math.abs((int) ((num % 1) * 10)))).toString();
 	}
 
-	public static int rainbow(int delay) {
-		double rainbowState = Math.ceil((System.currentTimeMillis() + delay) / 50.0);
-		rainbowState %= 360;
-		return Color.getHSBColor((float) (rainbowState / 360.0f), 0.5f, 1f).getRGB();
-	}
+	
 }
 
 

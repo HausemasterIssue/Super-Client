@@ -1,6 +1,7 @@
 package mod.imphack.util.render;
 
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.ScaledResolution;
 import net.minecraft.client.renderer.BufferBuilder;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.Tessellator;
@@ -16,20 +17,28 @@ import org.lwjgl.opengl.GL32;
 
 import mod.imphack.util.EntityUtil;
 import mod.imphack.util.MathUtil;
+import mod.imphack.util.Timer;
 import mod.imphack.util.font.FontUtils;
 
 import javax.vecmath.Vector3d;
 import java.awt.*;
+import java.text.DecimalFormat;
+import java.text.DecimalFormatSymbols;
 import java.util.Arrays;
+import java.util.Locale;
 
 public class RenderUtil extends Tessellator {
 	
 	private static final AxisAlignedBB DEFAULT_AABB = new AxisAlignedBB(0, 0, 0, 1, 1, 1);
 
+	public static Timer splashTimer = new Timer();
+	public static int splashTickPos = 0;
 	
 	static Minecraft mc = Minecraft.getMinecraft();
 
 	public static final RenderUtil INSTANCE = new RenderUtil();
+	
+	public static boolean isSplash = false;
 
 	public RenderUtil() {
 		super(0x200000);
@@ -725,5 +734,11 @@ public class RenderUtil extends Tessellator {
         GL11.glDisable(GL11.GL_LINE_SMOOTH);
         GL11.glPopMatrix();
 	}
-
+    
+    public static String DF (Number value, int maxvalue) {
+	     DecimalFormat df = new DecimalFormat("0", DecimalFormatSymbols.getInstance(Locale.ENGLISH));
+	     df.setMaximumFractionDigits(maxvalue);
+	     return df.format(value);
+	}
+	
 }
