@@ -19,7 +19,7 @@ public class Criticals extends Module {
 		this.addSetting(mode);
 	}
 
-	final ModeSetting mode = new ModeSetting("Mode", this, "Jump", "Packet", "Jump");
+	final ModeSetting mode = new ModeSetting("Mode", this, "NCPStrict", "Packet", "NCPStrict", "Jump");
 
 	CPacketUseEntity packet;
 	final Minecraft mc = Minecraft.getMinecraft();
@@ -37,9 +37,15 @@ public class Criticals extends Module {
                 	}
                 	
                 	if(mode.is("Packet")) {
-                        mc.player.connection.sendPacket(new CPacketPlayer.Position(mc.player.posX, mc.player.posY + 0.1f, mc.player.posZ, false));
-                        mc.player.connection.sendPacket(new CPacketPlayer.Position(mc.player.posX, mc.player.posY, mc.player.posZ, false));
+                        	mc.player.connection.sendPacket(new CPacketPlayer.Position(mc.player.posX, mc.player.posY + 0.1f, mc.player.posZ, false));
+                        	mc.player.connection.sendPacket(new CPacketPlayer.Position(mc.player.posX, mc.player.posY, mc.player.posZ, false));
                 	}
+			
+			if(mode.is("NCPStrict")) {
+				mc.player.connection.sendPacket(new CPacketPlayer.Position(mc.player.posX, mc.player.posY + 0.062602401692772D, mc.player.posZ, false));
+                    		mc.player.connection.sendPacket(new CPacketPlayer.Position(mc.player.posX, mc.player.posY + 0.0726023996066094D, mc.player.posZ, false));
+                    		mc.player.connection.sendPacket(new CPacketPlayer.Position(mc.player.posX, mc.player.posY, mc.player.posZ, false));
+			}
                
                 }
             }
