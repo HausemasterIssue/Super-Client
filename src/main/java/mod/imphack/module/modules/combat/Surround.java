@@ -1,175 +1,337 @@
 package mod.imphack.module.modules.combat;
 
+
+
+import static mod.imphack.util.BlockUtil.faceVectorPacketInstant;
+
+import org.lwjgl.input.Keyboard;
+
+
 import mod.imphack.module.Category;
 import mod.imphack.module.Module;
+import mod.imphack.util.Timer;
 import mod.imphack.setting.settings.BooleanSetting;
 import mod.imphack.setting.settings.IntSetting;
-import mod.imphack.util.BlockInteractionUtil;
+import mod.imphack.util.BlockUtil;
 import net.minecraft.block.Block;
-import net.minecraft.block.BlockEnderChest;
+import net.minecraft.block.BlockAir;
+import net.minecraft.block.BlockLiquid;
 import net.minecraft.block.BlockObsidian;
+import net.minecraft.client.Minecraft;
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.item.EntityItem;
-import net.minecraft.entity.item.EntityXPOrb;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
+import net.minecraft.network.Packet;
+import net.minecraft.network.play.client.CPacketEntityAction;
+import net.minecraft.network.play.client.CPacketPlayer;
+import net.minecraft.util.EnumFacing;
+import net.minecraft.util.EnumHand;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Vec3d;
 
-public class Surround extends Module {
+public class Surround extends  Module{
 	public Surround() {
 		super("Surround", "Places Obsidian Around You", Category.COMBAT);
 
+		addSetting(triggerSurround);
+		addSetting(shiftOnly);
 		addSetting(rotate);
-		addSetting(hybrid);
-		addSetting(triggerable);
-		addSetting(center);
-		addSetting(block_head);
-		addSetting(tick_for_place);
-		addSetting(tick_timeout);
+		addSetting(disableOnJump);
+		addSetting(centerPlayer);
+		addSetting(tickDelay);
+		addSetting(timeOutTicks);
+		addSetting(blocksPerTick);
 	}
 
-	final BooleanSetting rotate = new BooleanSetting("Rotate", this, true);
-	final BooleanSetting hybrid = new BooleanSetting("Hybrid", this, true);
-	final BooleanSetting triggerable = new BooleanSetting("Toggle", this, true);
-	final BooleanSetting center = new BooleanSetting("Center", this, false);
-	final BooleanSetting block_head = new BooleanSetting("Block Face", this, false);
-	final IntSetting tick_for_place = new IntSetting("Blocks per tick", this, 2);
-	final IntSetting tick_timeout = new IntSetting("Ticks til timeout", this, 20);
+	public BooleanSetting triggerSurround = new BooleanSetting("trigger", this, false);
+	public BooleanSetting shiftOnly = new BooleanSetting("onShift", this, false);
+	public BooleanSetting rotate = new BooleanSetting("rotate", this, true);
+	public BooleanSetting disableOnJump = new BooleanSetting("offJump", this, false);
+	public BooleanSetting centerPlayer = new BooleanSetting("autoCenter", this, true);
+	public IntSetting tickDelay = new IntSetting("tickDelay", this, 5);
+	public IntSetting timeOutTicks = new IntSetting("timeOutTicks", this, 100);
+	public IntSetting blocksPerTick = new IntSetting("blocksPerTick", this, 4);
 
-	private int y_level = 0;
-	private int tick_runs = 0;
-	private int offset_step = 0;
+	private boolean noObby = false;
+    private boolean isSneaking = false;
+    private boolean firstRun = false;
 
-	private Vec3d center_block = Vec3d.ZERO;
+    private int oldSlot = -1;
+    
+    private int blocksPlaced;
+    private int runTimeTicks = 0;
+    private int delayTimeTicks = 0;
+    private int offsetSteps = 0;
+    
 
-	final Vec3d[] surround_targets = { new Vec3d(1, 0, 0), new Vec3d(0, 0, 1), new Vec3d(-1, 0, 0), new Vec3d(0, 0, -1),
-			new Vec3d(1, -1, 0), new Vec3d(0, -1, 1), new Vec3d(-1, -1, 0), new Vec3d(0, -1, -1), new Vec3d(0, -1, 0) };
+    private Vec3d centeredBlock = Vec3d.ZERO;
+    
+    
+    public static Vec3d getInterpolatedPos(Entity entity, float ticks) {
+        return (new Vec3d(entity.lastTickPosX, entity.lastTickPosY, entity.lastTickPosZ)).add(getInterpolatedAmount(entity, ticks));
+    }
+    
+    public static Vec3d getInterpolatedAmount(Entity entity, double ticks) {
+        return getInterpolatedAmount(entity, ticks, ticks, ticks);
+    }
+   
+    public static Vec3d getInterpolatedAmount(Entity entity, double x, double y, double z) {
+        return new Vec3d((entity.posX - entity.lastTickPosX) * x, (entity.posY - entity.lastTickPosY) * y, (entity.posZ - entity.lastTickPosZ) * z);
+    }
 
-	final Vec3d[] surround_targets_face = { new Vec3d(1, 1, 0), new Vec3d(0, 1, 1), new Vec3d(-1, 1, 0), new Vec3d(0, 1, -1),
-			new Vec3d(1, 0, 0), new Vec3d(0, 0, 1), new Vec3d(-1, 0, 0), new Vec3d(0, 0, -1), new Vec3d(1, -1, 0),
-			new Vec3d(0, -1, 1), new Vec3d(-1, -1, 0), new Vec3d(0, -1, -1), new Vec3d(0, -1, 0) };
+    @Override
+    public void onEnable() {
+        if (mc.player == null) {
+            onDisable();
+            return;
+        }
 
-	@Override
-	public void onEnable() {
-		if (find_in_hotbar() == -1) {
-			this.toggle();
-			return;
-		}
+        if (centerPlayer.isEnabled() && mc.player.onGround) {
+            mc.player.motionX = 0;
+            mc.player.motionZ = 0;
+        }
 
-		if (mc.player != null) {
+        centeredBlock = getCenterOfBlock(mc.player.posX, mc.player.posY, mc.player.posY);
 
-			y_level = (int) Math.round(mc.player.posY);
+        oldSlot = mc.player.inventory.currentItem;
 
-			center_block = get_center(mc.player.posX, mc.player.posY, mc.player.posZ);
+        if (findObsidianSlot() != -1) {
+            mc.player.inventory.currentItem = findObsidianSlot();
+        }
+    }
 
-			if (center.enabled) {
-				mc.player.motionX = 0;
-				mc.player.motionZ = 0;
-			}
-		}
-	}
+    @Override
+    public void onDisable() {
+        if (mc.player == null) {
+            return;
+        }
 
-	@Override
-	public void onUpdate() {
+        if (isSneaking){
+            mc.player.connection.sendPacket((Packet<?>) new CPacketEntityAction(mc.player, CPacketEntityAction.Action.STOP_SNEAKING));
+            isSneaking = false;
+        }
 
-		if (mc.player != null) {
+        if (oldSlot != mc.player.inventory.currentItem && oldSlot != -1) {
+            mc.player.inventory.currentItem = oldSlot;
+            oldSlot = -1;
+        }
 
-			if (center_block != Vec3d.ZERO && center.enabled) {
+        centeredBlock = Vec3d.ZERO;
 
-				double x_diff = Math.abs(center_block.x - mc.player.posX);
-				double z_diff = Math.abs(center_block.z - mc.player.posZ);
+        noObby = false;
+        firstRun = true;
+    }
 
-				if (x_diff <= 0.1 && z_diff <= 0.1) {
-					center_block = Vec3d.ZERO;
-				} else {
-					double motion_x = center_block.x - mc.player.posX;
-					double motion_z = center_block.z - mc.player.posZ;
+    @Override
+    public void onUpdate() {
+        if (mc.player == null) {
+            onDisable();
+            return;
+        }
 
-					mc.player.motionX = motion_x / 2;
-					mc.player.motionZ = motion_z / 2;
-				}
+        if (mc.player.posY <= 0) {
+            return;
+        }
 
-			}
+        if (firstRun){
+            firstRun = false;
+            if (findObsidianSlot() == -1 ) {
+                noObby = true;
+                onDisable();
+            }
+        }
+        else {
+            if (delayTimeTicks < tickDelay.getValue()) {
+                delayTimeTicks++;
+                return;
+            }
+            else {
+                delayTimeTicks = 0;
+            }
+        }
+        
+        if (shiftOnly.isEnabled() && !mc.player.isSneaking()) {
+            return;
+        }
 
-			if ((int) Math.round(mc.player.posY) != y_level && this.hybrid.enabled) {
-				this.toggle();
-				return;
-			}
+        if (disableOnJump.isEnabled() && !(mc.player.onGround)) {
+            return;
+        }
 
-			if (!this.triggerable.enabled && this.tick_runs >= this.tick_timeout.value) { // timeout time
-				this.tick_runs = 0;
-				this.toggle();
-				return;
-			}
+        if (centerPlayer.isEnabled() && centeredBlock != Vec3d.ZERO && mc.player.onGround) {
 
-			int blocks_placed = 0;
+            double xDeviation = Math.abs(centeredBlock.x - mc.player.posX);
+            double zDeviation = Math.abs(centeredBlock.z - mc.player.posZ);
 
-			while (blocks_placed < this.tick_for_place.value) {
+            if (xDeviation <= 0.1 && zDeviation <= 0.1){
+                centeredBlock = Vec3d.ZERO;
+            }
+            else {
+                double newX;
+                double newZ;
+                if (mc.player.posX > Math.round(mc.player.posX)) {
+                   newX = Math.round(mc.player.posX) + 0.5;
+                }
+                else if (mc.player.posX < Math.round(mc.player.posX)) {
+                    newX = Math.round(mc.player.posX) - 0.5;
+                }
+                else {
+                    newX = mc.player.posX;
+                }
 
-				if (this.offset_step >= (block_head.enabled ? this.surround_targets_face.length
-						: this.surround_targets.length)) {
-					this.offset_step = 0;
-					break;
-				}
+                if (mc.player.posZ > Math.round(mc.player.posZ)) {
+                    newZ = Math.round(mc.player.posZ) + 0.5;
+                }
+                else if (mc.player.posZ < Math.round(mc.player.posZ)) {
+                    newZ = Math.round(mc.player.posZ) - 0.5;
+                }
+                else {
+                    newZ = mc.player.posZ;
+                }
 
-				BlockPos offsetPos = new BlockPos(block_head.enabled ? this.surround_targets_face[offset_step]
-						: this.surround_targets[offset_step]);
-				BlockPos targetPos = new BlockPos(mc.player.getPositionVector()).add(offsetPos.getX(), offsetPos.getY(),
-						offsetPos.getZ());
+                mc.player.connection.sendPacket(new CPacketPlayer.Position(newX, mc.player.posY, newZ, true));
+                mc.player.setPosition(newX, mc.player.posY, newZ);
+            }
+        }
 
-				boolean try_to_place = mc.world.getBlockState(targetPos).getMaterial().isReplaceable();
+        if (triggerSurround.isEnabled() && runTimeTicks >= timeOutTicks.getValue()) {
+            runTimeTicks = 0;
+            onDisable();
+            return;
+        }
 
-				for (Entity entity : mc.world.getEntitiesWithinAABBExcludingEntity(null,
-						new AxisAlignedBB(targetPos))) {
-					if (entity instanceof EntityItem || entity instanceof EntityXPOrb)
-						continue;
-					try_to_place = false;
-					break;
-				}
+        blocksPlaced = 0;
 
-				if (try_to_place && BlockInteractionUtil.placeBlock(targetPos, find_in_hotbar(), rotate.enabled,
-						rotate.enabled)) {
-					blocks_placed++;
-				}
+        while (blocksPlaced <= blocksPerTick.getValue()) {
+            Vec3d[] offsetPattern;
+            offsetPattern = Surround.Offsets.SURROUND;
+            int maxSteps = Surround.Offsets.SURROUND.length;
 
-				offset_step++;
+            if (offsetSteps >= maxSteps){
+                offsetSteps = 0;
+                break;
+            }
 
-			}
+            BlockPos offsetPos = new BlockPos(offsetPattern[offsetSteps]);
+            BlockPos targetPos = new BlockPos(mc.player.getPositionVector()).add(offsetPos.getX(), offsetPos.getY(), offsetPos.getZ());
 
-			this.tick_runs++;
+            boolean tryPlacing = true;
 
-		}
-	}
+            if (!mc.world.getBlockState(targetPos).getMaterial().isReplaceable()) {
+                tryPlacing = false;
+            }
 
-	private int find_in_hotbar() {
+            for (Entity entity : mc.world.getEntitiesWithinAABBExcludingEntity(null, new AxisAlignedBB(targetPos))) {
+                if (entity instanceof EntityPlayer) {
+                    tryPlacing = false;
+                    break;
+                }
+            }
 
-		for (int i = 0; i < 9; ++i) {
+            if (tryPlacing && placeBlock(targetPos)) {
+                blocksPlaced++;
+            }
 
-			final ItemStack stack = mc.player.inventory.getStackInSlot(i);
+            offsetSteps++;
 
-			if (stack != ItemStack.EMPTY && stack.getItem() instanceof ItemBlock) {
+            if (isSneaking) {
+                mc.player.connection.sendPacket(new CPacketEntityAction(mc.player, CPacketEntityAction.Action.STOP_SNEAKING));
+                isSneaking = false;
+            }
+        }
+        runTimeTicks++;
+    }
 
-				final Block block = ((ItemBlock) stack.getItem()).getBlock();
+    private int findObsidianSlot() {
+        int slot = -1;
 
-				if (block instanceof BlockEnderChest)
-					return i;
+        for (int i = 0; i < 9; i++){
+            ItemStack stack = mc.player.inventory.getStackInSlot(i);
 
-				else if (block instanceof BlockObsidian)
-					return i;
+            if (stack == ItemStack.EMPTY || !(stack.getItem() instanceof ItemBlock)) {
+                continue;
+            }
 
-			}
-		}
-		return -1;
-	}
+            Block block = ((ItemBlock) stack.getItem()).getBlock();
+            if (block instanceof BlockObsidian){
+                slot = i;
+                break;
+            }
+        }
+        return slot;
+    }
 
-	public Vec3d get_center(double posX, double posY, double posZ) {
-		double x = Math.floor(posX) + 0.5D;
-		double y = Math.floor(posY);
-		double z = Math.floor(posZ) + 0.5D;
+    private boolean placeBlock(BlockPos pos) {
+        Block block = mc.world.getBlockState(pos).getBlock();
 
-		return new Vec3d(x, y, z);
-	}
+        if (!(block instanceof BlockAir) && !(block instanceof BlockLiquid)) {
+            return false;
+        }
 
+        EnumFacing side = BlockUtil.getPlaceableSide(pos);
+
+        if (side == null){
+            return false;
+        }
+
+        BlockPos neighbour = pos.offset(side);
+        EnumFacing opposite = side.getOpposite();
+
+        if (!BlockUtil.canBeClicked(neighbour)) {
+            return false;
+        }
+
+        Vec3d hitVec = new Vec3d(neighbour).add(0.5, 0.5, 0.5).add(new Vec3d(opposite.getDirectionVec()).scale(0.5));
+        Block neighbourBlock = mc.world.getBlockState(neighbour).getBlock();
+
+        int obsidianSlot = findObsidianSlot();
+
+        if (mc.player.inventory.currentItem != obsidianSlot && obsidianSlot != -1) {
+
+            mc.player.inventory.currentItem = obsidianSlot;
+        }
+
+        if (!isSneaking && BlockUtil.blackList.contains(neighbourBlock) || BlockUtil.shulkerList.contains(neighbourBlock)) {
+            mc.player.connection.sendPacket(new CPacketEntityAction(mc.player, CPacketEntityAction.Action.START_SNEAKING));
+            isSneaking = true;
+        }
+
+        if (obsidianSlot == -1) {
+            noObby = true;
+            return false;
+        }
+
+        if (rotate.isEnabled()) {
+            faceVectorPacketInstant(hitVec);
+        }
+
+        mc.playerController.processRightClickBlock(mc.player, mc.world, neighbour, opposite, hitVec, EnumHand.MAIN_HAND);
+        mc.player.swingArm(EnumHand.MAIN_HAND);
+        return true;
+    }
+
+
+    private Vec3d getCenterOfBlock(double playerX, double playerY, double playerZ) {
+
+        double newX = Math.floor(playerX) + 0.5;
+        double newY = Math.floor(playerY);
+        double newZ = Math.floor(playerZ) + 0.5;
+
+        return new Vec3d(newX, newY, newZ);
+    }
+
+    private static class Offsets {
+        private static final Vec3d[] SURROUND = {
+                new Vec3d(1, 0, 0),
+                new Vec3d(0, 0, 1),
+                new Vec3d(-1, 0, 0),
+                new Vec3d(0, 0, -1),
+                new Vec3d(1, -1, 0),
+                new Vec3d(0, -1, 1),
+                new Vec3d(-1, -1, 0),
+                new Vec3d(0, -1, -1)
+        };
+    }
 }

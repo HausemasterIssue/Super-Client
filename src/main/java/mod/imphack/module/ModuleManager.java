@@ -65,8 +65,7 @@ public class ModuleManager {
 		addModule(new XCarry());
 
 		// hud
-
-		addModule(new Welcome());
+		//GOTO Main
 
 		// render
 		addModule(new EntityTracers());

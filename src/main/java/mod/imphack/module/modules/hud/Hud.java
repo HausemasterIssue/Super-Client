@@ -7,10 +7,11 @@ import mod.imphack.setting.settings.BooleanSetting;
 public class Hud extends Module {
 
 	final BooleanSetting watermark = new BooleanSetting("Watermark", this, true);
-	final BooleanSetting arraylist = new BooleanSetting("ArrayList", this, true);
-	final BooleanSetting coords = new BooleanSetting("Coordinates", this, true);
-	final BooleanSetting fps = new BooleanSetting("FPS", this, true);
-	final BooleanSetting armor = new BooleanSetting("Armor", this, true);
+	final BooleanSetting arraylist = new BooleanSetting("ArrayList", this, false);
+	final BooleanSetting coords = new BooleanSetting("Coordinates", this, false);
+	final BooleanSetting fps = new BooleanSetting("FPS", this, false);
+	final BooleanSetting armor = new BooleanSetting("Armor", this, false);
+	final BooleanSetting welcome = new BooleanSetting("Welcome", this, false);
 
 
 	public Hud() {
@@ -21,6 +22,7 @@ public class Hud extends Module {
 		addSetting(coords);
 		addSetting(fps);
 		addSetting(armor);
-
+		addSetting(welcome);
+		
 	}
 }

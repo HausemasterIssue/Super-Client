@@ -41,6 +41,8 @@ public class Main {
 	public static final HudWatermark hudVersion = new HudWatermark();
 	public static final HudFPS hudFps = new HudFPS();
 	public static final HudArmor hudArmor = new HudArmor();
+	public static final HudWelcome hudWelcome = new HudWelcome();
+
 
 
 
@@ -69,6 +71,8 @@ public class Main {
 		MinecraftForge.EVENT_BUS.register(hudVersion);
 		MinecraftForge.EVENT_BUS.register(hudFps);
 		MinecraftForge.EVENT_BUS.register(hudArmor);
+		MinecraftForge.EVENT_BUS.register(hudWelcome);
+
 
 
 
