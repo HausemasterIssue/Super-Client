@@ -6,9 +6,7 @@ import mod.imphack.event.ImpHackEventBus;
 import mod.imphack.event.ImpHackEventHandler;
 import mod.imphack.event.ImpHackEventManager;
 import mod.imphack.module.ModuleManager;
-import mod.imphack.module.modules.hud.HudArrayList;
-import mod.imphack.module.modules.hud.HudCoords;
-import mod.imphack.module.modules.hud.HudWatermark;
+import mod.imphack.module.modules.hud.*;
 import mod.imphack.setting.SettingManager;
 import mod.imphack.ui.clickgui.ClickGuiController;
 import mod.imphack.util.Reference;
@@ -41,6 +39,10 @@ public class Main {
 	public static final HudCoords hudCoords = new HudCoords();
 	public static final HudArrayList hudArrayList = new HudArrayList();
 	public static final HudWatermark hudVersion = new HudWatermark();
+	public static final HudFPS hudFps = new HudFPS();
+	public static final HudArmor hudArmor = new HudArmor();
+
+
 
 	
 	
@@ -65,6 +67,9 @@ public class Main {
 		MinecraftForge.EVENT_BUS.register(hudCoords);
 		MinecraftForge.EVENT_BUS.register(hudArrayList);
 		MinecraftForge.EVENT_BUS.register(hudVersion);
+		MinecraftForge.EVENT_BUS.register(hudFps);
+		MinecraftForge.EVENT_BUS.register(hudArmor);
+
 
 
 		

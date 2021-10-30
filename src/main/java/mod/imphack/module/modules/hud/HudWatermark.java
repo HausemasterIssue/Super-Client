@@ -2,12 +2,15 @@ package mod.imphack.module.modules.hud;
 
 import java.awt.Font;
 
+import org.lwjgl.opengl.GL11;
+
 import mod.imphack.Main;
 import mod.imphack.setting.settings.BooleanSetting;
 import mod.imphack.util.Reference;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraftforge.client.event.RenderGameOverlayEvent;
+import net.minecraftforge.client.event.RenderGameOverlayEvent.Text;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
 public class HudWatermark {
@@ -17,7 +20,7 @@ public class HudWatermark {
 
 
 	@SubscribeEvent
-	public void renderOverlay(RenderGameOverlayEvent event) {
+	public void renderOverlay(Text event) {
 		if (Main.moduleManager.getModule("Hud").toggled) {
 			FontRenderer fr = mc.fontRenderer;
 

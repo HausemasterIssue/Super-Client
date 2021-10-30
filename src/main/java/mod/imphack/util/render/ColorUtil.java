@@ -8,6 +8,11 @@ public class ColorUtil extends Color {
 
     private static final long serialVersionUID = 1L;
 
+    int r;
+    int g;
+    int b;
+    int a;
+    
     
     public static int rainbow(int delay) {
 		double rainbowState = Math.ceil((System.currentTimeMillis() + delay) / 50.0);
@@ -64,4 +69,11 @@ public class ColorUtil extends Color {
 	public static int color(float r, float g, float b, float a) {
 		return new Color(r, g, b, a).getRGB();
 	}
+	 public static int toHex(int r, int g, int b){
+        return  (0xff << 24) | ((r&0xff) << 16) | ((g&0xff) << 8) | (b&0xff);
+    }
+
+    public int toHex(){
+        return toHex(r, g, b);
+    }
 }

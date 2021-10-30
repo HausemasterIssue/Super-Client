@@ -15,6 +15,7 @@ import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.gui.Gui;
 import net.minecraft.client.gui.ScaledResolution;
 import net.minecraftforge.client.event.RenderGameOverlayEvent;
+import net.minecraftforge.client.event.RenderGameOverlayEvent.Text;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
 public class HudArrayList extends Gui{
@@ -47,7 +48,7 @@ public class HudArrayList extends Gui{
 	};
 
 	@SubscribeEvent
-	public void renderOverlay(RenderGameOverlayEvent event) {
+	public void renderOverlay(Text event) {
 		if (Main.moduleManager.getModule("Hud").toggled) {
 			Main.moduleManager.modules.sort(new ModuleComparator());
 			ScaledResolution sr = new ScaledResolution(mc);
